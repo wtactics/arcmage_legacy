@@ -1,0 +1,489 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7B29D8CD-EA80-4B80-A558-BDE279C710A9}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WTacticsService</RootNamespace>
+    <AssemblyName>WTacticsService</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Hangfire.Core, Version=1.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Core.1.5.4\lib\net45\Hangfire.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Hangfire.SqlServer, Version=1.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.SqlServer.1.5.4\lib\net45\Hangfire.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Api\Authentication\AuthenticationAttribute.cs" />
+    <Compile Include="Api\Authentication\AuthenticationFailureResult.cs" />
+    <Compile Include="Api\Authentication\Principal.cs" />
+    <Compile Include="Api\Authentication\TokenExtracton.cs" />
+    <Compile Include="Api\Authentication\UnauthorizedChallenge.cs" />
+    <Compile Include="Api\CardOptionsController.cs" />
+    <Compile Include="Api\CardsController.cs" />
+    <Compile Include="Api\CardSearchController.cs" />
+    <Compile Include="Api\CardTypesController.cs" />
+    <Compile Include="Api\DeckCardsController.cs" />
+    <Compile Include="Api\DecksController.cs" />
+    <Compile Include="Api\DeckSearchController.cs" />
+    <Compile Include="Api\FactionsController.cs" />
+    <Compile Include="Api\FileUploadController.cs" />
+    <Compile Include="Api\LoginController.cs" />
+    <Compile Include="Api\LogoutController.cs" />
+    <Compile Include="Api\PredefinedDataController.cs" />
+    <Compile Include="Api\QueryHelper.cs" />
+    <Compile Include="Api\SeriesController.cs" />
+    <Compile Include="Api\StatusesController.cs" />
+    <Compile Include="Api\UsersController.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\GeneralConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\AngularTemplateBundle.cs" />
+    <Compile Include="Helpers\AzureTraceAppender.cs" />
+    <Compile Include="Helpers\MvcExceptionFilterAttribute.cs" />
+    <Compile Include="Helpers\TokenGenerator.cs" />
+    <Compile Include="Helpers\WebApiExceptionFilterAttribute.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ui-bootstrap-csp.css" />
+    <Content Include="Content\xeditable.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\symbols.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\WTacticsSymbols.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\angular-md5.js" />
+    <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-resource.js" />
+    <Content Include="Scripts\angular-resource.min.js" />
+    <Content Include="Scripts\angular-sanitize.js" />
+    <Content Include="Scripts\angular-sanitize.min.js" />
+    <Content Include="Scripts\angular-strap.js" />
+    <Content Include="Scripts\angular-strap.min.js" />
+    <Content Include="Scripts\angular-strap.tpl.js" />
+    <Content Include="Scripts\angular-strap.tpl.min.js" />
+    <Content Include="Scripts\angular-ui-router.js" />
+    <Content Include="Scripts\angular-ui-router.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\angular-resource.min.js.map" />
+    <Content Include="Scripts\angular-sanitize.min.js.map" />
+    <Content Include="fonts\ChunkFive-Roman.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\GenAI102.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\GenAR102.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\GenI102.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\GenR102.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationMono-Bold.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationMono-BoldItalic.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationMono-Italic.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationMono-Regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationSans-Bold.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationSans-BoldItalic.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationSans-Italic.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationSans-Regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationSerif-Bold.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationSerif-BoldItalic.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationSerif-Italic.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\LiberationSerif-Regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\NimbusRomNo9L-Italic.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\NimbusRomNo9L.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\README">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\WTacticsSymbols.sfd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\WTacticsSymbols.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WTactics\CardTemplates\back.svg" />
+    <Content Include="WTactics\CardTemplates\back.png" />
+    <Content Include="WTactics\CardTemplates\none\player_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\none\player_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\none\player.svg" />
+    <Content Include="WTactics\CardTemplates\none\player.png" />
+    <Content Include="WTactics\CardTemplates\none\none_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\none\none_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\none\none.svg" />
+    <Content Include="WTactics\CardTemplates\none\none.png" />
+    <Content Include="WTactics\CardTemplates\none\magic_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\none\magic_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\none\magic.svg" />
+    <Content Include="WTactics\CardTemplates\none\magic.png" />
+    <Content Include="WTactics\CardTemplates\none\event_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\none\event_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\none\event.svg" />
+    <Content Include="WTactics\CardTemplates\none\event.png" />
+    <Content Include="WTactics\CardTemplates\none\equipment_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\none\equipment_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\none\equipment.svg" />
+    <Content Include="WTactics\CardTemplates\none\equipment.png" />
+    <Content Include="WTactics\CardTemplates\none\enchantment_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\none\enchantment_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\none\enchantment.svg" />
+    <Content Include="WTactics\CardTemplates\none\enchantment.png" />
+    <Content Include="WTactics\CardTemplates\none\creature_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\none\creature_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\none\creature.svg" />
+    <Content Include="WTactics\CardTemplates\none\creature.png" />
+    <Content Include="WTactics\CardTemplates\none\city_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\none\city_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\none\city.svg" />
+    <Content Include="WTactics\CardTemplates\none\city.png" />
+    <Content Include="WTactics\CardTemplates\gaian\player_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\player_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\player.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\player.png" />
+    <Content Include="WTactics\CardTemplates\gaian\none_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\none_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\none.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\none.png" />
+    <Content Include="WTactics\CardTemplates\gaian\magic_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\magic_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\magic.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\magic.png" />
+    <Content Include="WTactics\CardTemplates\gaian\event_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\event_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\event.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\event.png" />
+    <Content Include="WTactics\CardTemplates\gaian\equipment_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\equipment_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\equipment.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\equipment.png" />
+    <Content Include="WTactics\CardTemplates\gaian\enchantment_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\enchantment_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\enchantment.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\enchantment.png" />
+    <Content Include="WTactics\CardTemplates\gaian\creature_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\creature_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\creature.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\creature.png" />
+    <Content Include="WTactics\CardTemplates\gaian\city_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\city_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\city.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\city.png" />
+    <Content Include="WTactics\CardTemplates\dark_legion\player_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\player_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\player.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\player.png" />
+    <Content Include="WTactics\CardTemplates\dark_legion\none_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\none_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\none.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\none.png" />
+    <Content Include="WTactics\CardTemplates\dark_legion\magic_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\magic_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\magic.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\magic.png" />
+    <Content Include="WTactics\CardTemplates\dark_legion\event_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\event_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\event.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\event.png" />
+    <Content Include="WTactics\CardTemplates\dark_legion\equipment_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\equipment_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\equipment.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\equipment.png" />
+    <Content Include="WTactics\CardTemplates\dark_legion\enchantment_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\enchantment_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\enchantment.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\enchantment.png" />
+    <Content Include="WTactics\CardTemplates\dark_legion\creature_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\creature_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\creature.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\creature.png" />
+    <Content Include="WTactics\CardTemplates\dark_legion\city_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\city_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\city.svg" />
+    <Content Include="WTactics\CardTemplates\dark_legion\city.png" />
+    <None Include="Properties\PublishProfiles\PlayGround.pubxml" />
+    <Content Include="Scripts\angular-strap.min.js.map" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\xeditable.js" />
+    <Content Include="Scripts\xeditable.min.js" />
+    <Content Include="Views\Home\App.js" />
+    <Content Include="Views\Home\DeckDetail\DeckCardPopupInfoTemplate.html" />
+    <Content Include="Views\Home\DeckDetail\DeckCardSearchListItem.html" />
+    <Content Include="Views\Home\DeckDetail\DeckCardListItem.html" />
+    <Content Include="Views\Home\DeckDetail\DeckDetail.html" />
+    <Content Include="Views\Home\DeckDetail\DeckDetail.js" />
+    <Content Include="Views\Home\Decks\DeckListItem.html" />
+    <Content Include="Views\Home\Decks\Decks.html" />
+    <Content Include="Views\Home\Decks\Decks.js" />
+    <Content Include="Views\Home\Cards\CardPopupInfoTemplate.html" />
+    <Content Include="Views\Home\SignUp\SignUp.html" />
+    <Content Include="Views\Home\SignUp\SignUp.js" />
+    <Content Include="Views\Home\CardDetail\CardDetail.html" />
+    <Content Include="Views\Home\CardDetail\CardDetail.js" />
+    <Content Include="Views\Home\Cards\CardListItem.html" />
+    <Content Include="Views\Home\Cards\Cards.html" />
+    <Content Include="Views\Home\Cards\Cards.js" />
+    <Content Include="Views\Home\Index.js" />
+    <Content Include="Views\Home\SharedServices.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WTacticsDAL\WTacticsDAL.csproj">
+      <Project>{393E2C32-40F2-4716-A1D7-567C015D3BB8}</Project>
+      <Name>WTacticsDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WTacticsLibrary\WTacticsLibrary.csproj">
+      <Project>{2F428931-E634-4BCA-AFE2-552E599B7B53}</Project>
+      <Name>WTacticsLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>65520</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:65472/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,612 @@
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using WTacticsDAL;
+using System.Configuration;
+using System.Web.Hosting;
+
+
+namespace WTacticsLibrary
+{
+    public class Repository : IDisposable
+    {
+
+        public static string RepostioryPath;
+
+        public static string TemplatesPath;
+
+        public static string CardsPath;
+
+        public static string DecksPath;
+
+
+        static Repository()
+        {
+            try
+            {
+                RepostioryPath = HostingEnvironment.MapPath("~/WTactics");
+                TemplatesPath = Path.Combine(RepostioryPath, "CardTemplates");
+                CardsPath = Path.Combine(RepostioryPath, "Cards");
+                DecksPath = Path.Combine(RepostioryPath, "Decks");
+            }
+            catch (Exception e)
+            {
+            }
+          
+        }
+
+     
+     
+        public string JoinUsText = "wtactics.org - join us!";
+
+        public static void InitPaths()
+        {
+            
+            if (!Directory.Exists(RepostioryPath))
+            {
+                Directory.CreateDirectory(RepostioryPath);
+            }
+            if (!Directory.Exists(TemplatesPath))
+            {
+                Directory.CreateDirectory(TemplatesPath);
+            }
+            if (!Directory.Exists(CardsPath))
+            {
+                Directory.CreateDirectory(CardsPath);
+            }
+        }
+
+        public static string GetCardPath(Guid cardGuid)
+        {
+            var path = Path.Combine(CardsPath, cardGuid.ToString());
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            return path;
+        }
+
+        public static string GetDeckPath(Guid deckGuid)
+        {
+            var path = Path.Combine(DecksPath, deckGuid.ToString());
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            return path;
+        }
+
+        public static string GetDeckFile(Guid deckGuid)
+        {
+            return Path.Combine(GetDeckPath(deckGuid), "deck.pdf");
+        }
+
+        public static string GetDeckJsonFile(Guid deckGuid)
+        {
+            return Path.Combine(GetDeckPath(deckGuid), "deck.json");
+        }
+
+        public static string GetBackPngFile()
+        {
+            return Path.Combine(TemplatesPath, "back.png");
+        }
+
+
+        public static string GetArtFile(Guid cardGuid)
+        {
+            return Path.Combine(GetCardPath(cardGuid), "art.png");
+        }
+
+        public static string GetSvgFile(Guid cardGuid)
+        {
+            return Path.Combine(GetCardPath(cardGuid), "card.svg");
+        }
+
+        public static string GetOverlaySvgFile(Guid cardGuid)
+        {
+            return Path.Combine(GetCardPath(cardGuid), "card_overlay.svg");
+        }
+
+        public static string GetJsonFile(Guid cardGuid)
+        {
+            return Path.Combine(GetCardPath(cardGuid), "card.json");
+        }
+
+        public static string GetHighResolutionPngFile(Guid cardGuid)
+        {
+            return Path.Combine(GetCardPath(cardGuid), "card.png");
+        }
+
+     
+        public static string GetHighResolutionBackPngFile()
+        {
+            return Path.Combine(TemplatesPath, "back.png");
+        }
+
+        public static string GetBackSvgFile()
+        {
+            return Path.Combine(TemplatesPath, "back.svg");
+        }
+
+
+        public static string GetBackgroundPngFile(string faction, string cardType)
+        {
+            faction = faction.Replace(' ', '_');
+            cardType = cardType.Replace(' ', '_');
+            return Path.Combine(TemplatesPath, $"{faction}", $"{cardType}.png");
+        }
+
+        public static string GetTemplateFile(string faction, string cardType)
+        {
+            faction = faction.Replace(' ', '_');
+            cardType = cardType.Replace(' ', '_');
+           return Path.Combine(TemplatesPath, $"{faction}", $"{cardType}.svg");
+        }
+
+        public static string GetOverlayTemplateFile(string faction, string cardType)
+        {
+            faction = faction.Replace(' ', '_');
+            cardType = cardType.Replace(' ', '_');
+            return Path.Combine(TemplatesPath, $"{faction}", $"{cardType}_overlay_plain.svg");
+        }
+
+        public DataBaseContext Context { get; private set; }
+
+        public UserModel ServiceUser { get; private set; }
+        
+        public Repository()
+        {
+            Context = new DataBaseContext();
+        }
+
+        public Repository(Guid userGuid)
+        {
+            Context = new DataBaseContext();
+            ServiceUser = Context.Users.SingleOrDefault(x => x.Guid == userGuid);
+        }
+
+        public Repository(string token)
+        {
+            Context = new DataBaseContext();
+            if (!string.IsNullOrEmpty(token))
+            {
+                ServiceUser = Context.Users.SingleOrDefault(x => x.Token == token);
+            }
+        }
+
+        public void FillPredefinedData()
+        {
+            ServiceUser = Context.Users.SingleOrDefault(x => x.Guid == PredefinedGuids.ServiceUser);
+            if (ServiceUser == null)
+            {
+                ServiceUser = CreateServiceUser();
+                FillPredefinedRoles();
+
+                var adminRole = Context.Roles.FindByGuid(PredefinedGuids.Administrator);
+                ServiceUser.Role = adminRole;
+                Context.SaveChanges();
+
+                FillPredefinedStatuses();
+                FillPredefinedCartTypes();
+                FillPredefinedFactions();
+                FillPredefinedSeries();
+            }
+        }
+
+       
+
+        #region api
+
+        public CardModel CreateCard(string name, Guid guid)
+        {
+            var card = Context.Cards.FindByGuid(guid);
+            if (card == null)
+            {
+                var serie = Context.Series.FindByGuid(PredefinedGuids.NoSerie);
+                var status = Context.Statuses.FindByGuid(PredefinedGuids.Draft);
+                var faction = Context.Factions.FindByGuid(PredefinedGuids.NoFaction);
+                var cardType = Context.CardTypes.FindByGuid(PredefinedGuids.NoCardType);
+
+                
+
+                var utcNow = DateTime.UtcNow;
+                card = new CardModel
+                {
+                    Name = name,
+                    Guid = guid,
+                    LastModifiedTime = utcNow,
+                    CreateTime = utcNow,
+                    Creator = ServiceUser,
+                    LastModifiedBy = ServiceUser,
+                    Serie = serie,
+                    Faction = faction,
+                    Type = cardType,
+                    Status = status,
+                    Info = JoinUsText,
+                };
+                Context.Cards.Add(card);
+                Context.SaveChanges();
+            }
+            return card;
+        }
+
+        public DeckModel CreateDeck(string name, Guid guid)
+        {
+            var deck = Context.Decks.FindByGuid(guid);
+            if (deck == null)
+            {
+                var utcNow = DateTime.UtcNow;
+                deck = new DeckModel
+                {
+                    Name = name,
+                    Guid = guid,
+                    LastModifiedTime = utcNow,
+                    CreateTime = utcNow,
+                    Creator = ServiceUser,
+                    LastModifiedBy = ServiceUser,
+                };
+                Context.Decks.Add(deck);
+                Context.SaveChanges();
+            }
+            return deck;
+        }
+
+        public DeckCardModel CreateDeckCard(DeckModel deckModel, CardModel cardModel, int quantity, Guid guid)
+        {
+            var deckCard = Context.DeckCards.FindByGuid(guid);
+            if (deckCard == null)
+            {
+                var utcNow = DateTime.UtcNow;
+                deckCard = new DeckCardModel
+                {
+                    Guid = guid,
+                    Card = cardModel,
+                    Deck = deckModel,
+                    Quantity = quantity,
+                    LastModifiedTime = utcNow,
+                    CreateTime = utcNow,
+                    Creator = ServiceUser,
+                    LastModifiedBy = ServiceUser,
+                };
+                Context.DeckCards.Add(deckCard);
+                Context.SaveChanges();
+            }
+            return deckCard;
+        }
+
+
+        public SerieModel CreateSeries(string name, Guid guid)
+        {
+            var serie = Context.Series.FindByGuid(guid);
+            if (serie == null)
+            {
+                var status = Context.Statuses.FindByGuid(PredefinedGuids.Draft);
+                var utcNow = DateTime.UtcNow;
+                serie = new SerieModel
+                {
+                    Name = name,
+                    Guid = guid,
+                    LastModifiedTime = utcNow,
+                    CreateTime = utcNow,
+                    Creator = ServiceUser,
+                    LastModifiedBy = ServiceUser,
+                    Status = status,
+                };
+                Context.Series.Add(serie);
+                Context.SaveChanges();
+            }
+            return serie;
+        }
+
+        public FactionModel CreateFaction(string name, Guid guid)
+        {
+            var faction = Context.Factions.FindByGuid(guid);
+            if (faction == null)
+            {
+                var utcNow = DateTime.UtcNow;
+                faction = new FactionModel
+                {
+                    Name = name,
+                    Guid = guid,
+                    LastModifiedTime = utcNow,
+                    CreateTime = utcNow,
+                    Creator = ServiceUser,
+                    LastModifiedBy = ServiceUser
+                };
+                Context.Factions.Add(faction);
+                Context.SaveChanges();
+            }
+            return faction;
+        }
+
+        public TemplateInfoModel CreateTemplateInfoModel()
+        {
+            var utcNow = DateTime.UtcNow;
+            var templateInfo = new TemplateInfoModel
+            {
+                LastModifiedTime = utcNow,
+                CreateTime = utcNow,
+                Creator = ServiceUser,
+                LastModifiedBy = ServiceUser,
+                Guid = Guid.NewGuid(),
+            };
+            return templateInfo;
+        }
+
+        public CardTypeModel CreateCardType(string name, Guid guid, TemplateInfoModel templateInfo)
+        {
+            var cardType = Context.CardTypes.FindByGuid(guid);
+            if (cardType == null)
+            {
+                var utcNow = DateTime.UtcNow;
+                cardType = new CardTypeModel
+                {
+                    Name = name,
+                    Guid = guid,
+                  
+                    LastModifiedTime = utcNow,
+                    CreateTime = utcNow,
+                    Creator = ServiceUser,
+                    LastModifiedBy = ServiceUser,
+
+                    TemplateInfo = templateInfo
+                };
+               
+                Context.CardTypes.Add(cardType);
+                Context.SaveChanges();
+            }
+            return cardType;
+        }
+
+   
+
+        public RoleModel CreateRole(string name, Guid guid)
+        {
+            var role = Context.Roles.FindByGuid(guid);
+            if (role == null)
+            {
+                var utcNow = DateTime.UtcNow;
+                role = new RoleModel
+                {
+                    Name = name,
+                    Guid = guid,
+                    LastModifiedTime = utcNow,
+                    CreateTime = utcNow,
+                    Creator = ServiceUser,
+                    LastModifiedBy = ServiceUser
+                };
+                Context.Roles.Add(role);
+                Context.SaveChanges();
+            }
+            return role;
+        }
+
+        public StatusModel CreateStatus(string name, Guid guid)
+        {
+            var status = Context.Statuses.FindByGuid(guid);
+            if (status == null)
+            {
+                var utcNow = DateTime.UtcNow;
+                status = new StatusModel
+                {
+                    Name = name,
+                    Guid = guid,
+                    LastModifiedTime = utcNow,
+                    CreateTime = utcNow,
+                    Creator = ServiceUser,
+                    LastModifiedBy = ServiceUser
+                };
+                Context.Statuses.Add(status);
+                Context.SaveChanges();
+            }
+            return status;
+        }
+
+        #endregion api
+
+        #region predefined
+
+        private UserModel CreateServiceUser()
+        {
+            var utcNow = DateTime.UtcNow;
+            var administrator = new UserModel
+            {
+                Guid = PredefinedGuids.ServiceUser,
+                Name = "Nico Goeminne",
+                Email = "nicogoeminne@gmail.com",
+                Password = "7a5a336b57818b5a29dc869f31333702",
+                LastLoginTime = utcNow,
+                CreateTime = utcNow,
+
+            };
+            Context.Users.Add(administrator);
+            Context.SaveChanges();
+            return administrator;
+        }
+
+        public UserModel CreateUser(string name, string email, string password, Guid newGuid)
+        {
+            var utcNow = DateTime.UtcNow;
+            var role = Context.Roles.FindByGuid(PredefinedGuids.Contributer);
+            var user = new UserModel
+            {
+                Guid = newGuid,
+                Name = name,
+                Email = email,
+                Password = password,
+                LastLoginTime = utcNow,
+                CreateTime = utcNow,
+                Role = role,
+            };
+            Context.Users.Add(user);
+            Context.SaveChanges();
+            return user;
+        }
+
+
+        private void FillPredefinedRoles()
+        {
+            CreateRole("Administrator", PredefinedGuids.Administrator);
+            CreateRole("Developer", PredefinedGuids.Developer);
+            CreateRole("Contributer", PredefinedGuids.Contributer);
+        }
+
+        private void FillPredefinedCartTypes()
+        {
+            var templateInfo = CreateTemplateInfoModel();
+            templateInfo.ShowName = true;
+            templateInfo.ShowType = true;
+            templateInfo.ShowFaction = false;
+            templateInfo.ShowAttack = false;
+            templateInfo.ShowDefense = false;
+            templateInfo.ShowText = false;
+            templateInfo.ShowGoldCost = false;
+            templateInfo.ShowLoyalty = false;
+            templateInfo.ShowArt = false;
+            templateInfo.ShowInfo = false;
+            templateInfo.MaxTextBoxWidth = 190;
+            templateInfo.MaxTextBoxHeight = 105;
+            CreateCardType("None", PredefinedGuids.NoCardType, templateInfo);
+
+
+            templateInfo = CreateTemplateInfoModel();
+            templateInfo.ShowName = true;
+            templateInfo.ShowType = true;
+            templateInfo.ShowFaction = true;
+            templateInfo.ShowAttack = true;
+            templateInfo.ShowDefense = true;
+            templateInfo.ShowText = true;
+            templateInfo.ShowGoldCost = true;
+            templateInfo.ShowLoyalty = true;
+            templateInfo.ShowArt = true;
+            templateInfo.ShowInfo = true;
+            templateInfo.MaxTextBoxWidth = 190;
+            templateInfo.MaxTextBoxHeight = 105;
+            CreateCardType("Creature", PredefinedGuids.Creature, templateInfo);
+
+            templateInfo = CreateTemplateInfoModel();
+            templateInfo.ShowName = true;
+            templateInfo.ShowType = true;
+            templateInfo.ShowFaction = true;
+            templateInfo.ShowAttack = false;
+            templateInfo.ShowDefense = false;
+            templateInfo.ShowText = true;
+            templateInfo.ShowGoldCost = true;
+            templateInfo.ShowLoyalty = true;
+            templateInfo.ShowArt = true;
+            templateInfo.ShowInfo = true;
+            templateInfo.MaxTextBoxWidth = 190;
+            templateInfo.MaxTextBoxHeight = 105;
+            CreateCardType("Event", PredefinedGuids.Event, templateInfo);
+
+            templateInfo = CreateTemplateInfoModel();
+            templateInfo.ShowName = true;
+            templateInfo.ShowType = true;
+            templateInfo.ShowFaction = true;
+            templateInfo.ShowAttack = false;
+            templateInfo.ShowDefense = false;
+            templateInfo.ShowText = true;
+            templateInfo.ShowGoldCost = true;
+            templateInfo.ShowLoyalty = true;
+            templateInfo.ShowArt = true;
+            templateInfo.ShowInfo = true;
+            templateInfo.MaxTextBoxWidth = 190;
+            templateInfo.MaxTextBoxHeight = 105;
+            CreateCardType("Equipment", PredefinedGuids.Equipment, templateInfo);
+
+            templateInfo = CreateTemplateInfoModel();
+            templateInfo.ShowName = true;
+            templateInfo.ShowType = true;
+            templateInfo.ShowFaction = true;
+            templateInfo.ShowAttack = false;
+            templateInfo.ShowDefense = false;
+            templateInfo.ShowText = true;
+            templateInfo.ShowGoldCost = true;
+            templateInfo.ShowLoyalty = true;
+            templateInfo.ShowArt = true;
+            templateInfo.ShowInfo = true;
+            templateInfo.MaxTextBoxWidth = 190;
+            templateInfo.MaxTextBoxHeight = 105;
+            CreateCardType("Magic", PredefinedGuids.Magic, templateInfo);
+
+            templateInfo = CreateTemplateInfoModel();
+            templateInfo.ShowName = true;
+            templateInfo.ShowType = true;
+            templateInfo.ShowFaction = true;
+            templateInfo.ShowAttack = false;
+            templateInfo.ShowDefense = false;
+            templateInfo.ShowText = true;
+            templateInfo.ShowGoldCost = true;
+            templateInfo.ShowLoyalty = true;
+            templateInfo.ShowArt = true;
+            templateInfo.ShowInfo = true;
+            templateInfo.MaxTextBoxWidth = 190;
+            templateInfo.MaxTextBoxHeight = 105;
+            CreateCardType("Enchantment", PredefinedGuids.Enchantment, templateInfo);
+
+            templateInfo = CreateTemplateInfoModel();
+            templateInfo.ShowName = true;
+            templateInfo.ShowType = true;
+            templateInfo.ShowFaction = true;
+            templateInfo.ShowAttack = false;
+            templateInfo.ShowDefense = true;
+            templateInfo.ShowText = true;
+            templateInfo.ShowGoldCost = true;
+            templateInfo.ShowLoyalty = true;
+            templateInfo.ShowArt = true;
+            templateInfo.ShowInfo = true;
+            templateInfo.MaxTextBoxWidth = 190;
+            templateInfo.MaxTextBoxHeight = 105;
+            CreateCardType("City", PredefinedGuids.City, templateInfo);
+
+            templateInfo = CreateTemplateInfoModel();
+            templateInfo.ShowName = true;
+            templateInfo.ShowType = true;
+            templateInfo.ShowFaction = true;
+            templateInfo.ShowAttack = false;
+            templateInfo.ShowDefense = false;
+            templateInfo.ShowText = true;
+            templateInfo.ShowGoldCost = true;
+            templateInfo.ShowLoyalty = true;
+            templateInfo.ShowArt = true;
+            templateInfo.ShowInfo = true;
+            templateInfo.MaxTextBoxWidth = 190;
+            templateInfo.MaxTextBoxHeight = 105;
+            CreateCardType("Player", PredefinedGuids.Player, templateInfo);
+        }
+
+        private void FillPredefinedStatuses()
+        {
+            CreateStatus("Draft", PredefinedGuids.Draft);
+            CreateStatus("Final", PredefinedGuids.Final);
+        }
+
+        private void FillPredefinedFactions()
+        {
+            CreateFaction("None", PredefinedGuids.NoFaction);
+            CreateFaction("Gaian", PredefinedGuids.Gaian);
+            CreateFaction("Dark Legion", PredefinedGuids.DarkLegion);
+            CreateFaction("Red Banner", PredefinedGuids.RedBanner);
+            CreateFaction("House of Nobels", PredefinedGuids.HouseOfNobels);
+            CreateFaction("The Empire", PredefinedGuids.Empire);
+        }
+
+        private void FillPredefinedSeries()
+        {
+            CreateSeries("None", PredefinedGuids.NoSerie);
+            CreateSeries("Rebirth", PredefinedGuids.Rebirth);
+        }
+
+
+        #endregion predefined
+
+        public void Dispose()
+        {
+            Context.Dispose();
+        }
+
+
+        
+    }
+}

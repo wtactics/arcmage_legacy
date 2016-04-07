@@ -1,0 +1,43 @@
+﻿<div class="header">
+    <div class="row">
+        <form role="search">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search Decks" ng-model="deckSearchOptions.search">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit" ng-click="searchClicked()"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <button ng-click="addClicked()" ng-show="isLogedIn" class="btn btn-default btn-lg  pull-right">Create Your Own Deck!</button>
+        <h3 ng-hide="isLogedIn" class="pull-right">Log in to create your own Deck!</h3>
+    </div>
+    <div class="row" ng-show="isAddOpen">
+        <form class="form-inline pull-right" role="form">
+            <div class="form-group">
+                <input type="text" ng-disabled="isCreating" placeholder="Deck Name" class="form-control first" id="deckName" ng-model="deck.name">
+            </div>
+            <button type="submit" ng-disabled="isCreating" ng-click="createClicked()" class="btn btn-default">Create</button>
+            <button type="reset" ng-disabled="isCreating" ng-click="addCancelClicked()" class="btn btn-default">Cancel</button>
+            <span ng-class="{'loader' : isCreating }" ng-show="isAddOpen"></span>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <uib-pagination class="pull-right pagination-sm" total-items="totalItems" ng-model="deckSearchOptions.pageNumber" ng-disabled="isLoading" boundary-link-numbers="true" items-per-page="deckSearchOptions.pageSize" ng-change="searchClicked()"></uib-pagination>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Creator</th>
+            <th>Last modified</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="deck in decks" deck-list-item></tr>
+        </tbody>
+    </table>
+    
+</div>

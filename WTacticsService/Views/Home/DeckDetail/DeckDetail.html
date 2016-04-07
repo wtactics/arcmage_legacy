@@ -1,0 +1,67 @@
+﻿<div class="row">
+    <div class="col-md-6">
+        <form role="search">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search Cards" ng-model="search">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit" ng-click="searchClicked()"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-3">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input type="text" class="form-control" id="deck_name" placeholder="Name" ng-model="deck.name" ng-disabled="!deck.isEditable">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-3">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input type="text" class="form-control" id="deck_last_modified_on" placeholder="Last modified" ng-model="deck.lastModifiedTime" ng-disabled="true"/>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-12">
+        <button class="btn btn-default btn-lg pull-right"
+                id="deck_generate"
+                type="button"
+                ng-show="deck.isEditable"
+                ng-disbale="isGenerating"
+                ng-click="generateDeck()">
+            <span class="glyphicon glyphicon-refresh glyphicon-spin" ng-show="isGenerating"></span>
+            Generate Deck Pdf
+        </button>
+    </div>
+
+
+</div>
+
+<div class="row">
+    <div class="col-md-12" ng-show="deck.isPdfAvailable">
+        <a href="{{deck.pdf}}" class="pull-right" target="_blank">Download Deck Pdf</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <table class="table table-striped">
+            <tbody>
+                <tr ng-repeat="card in cards" deck-card-search-list-item></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <table class="table table-striped">
+            <tbody>
+                <tr ng-repeat="deckcard in deck.deckCards" deck-card-list-item></tr>
+            </tbody>
+        </table>
+    </div>
+</div>

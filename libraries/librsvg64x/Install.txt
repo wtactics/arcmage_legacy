@@ -1,0 +1,1 @@
+Copy this folder inside the Inkscape 0.91 folder

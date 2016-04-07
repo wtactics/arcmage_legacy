@@ -1,0 +1,322 @@
+﻿<div class="row">
+    <div class="col-md-5">
+        <div class="col-md-8 col-md-offset-4" style="margin-bottom: 10px;">
+             <div style="position: relative; left: 0; top: 0;">
+                <img ng-src="{{card.backgroundPng}}" ng-show="card.backgroundPng" style="max-width: 100%; width: 300px; position: relative; top: 0; left: 0;"/>
+                <img ng-src="{{card.overlaySvg}}" ng-show="card.overlaySvg" style="max-width: 100%; width: 300px;  position: absolute; top: 0; left: 0;" />
+            </div>
+        </div>
+
+        <div class="col-md-8 col-md-offset-4" style="margin-bottom: 20px;">
+            <a href="{{card.svg}}" target="_blank">Download Inkscape Svg</a>
+        </div>
+
+        <div class="col-md-8 col-md-offset-4" style="margin-bottom: 20px;" ng-show="card.isPngAvailble">
+            <a href="{{card.png}}" target="_blank">Download Png</a>
+        </div>
+
+        <div>
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label for="card_creator" class="col-md-4 control-label">Creator</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="card_creator" placeholder="Name" ng-model="card.creator.name" ng-disabled="true"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="card_created_on" class="col-md-4 control-label">Creation date</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="card_created_on" placeholder="Name" ng-model="card.createTime" ng-disabled="true"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="card_last_modified_by" class="col-md-4 control-label">Last edit by</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="card_last_modified_by" placeholder="Name" ng-model="card.lastModifiedBy.name" ng-disabled="true"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="card_last_modified_on" class="col-md-4 control-label">Last edit date</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="card_last_modified_on" placeholder="Name" ng-model="card.lastModifiedTime" ng-disabled="true"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <form class="form-horizontal" role="form">
+
+            <div class="form-group">
+                <label for="card_name" class="col-md-2 control-label">Name</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="card_name" placeholder="Name" ng-model="card.name" ng-disabled="!cardOptions.isEditable">
+                </div>
+                <div class="col-md-1 cardinfopopup">
+                    <a popover-trigger="mouseenter" popover-placement="left" uib-popover="Shown on card."><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="card_faction_serie" class="col-md-2 control-label">Serie</label>
+                <div class="col-md-9">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle carddropdown"
+                                id="card_faction_serie"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="true"
+                                ng-disabled="!cardOptions.isEditable">{{card.serie.name}} <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu carddropdown" aria-labelledby="card_faction_serie">
+                            <li ng-repeat="serie in cardOptions.series"><a ng-click="selectSerie(serie)">{{serie.name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-1 cardinfopopup">
+                    <a uib-popover="Series are not shown on card." popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="card_faction_status" class="col-md-2 control-label">Status</label>
+                <div class="col-md-9">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle carddropdown"
+                                id="card_faction_status"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="true"
+                                ng-disabled="!cardOptions.isEditable || !cardOptions.isStatusChangedAllowed">
+                            {{card.status.name}} <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu carddropdown" aria-labelledby="card_faction_status">
+                            <li ng-repeat="status in cardOptions.statuses"><a ng-click="selectStatus(status)">{{status.name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-1 cardinfopopup">
+                    <a uib-popover="Promotion to the final state is reserverd for developers." popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="card_faction_dropdown" class="col-md-2 control-label">Faction</label>
+                <div class="col-md-9">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle carddropdown"
+                                id="card_faction_dropdown"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="true"
+                                ng-disabled="!cardOptions.isEditable">
+                            {{card.faction.name}} <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu carddropdown" aria-labelledby="card_faction_dropdown">
+                            <li ng-repeat="faction in cardOptions.factions"><a ng-click="selectFaction(faction)">{{faction.name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-1 cardinfopopup">
+                    <a uib-popover="Only Gaian and Dark Legion have card templates. (for now)" popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="card_type_dropdown" class="col-md-2 control-label">Type</label>
+                <div class="col-md-9">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle carddropdown"
+                                id="card_type_dropdown"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="true"
+                                ng-disabled="!cardOptions.isEditable">
+                            {{card.type.name}} <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu carddropdown" aria-labelledby="card_type_dropdown">
+                            <li ng-repeat="cardType in cardOptions.cardTypes"><a ng-click="selectCardType(cardType)">{{cardType.name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-1 cardinfopopup">
+                    <a uib-popover="The layout type of the card." popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="card_subType" class="col-md-2 control-label">Subtype</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="card_subType" placeholder="Type name" ng-model="card.subType" ng-disabled="!cardOptions.isEditable">
+                </div>
+                <div class="col-md-1 cardinfopopup">
+                    <a uib-popover="The card's type, shown on card." popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="card_cost" class="col-md-2 control-label">Cost</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="card_cost" placeholder="Cost" ng-model="card.cost" ng-disabled="!cardOptions.isEditable">
+                </div>
+                <div class="col-md-1 cardinfopopup">
+                    <a uib-popover="The card's cost, shown on card." popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="card_faction_loyalty" class="col-md-2 control-label">Loyalty</label>
+                <div class="col-md-9">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle carddropdown"
+                                id="card_faction_loyalty"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="true"
+                                ng-disabled="!cardOptions.isEditable">
+                            {{card.loyalty}} <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu carddropdown" aria-labelledby="card_faction_loyalty">
+                            <li ng-repeat="loyalty in cardOptions.loyalties"><a ng-click="selectLoyalty(loyalty)">{{loyalty}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-1 cardinfopopup">
+                    <a uib-popover="The card's loyalty, shown on card." popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="card_ruleText" class="col-md-2 control-label">Rule Text</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="card_ruleText" placeholder="Official card's rule text" ng-model="card.ruleText" ng-disabled="!cardOptions.isEditable">
+                </div>
+                <div class="col-md-1 cardinfopopup">
+                    <a uib-popover="The card's offical rules, not shown on card." popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="card_flavorText" class="col-md-2 control-label">Flavor Text</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="card_flavorText" placeholder="Optional flavor text" ng-model="card.flavorText" ng-disabled="!cardOptions.isEditable">
+                </div>
+                <div class="col-md-1 cardinfopopup">
+                    <a uib-popover="The card's optional flavor text, not shown on card." popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="card_attack" class="col-md-2 control-label">Attack</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="card_attack" placeholder="Attack" ng-model="card.attack" ng-disabled="!cardOptions.isEditable">
+                </div>
+                <div class="col-md-1 cardinfopopup">
+                    <a uib-popover="The card's attack strenght, shown on creature and player cards." popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="card_defense" class="col-md-2 control-label">Defense</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="card_defense" placeholder="Defense" ng-model="card.defense" ng-disabled="!cardOptions.isEditable">
+                </div>
+                <div class="col-md-1 cardinfopopup">
+                    <a uib-popover="The card's defense strenght, shown on creature, city and player cards." popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="card_info" class="col-md-2 control-label">Info</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="card_info" placeholder="wtactics.org - join us!" ng-model="card.info" ng-disabled="!cardOptions.isEditable">
+                </div>
+                <div class="col-md-1 cardinfopopup">
+                    <a uib-popover="The card's footer info, shown on card." popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+            </div>
+
+            <hr/>
+
+            <div class="form-group">
+                <label for="card_firstName" class="col-md-2 control-label">Name Line 1</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="card_firstName" placeholder="First Name" ng-model="card.firstName" ng-disabled="!cardOptions.isEditable">
+                </div>
+                <div class="col-md-1 cardinfopopup">
+                    <a uib-popover="First line of the card's name. Leave empty if you don't wish to split the name." popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="card_lastName" class="col-md-2 control-label">Name Line 2</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="card_lastName" placeholder="Last Name" ng-model="card.lastName" ng-disabled="!cardOptions.isEditable">
+                </div>
+                <div class="col-md-1 cardinfopopup">
+                    <a uib-popover="Second line of the card's name. Leave empty if you don't wish to split the name." popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="card_layout_text" class="col-md-2 control-label">Layout Text</label>
+                <div class="col-md-9">
+                    <textarea type="text" class="form-control" rows="3" id="card_layout_text" placeholder="<p><c>E</c><n>xample</n></p>" ng-model="card.layoutText" ng-disabled="!cardOptions.isEditable"></textarea>
+                </div>
+                <div class="col-md-1 cardinfopopup">
+                    <a uib-popover-html="layoutTextInfo" popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="card_artist" class="col-md-2 control-label">Artist</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="card_artist" placeholder="Artist" ng-model="card.artist" ng-disabled="!cardOptions.isEditable">
+                </div>
+                <div class="col-md-1 cardinfopopup">
+                    <a uib-popover="The artist's name, not shown on card." popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="card_faction_art" class="col-md-2 control-label"><a target="_blank" href="{{card.artwork}}">Artwork</a></label>
+                <div class="col-md-9" ng-show="cardOptions.isEditable">
+                    <span class="btn btn-default btn-file">Browse <input id="card_faction_art" type="file" file-model="artFile" /></span>
+                    <button class="btn btn-default" ng-click="uploadFile()" ng-show="artFile" ng-disabled="!cardOptions.isEditable">
+                        <span class="glyphicon glyphicon-refresh glyphicon-spin" ng-show="isUploading"></span>
+                        Upload
+                    </button>
+                </div>
+                <div class="col-md-1 cardinfopopup">
+                    <a uib-popover="Transparent png (all types 1535x1214 @ 600dpi) (creatures 1535x1266 @ 600dpi). Optionally use 70px left/right margin to fit in the card box" popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-md-5">
+                    <button class="btn btn-default btn-lg"
+                            id="card_generate"
+                            type="button"
+                            ng-show="cardOptions.isEditable"
+                            ng-click="generateCard()">
+                        <span class="glyphicon glyphicon-refresh glyphicon-spin" ng-show="isGenerating"></span>
+                        Save
+                    </button>
+                </div>
+            </div>
+        </form>
+
+
+        
+    </div>
+</div>

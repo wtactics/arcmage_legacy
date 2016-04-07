@@ -1,0 +1,9 @@
+﻿<td><a href="" data-content="{{deckcard}}" data-content-template="Views/Home/DeckDetail/DeckCardPopupInfoTemplate.html" data-placement="auto right" data-trigger="hover" data-auto-close="1" bs-popover><span class="glyphicon glyphicon-info-sign"></span></a></td>
+<td>{{deckcard.card.name}}</td>
+<td>{{deckcard.quantity}}</td>
+<td><a href="" ng-click="decreaseDeckCard(deckcard.card, deckcard.deck, $index)" ng-show="deck.isEditable"><span class="glyphicon glyphicon-minus-sign"></span></a></td>
+<td><a href="" ng-click="increaseDeckCard(deckcard.card, deckcard.deck)" ng-show="deck.isEditable"><span class="glyphicon glyphicon-plus-sign"></span></a></td>
+
+
+
+

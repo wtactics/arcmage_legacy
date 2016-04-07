@@ -1,0 +1,53 @@
+﻿
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-top: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+#login-dp {
+    min-width: 250px;
+    padding: 15px;
+}
+
+.row {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.carddropdown {
+    width: 100%;
+    text-align: left;
+}
+
+.cardinfopopup {
+    margin-top: 6px;
+}
+
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
