@@ -24,9 +24,7 @@ namespace WTacticsLibrary.Layout
                 processStartInfo.RedirectStandardInput = false;
                 processStartInfo.UseShellExecute = false;
                 processStartInfo.CreateNoWindow = true;
-#if !DEBUG
-                Impersonate(processStartInfo);
-#endif
+
                 var process = new Process();
                 process.StartInfo = processStartInfo;
 
@@ -45,18 +43,7 @@ namespace WTacticsLibrary.Layout
             }
         }
 
-        private static void Impersonate(ProcessStartInfo processStartInfo)
-        {
-            processStartInfo.Domain = "PlayGround";
-            processStartInfo.UserName = "InkscapeUser";
-            System.Security.SecureString ssPwd = new System.Security.SecureString();
-            var password = "Wenbren19";
-            foreach (var ch in password)
-            {
-                ssPwd.AppendChar(ch);
-            }
-            processStartInfo.Password = ssPwd;
-        }
+     
 
     }
 }
