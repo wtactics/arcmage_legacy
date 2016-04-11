@@ -92,7 +92,7 @@
     <Compile Include="Layout\SvgExporter.cs" />
     <Compile Include="Model\Card.cs" />
     <Compile Include="Model\CardOptions.cs" />
-    <Compile Include="Model\CardSearchOption.cs" />
+    <Compile Include="Model\CardSearchOptions.cs" />
     <Compile Include="Model\SearchOptionsBase.cs" />
     <Compile Include="Model\CardType.cs" />
     <Compile Include="Model\Base.cs" />

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace WTacticsLibrary.Model
 {
-    public class CardSearchOption : SearchOptionsBase
+    public class CardSearchOptions : SearchOptionsBase
     {
-     
+        public bool ShowDraftVersions { get; set; }
     }
 }

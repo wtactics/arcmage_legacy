@@ -54,7 +54,8 @@
             $scope.cardSearchOptions = {
                 search : "",
                 pageSize : 30,
-                pageNumber : 1,
+                pageNumber: 1,
+                showDraftVersions: false
             };
 
             $scope.searchClicked = function () {

@@ -18,20 +18,19 @@ namespace WTacticsService.Api
     public class CardSearchController : ApiController
     {
         [HttpPost]
-        public async Task<HttpResponseMessage> Post([FromBody] SearchOptionsBase searchOptionsBase)
+        public async Task<HttpResponseMessage> Post([FromBody] CardSearchOptions searchOptionsBase)
         {
             var token = TokenExtracton.GetTokenFromCookie(HttpContext.Current.Request);
             using (var repository = new Repository(token))
             {
-                // non logged in users can only see finalized cards
-                var onlyFinalizedCards = repository.ServiceUser == null;
-
+             
                 IQueryable<CardModel> dbResult = repository.Context.Cards.Include(x => x.Serie).Include(x => x.Faction).Include(x => x.Status).Include(x => x.Type).Include(x => x.Creator).Include(x => x.LastModifiedBy).AsNoTracking();
 
-                if (onlyFinalizedCards)
+                if (!searchOptionsBase.ShowDraftVersions)
                 {
                     dbResult = dbResult.Where(x => x.Status.Guid == PredefinedGuids.Final);
                 }
+
                 
 
                 if (!string.IsNullOrWhiteSpace(searchOptionsBase.Search))
