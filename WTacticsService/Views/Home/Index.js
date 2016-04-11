@@ -73,6 +73,7 @@
 
                     services.Users.get({ id: "me" }, function (user) {
                         $scope.user = user;
+                        $state.reload();
                     }, services.ErrorHandler);
 
                 }, function (error) {

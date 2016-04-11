@@ -27,15 +27,8 @@ namespace WTacticsLibrary.Layout
 
                 var process = new Process();
                 process.StartInfo = processStartInfo;
-
-                var start = DateTime.UtcNow;
                 process.Start();
                 process.WaitForExit();
-                var e = process.ExitCode;
-                var elapsed = (DateTime.UtcNow - start).TotalMilliseconds;
-                var log = $"{args} in {elapsed} ms.";
-                Debug.WriteLine(log);
-                File.WriteAllText(Path.Combine(Repository.CardsPath, "log.txt"), log);
             }
             catch (Exception e)
             {

@@ -145,6 +145,10 @@ namespace WTacticsService.Api
             var principal = HttpContext.Current.User as Principal;
             using (var repository = new Repository(principal.UserId))
             {
+                if (repository.ServiceUser == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.Forbidden);
+                }
                 var cardModel = repository.CreateCard(card.Name, Guid.NewGuid());
                 await repository.Context.Entry(cardModel.Type).Reference(x => x.TemplateInfo).LoadAsync();
                 card = cardModel.FromDal();
@@ -176,7 +180,30 @@ namespace WTacticsService.Api
             var principal = HttpContext.Current.User as Principal;
             using (var repository = new Repository(principal.UserId))
             {
+                if (repository.ServiceUser == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.Forbidden);
+                }
                 var cardModel = await repository.Context.Cards.FindByGuidAsync(id);
+
+                await repository.Context.Entry(cardModel).Reference(x => x.Status).LoadAsync();
+                await repository.Context.Entry(cardModel).Reference(x => x.Creator).LoadAsync();
+
+                if (repository.ServiceUser != null)
+                {
+                    await repository.Context.Entry(repository.ServiceUser).Reference(x => x.Role).LoadAsync();
+                    if (cardModel.Status.Guid == PredefinedGuids.Final)
+                    {
+                        if (repository.ServiceUser.Role.Guid == PredefinedGuids.Developer ||
+                            repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator ||
+                            repository.ServiceUser.Role.Guid != PredefinedGuids.ServiceUser)
+                        {
+                            return Request.CreateResponse(HttpStatusCode.Forbidden, "Card is marked as final");
+                        }
+                    }
+                }
+
+
 
                 await repository.Context.Entry(cardModel).Reference(x => x.Faction).LoadAsync();
                 await repository.Context.Entry(cardModel).Reference(x => x.Serie).LoadAsync();

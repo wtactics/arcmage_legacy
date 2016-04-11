@@ -28,14 +28,9 @@ namespace WTacticsLibrary.Layout
 
                 var process = new Process();
                 process.StartInfo = processStartInfo;
-
-                var start = DateTime.UtcNow;
                 process.Start();
                 process.WaitForExit();
-                var e = process.ExitCode;
-                var elapsed = (DateTime.UtcNow - start).TotalMilliseconds;
-                Debug.WriteLine($"{args} in {elapsed} ms.");
-
+         
             }
             catch (Exception e)
             {

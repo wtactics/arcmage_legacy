@@ -5,11 +5,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using WTacticsDAL;
 using WTacticsLibrary;
 using WTacticsLibrary.Assembler;
 using WTacticsLibrary.Model;
+using WTacticsService.Api.Authentication;
 
 namespace WTacticsService.Api
 {
@@ -18,9 +20,19 @@ namespace WTacticsService.Api
         [HttpPost]
         public async Task<HttpResponseMessage> Post([FromBody] SearchOptionsBase searchOptionsBase)
         {
-            using (var repository = new Repository())
+            var token = TokenExtracton.GetTokenFromCookie(HttpContext.Current.Request);
+            using (var repository = new Repository(token))
             {
+                // non logged in users can only see finalized cards
+                var onlyFinalizedCards = repository.ServiceUser == null;
+
                 IQueryable<CardModel> dbResult = repository.Context.Cards.Include(x => x.Serie).Include(x => x.Faction).Include(x => x.Status).Include(x => x.Type).Include(x => x.Creator).Include(x => x.LastModifiedBy).AsNoTracking();
+
+                if (onlyFinalizedCards)
+                {
+                    dbResult = dbResult.Where(x => x.Status.Guid == PredefinedGuids.Final);
+                }
+                
 
                 if (!string.IsNullOrWhiteSpace(searchOptionsBase.Search))
                 {
