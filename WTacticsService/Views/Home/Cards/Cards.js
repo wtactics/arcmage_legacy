@@ -55,7 +55,7 @@
                 search : "",
                 pageSize : 30,
                 pageNumber: 1,
-                showDraftVersions: false
+                showDraftVersions: $scope.isLogedIn
             };
 
             $scope.searchClicked = function () {
