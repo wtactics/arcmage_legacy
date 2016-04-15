@@ -24,7 +24,7 @@ namespace WTacticsService.Api
             using (var repository = new Repository(token))
             {
              
-                IQueryable<CardModel> dbResult = repository.Context.Cards.Include(x => x.Serie).Include(x => x.Faction).Include(x => x.Status).Include(x => x.Type).Include(x => x.Creator).Include(x => x.LastModifiedBy).AsNoTracking();
+                IQueryable<CardModel> dbResult = repository.Context.Cards.Include(x => x.RuleSet).Include(x => x.Serie).Include(x => x.Faction).Include(x => x.Status).Include(x => x.Type).Include(x => x.Creator).Include(x => x.LastModifiedBy).AsNoTracking();
 
                 if (!searchOptionsBase.ShowDraftVersions)
                 {

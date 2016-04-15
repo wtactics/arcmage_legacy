@@ -27,7 +27,7 @@ namespace WTacticsService.Api
             using (var repository = new Repository())
             {
 
-                IQueryable<CardModel> dbResult = repository.Context.Cards.Include(x=>x.Serie).Include(x=>x.Faction).Include(x=>x.Status).Include(x=>x.Type).Include(x => x.Creator).Include(x => x.LastModifiedBy).AsNoTracking();
+                IQueryable<CardModel> dbResult = repository.Context.Cards.Include(x => x.RuleSet).Include(x=>x.Serie).Include(x=>x.Faction).Include(x=>x.Status).Include(x=>x.Type).Include(x => x.Creator).Include(x => x.LastModifiedBy).AsNoTracking();
 
                 if (!string.IsNullOrWhiteSpace(search))
                 {
@@ -48,6 +48,7 @@ namespace WTacticsService.Api
             {
                 var result = await repository.Context.Cards.FindByGuidAsync(id);
                 await repository.Context.Entry(result).Reference(x=>x.Faction).LoadAsync();
+                await repository.Context.Entry(result).Reference(x => x.RuleSet).LoadAsync();
                 await repository.Context.Entry(result).Reference(x => x.Serie).LoadAsync();
                 await repository.Context.Entry(result).Reference(x => x.Type).LoadAsync();
                 await repository.Context.Entry(result).Reference(x => x.Status).LoadAsync();
