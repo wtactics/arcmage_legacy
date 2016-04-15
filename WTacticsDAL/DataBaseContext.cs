@@ -31,6 +31,8 @@ namespace WTacticsDAL
         
         public DbSet<SerieModel> Series { get; set; }
 
+        public DbSet<RuleSetModel> RuleSets { get; set; }
+
         public DbSet<StatusModel> Statuses { get; set; }
 
         public DbSet<DeckModel> Decks { get; set; }

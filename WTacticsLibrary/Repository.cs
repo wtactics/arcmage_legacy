@@ -191,6 +191,11 @@ namespace WTacticsLibrary
                 FillPredefinedCartTypes();
                 FillPredefinedFactions();
                 FillPredefinedSeries();
+                FillPredefinedRuleSets();
+            }
+            else
+            {
+              //  FillPredefinedRuleSets();
             }
         }
 
@@ -204,11 +209,10 @@ namespace WTacticsLibrary
             if (card == null)
             {
                 var serie = Context.Series.FindByGuid(PredefinedGuids.NoSerie);
+                var ruleSet = Context.RuleSets.FindByGuid(PredefinedGuids.AllRuleSets);
                 var status = Context.Statuses.FindByGuid(PredefinedGuids.Draft);
                 var faction = Context.Factions.FindByGuid(PredefinedGuids.NoFaction);
                 var cardType = Context.CardTypes.FindByGuid(PredefinedGuids.NoCardType);
-
-                
 
                 var utcNow = DateTime.UtcNow;
                 card = new CardModel
@@ -219,6 +223,7 @@ namespace WTacticsLibrary
                     CreateTime = utcNow,
                     Creator = ServiceUser,
                     LastModifiedBy = ServiceUser,
+                    RuleSet = ruleSet,
                     Serie = serie,
                     Faction = faction,
                     Type = cardType,
@@ -298,6 +303,30 @@ namespace WTacticsLibrary
             }
             return serie;
         }
+
+        public RuleSetModel CreateRuleSet(string name, Guid guid)
+        {
+            var ruleSet = Context.RuleSets.FindByGuid(guid);
+            if (ruleSet == null)
+            {
+                var status = Context.Statuses.FindByGuid(PredefinedGuids.Draft);
+                var utcNow = DateTime.UtcNow;
+                ruleSet = new RuleSetModel
+                {
+                    Name = name,
+                    Guid = guid,
+                    LastModifiedTime = utcNow,
+                    CreateTime = utcNow,
+                    Creator = ServiceUser,
+                    LastModifiedBy = ServiceUser,
+                    Status = status,
+                };
+                Context.RuleSets.Add(ruleSet);
+                Context.SaveChanges();
+            }
+            return ruleSet;
+        }
+
 
         public FactionModel CreateFaction(string name, Guid guid)
         {
@@ -596,6 +625,13 @@ namespace WTacticsLibrary
         {
             CreateSeries("None", PredefinedGuids.NoSerie);
             CreateSeries("Rebirth", PredefinedGuids.Rebirth);
+        }
+
+        private void FillPredefinedRuleSets()
+        {
+            CreateRuleSet("All", PredefinedGuids.AllRuleSets);
+            CreateRuleSet("Original Rules Concept", PredefinedGuids.OriginalRulesConcept);
+            CreateRuleSet("Awesome Rules Concept", PredefinedGuids.AwesomeRulesConcept);
         }
 
 

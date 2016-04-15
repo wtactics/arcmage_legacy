@@ -60,34 +60,57 @@
                 </div>
             </div>
 
+        <div class="form-group">
+            <label for="card_serie" class="col-md-2 control-label">Serie</label>
+            <div class="col-md-9">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle carddropdown"
+                            id="card_serie"
+                            type="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="true"
+                            ng-disabled="!cardOptions.isEditable">{{card.serie.name}} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu carddropdown" aria-labelledby="card_serie">
+                        <li ng-repeat="serie in cardOptions.series"><a ng-click="selectSerie(serie)">{{serie.name}}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-1 cardinfopopup">
+                <a uib-popover="Series are not shown on card." popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+            </div>
+        </div>
+
             <div class="form-group">
-                <label for="card_faction_serie" class="col-md-2 control-label">Serie</label>
+                <label for="card_ruleset" class="col-md-2 control-label">Ruleset</label>
                 <div class="col-md-9">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle carddropdown"
-                                id="card_faction_serie"
+                                id="card_ruleset"
                                 type="button"
                                 data-toggle="dropdown"
                                 aria-haspopup="true"
                                 aria-expanded="true"
-                                ng-disabled="!cardOptions.isEditable">{{card.serie.name}} <span class="caret"></span>
+                                ng-disabled="!cardOptions.isEditable">
+                            {{card.ruleSet.name}} <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu carddropdown" aria-labelledby="card_faction_serie">
-                            <li ng-repeat="serie in cardOptions.series"><a ng-click="selectSerie(serie)">{{serie.name}}</a></li>
+                        <ul class="dropdown-menu carddropdown" aria-labelledby="card_ruleset">
+                            <li ng-repeat="ruleSet in cardOptions.ruleSets"><a ng-click="selectRuleSet(ruleSet)">{{ruleSet.name}}</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-1 cardinfopopup">
-                    <a uib-popover="Series are not shown on card." popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
+                    <a uib-popover="Rule sets are not shown on card. Change only if the card only applies to a certain rulset." popover-trigger="mouseenter" popover-placement="left"><span class="glyphicon glyphicon-info-sign"></span></a>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="card_faction_status" class="col-md-2 control-label">Status</label>
+        <div class="form-group">
+                <label for="card_status" class="col-md-2 control-label">Status</label>
                 <div class="col-md-9">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle carddropdown"
-                                id="card_faction_status"
+                                id="card_status"
                                 type="button"
                                 data-toggle="dropdown"
                                 aria-haspopup="true"
@@ -95,7 +118,7 @@
                                 ng-disabled="!cardOptions.isEditable || !cardOptions.isStatusChangedAllowed">
                             {{card.status.name}} <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu carddropdown" aria-labelledby="card_faction_status">
+                        <ul class="dropdown-menu carddropdown" aria-labelledby="card_status">
                             <li ng-repeat="status in cardOptions.statuses"><a ng-click="selectStatus(status)">{{status.name}}</a></li>
                         </ul>
                     </div>
@@ -107,11 +130,11 @@
 
 
             <div class="form-group">
-                <label for="card_faction_dropdown" class="col-md-2 control-label">Faction</label>
+                <label for="card_dropdown" class="col-md-2 control-label">Faction</label>
                 <div class="col-md-9">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle carddropdown"
-                                id="card_faction_dropdown"
+                                id="card_dropdown"
                                 type="button"
                                 data-toggle="dropdown"
                                 aria-haspopup="true"
@@ -119,7 +142,7 @@
                                 ng-disabled="!cardOptions.isEditable">
                             {{card.faction.name}} <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu carddropdown" aria-labelledby="card_faction_dropdown">
+                        <ul class="dropdown-menu carddropdown" aria-labelledby="card_dropdown">
                             <li ng-repeat="faction in cardOptions.factions"><a ng-click="selectFaction(faction)">{{faction.name}}</a></li>
                         </ul>
                     </div>
@@ -173,11 +196,11 @@
             </div>
 
             <div class="form-group">
-                <label for="card_faction_loyalty" class="col-md-2 control-label">Loyalty</label>
+                <label for="card_loyalty" class="col-md-2 control-label">Loyalty</label>
                 <div class="col-md-9">
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle carddropdown"
-                                id="card_faction_loyalty"
+                                id="card_loyalty"
                                 type="button"
                                 data-toggle="dropdown"
                                 aria-haspopup="true"
@@ -185,7 +208,7 @@
                                 ng-disabled="!cardOptions.isEditable">
                             {{card.loyalty}} <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu carddropdown" aria-labelledby="card_faction_loyalty">
+                        <ul class="dropdown-menu carddropdown" aria-labelledby="card_loyalty">
                             <li ng-repeat="loyalty in cardOptions.loyalties"><a ng-click="selectLoyalty(loyalty)">{{loyalty}}</a></li>
                         </ul>
                     </div>
@@ -288,9 +311,9 @@
             </div>
 
             <div class="form-group">
-                <label for="card_faction_art" class="col-md-2 control-label"><a target="_blank" href="{{card.artwork}}">Artwork</a></label>
+                <label for="card_art" class="col-md-2 control-label"><a target="_blank" href="{{card.artwork}}">Artwork</a></label>
                 <div class="col-md-9" ng-show="cardOptions.isEditable">
-                    <span class="btn btn-default btn-file">Browse <input id="card_faction_art" type="file" file-model="artFile" /></span>
+                    <span class="btn btn-default btn-file">Browse <input id="card_art" type="file" file-model="artFile" /></span>
                     <button class="btn btn-default" ng-click="uploadFile()" ng-show="artFile" ng-disabled="!cardOptions.isEditable">
                         <span class="glyphicon glyphicon-refresh glyphicon-spin" ng-show="isUploading"></span>
                         Upload

@@ -61,9 +61,11 @@
                 $scope.card = card;
                 checkPngAvailability();
             }
+
             
-
-
+            $scope.selectRuleSet = function (ruleSet) {
+                $scope.card.ruleSet = ruleSet;
+            }
 
 
             $scope.selectCardType = function(cardType) {

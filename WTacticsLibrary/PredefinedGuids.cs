@@ -71,6 +71,15 @@ namespace WTacticsLibrary
 
         public static Guid Rebirth = GuidUtility.Create(Serie, "Rebirth");
 
+        // rule sets
+        public static Guid RuleSet = GuidUtility.Create("RuleSet");
+
+        public static Guid AllRuleSets = GuidUtility.Create(RuleSet, "AllRuleSets");
+
+        public static Guid OriginalRulesConcept = GuidUtility.Create(RuleSet, "OriginalRulesConcept");
+
+        public static Guid AwesomeRulesConcept = GuidUtility.Create(RuleSet, "AwesomeRulesConcept");
+
 
 
     }

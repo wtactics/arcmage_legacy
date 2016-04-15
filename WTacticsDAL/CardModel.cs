@@ -46,6 +46,8 @@ namespace WTacticsDAL
         
         public SerieModel Serie { get; set; }
 
+        public RuleSetModel RuleSet { get; set; }
+
         public StatusModel Status { get; set; }
 
         // generation input

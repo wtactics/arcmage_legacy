@@ -46,6 +46,7 @@ namespace WTacticsService.Api
 
                 cardOptions.Factions = repository.Context.Factions.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
                 cardOptions.Series = repository.Context.Series.AsNoTracking().ToList().Select(x => x.FromDal(false)).ToList();
+                cardOptions.RuleSets = repository.Context.RuleSets.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
                 cardOptions.Statuses = repository.Context.Statuses.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
                 cardOptions.CardTypes = repository.Context.CardTypes.Include(x => x.TemplateInfo).AsNoTracking().ToList().Select(x => x.FromDal(true)).ToList();
               

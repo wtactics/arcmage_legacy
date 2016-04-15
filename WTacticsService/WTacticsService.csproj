@@ -145,6 +145,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="WTactics\Cards\" />
+    <Folder Include="WTactics\CardTemplates\empire\" />
     <Folder Include="WTactics\Decks\" />
   </ItemGroup>
   <ItemGroup>
@@ -290,10 +291,38 @@
     </Content>
     <Content Include="WTactics\CardTemplates\back.svg" />
     <Content Include="WTactics\CardTemplates\back.png" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\city.png" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\city.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\city_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\city_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\creature.png" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\creature.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\creature_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\creature_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\enchantment.png" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\enchantment.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\enchantment_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\enchantment_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\equipment.png" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\equipment.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\equipment_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\equipment_overlay_plain.svg" />
     <Content Include="WTactics\CardTemplates\house_of_nobels\event.png" />
     <Content Include="WTactics\CardTemplates\house_of_nobels\event.svg" />
     <Content Include="WTactics\CardTemplates\house_of_nobels\event_overlay.svg" />
     <Content Include="WTactics\CardTemplates\house_of_nobels\event_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\magic.png" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\magic.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\magic_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\magic_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\none.png" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\none.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\none_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\none_overlay_plain.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\player.png" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\player.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\player_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\player_overlay_plain.svg" />
     <Content Include="WTactics\CardTemplates\none\player_overlay_plain.svg" />
     <Content Include="WTactics\CardTemplates\none\player_overlay.svg" />
     <Content Include="WTactics\CardTemplates\none\player.svg" />

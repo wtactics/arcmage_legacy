@@ -78,6 +78,7 @@
     <Compile Include="Assembler\FactionAssembler.cs" />
     <Compile Include="Assembler\RightAssembler.cs" />
     <Compile Include="Assembler\RoleAssembler.cs" />
+    <Compile Include="Assembler\RuleSetAssembler.cs" />
     <Compile Include="Assembler\SerieAssembler.cs" />
     <Compile Include="Assembler\StatusAssembler.cs" />
     <Compile Include="Assembler\TemplateInfoAssembler.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Model\ResultList.cs" />
     <Compile Include="Model\Right.cs" />
     <Compile Include="Model\Role.cs" />
+    <Compile Include="Model\RuleSet.cs" />
     <Compile Include="Model\Serie.cs" />
     <Compile Include="Model\Status.cs" />
     <Compile Include="Model\TemplateInfo.cs" />

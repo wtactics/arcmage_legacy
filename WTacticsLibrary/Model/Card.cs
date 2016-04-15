@@ -46,6 +46,8 @@ namespace WTacticsLibrary.Model
 
         public Serie Serie { get; set; }
 
+        public RuleSet RuleSet { get; set; }
+
         // generation input
         public string Artwork { get; set; }
 

@@ -18,6 +18,8 @@ namespace WTacticsLibrary.Model
 
         public List<Serie> Series { get; set; }
 
+        public List<RuleSet> RuleSets { get; set; }
+
         public List<Status> Statuses { get; set; }
 
         public List<int> Loyalties { get; set; }

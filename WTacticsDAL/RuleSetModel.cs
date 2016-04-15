@@ -7,16 +7,13 @@ using System.Threading.Tasks;
 
 namespace WTacticsDAL
 {
-    public class SerieModel : ModelBase
+    public class RuleSetModel : ModelBase
     {
         [Key]
-        public int SerieId { get; set; }
+        public int RuleSetId { get; set; }
 
         public string Name { get; set; }
-    
-        public virtual List<CardModel> Cards { get; set; }
-
+        
         public StatusModel Status { get; set; }
-
     }
 }

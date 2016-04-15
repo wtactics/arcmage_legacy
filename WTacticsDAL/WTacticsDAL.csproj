@@ -59,11 +59,16 @@
     <Compile Include="Migrations\201604071646110_PdfCreation.Designer.cs">
       <DependentUpon>201604071646110_PdfCreation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604151418554_RuleSets.cs" />
+    <Compile Include="Migrations\201604151418554_RuleSets.Designer.cs">
+      <DependentUpon>201604151418554_RuleSets.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RightModel.cs" />
     <Compile Include="RoleModel.cs" />
+    <Compile Include="RuleSetModel.cs" />
     <Compile Include="SerieModel.cs" />
     <Compile Include="StatusModel.cs" />
     <Compile Include="TemplateInfoModel.cs" />
@@ -76,6 +81,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201604071646110_PdfCreation.resx">
       <DependentUpon>201604071646110_PdfCreation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604151418554_RuleSets.resx">
+      <DependentUpon>201604151418554_RuleSets.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -32,6 +32,7 @@ namespace WTacticsLibrary.Assembler
             if (cardModel.Type != null) result.Type = cardModel.Type.FromDal();
             if (cardModel.Faction != null) result.Faction = cardModel.Faction.FromDal();
             if (cardModel.Serie != null) result.Serie = cardModel.Serie.FromDal();
+            if (cardModel.RuleSet != null) result.RuleSet = cardModel.RuleSet.FromDal();
             if (cardModel.Status != null) result.Status = cardModel.Status.FromDal();
 
             result.SyncBase(cardModel,true, true);
@@ -49,7 +50,7 @@ namespace WTacticsLibrary.Assembler
         }
 
         public static void Patch(this CardModel cardModel, Card card, 
-            SerieModel serieModel, FactionModel factionModel, CardTypeModel cardTypeModel, StatusModel statusModel, UserModel user)
+            SerieModel serieModel, FactionModel factionModel, CardTypeModel cardTypeModel, StatusModel statusModel, RuleSetModel ruleSetModel, UserModel user)
         {
             if (cardModel == null) return;
             if (card == null) return;
@@ -70,6 +71,7 @@ namespace WTacticsLibrary.Assembler
             if (factionModel != null) cardModel.Faction = factionModel;
             if (cardTypeModel != null) cardModel.Type = cardTypeModel;
             if (statusModel != null) cardModel.Status = statusModel;
+            if (ruleSetModel != null) cardModel.RuleSet = ruleSetModel;
             cardModel.Patch(user);
         }
 

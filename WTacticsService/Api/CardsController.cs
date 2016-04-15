@@ -214,6 +214,7 @@ namespace WTacticsService.Api
                 var factionModel = await repository.Context.Factions.FindByGuidAsync(card.Faction.Guid);
                 var cardTypeModel = await repository.Context.CardTypes.FindByGuidAsync(card.Type.Guid);
                 var statusModel = await repository.Context.Statuses.FindByGuidAsync(card.Status.Guid);
+                var ruleSetModel = await repository.Context.RuleSets.FindByGuidAsync(card.RuleSet.Guid);
 
                 var hasLayoutChanges = false;
 
@@ -232,7 +233,7 @@ namespace WTacticsService.Api
                 if (card.Info != cardModel.Info) hasLayoutChanges = true;
                 if (card.LayoutText != cardModel.LayoutText) hasLayoutChanges = true;
                 
-                cardModel.Patch(card, serieModel, factionModel, cardTypeModel, statusModel, repository.ServiceUser);
+                cardModel.Patch(card, serieModel, factionModel, cardTypeModel, statusModel, ruleSetModel, repository.ServiceUser);
 
                
 
