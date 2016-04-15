@@ -101,8 +101,8 @@
             .success(function () {
                 if(onSucces) onSucces();
                 })
-            .error(function () {
-                if (onError) onError();
+            .error(function (error) {
+                if (onError) onError(error);
             });
         }
     }]);

@@ -95,6 +95,10 @@
                 fileUpload.uploadFileToUrl(file, uploadUrl, function () {
                     $scope.artFile = null;
                     $scope.isUploading = false;
+                },function(error) {
+                    services.ErrorHandler(error);
+                    $scope.artFile = null;
+                    $scope.isUploading = false;
                 });
                 
             }
