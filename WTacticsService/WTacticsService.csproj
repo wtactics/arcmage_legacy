@@ -145,7 +145,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="WTactics\Cards\" />
-    <Folder Include="WTactics\CardTemplates\empire\" />
     <Folder Include="WTactics\Decks\" />
   </ItemGroup>
   <ItemGroup>
@@ -291,6 +290,10 @@
     </Content>
     <Content Include="WTactics\CardTemplates\back.svg" />
     <Content Include="WTactics\CardTemplates\back.png" />
+    <Content Include="WTactics\CardTemplates\the_empire\event.png" />
+    <Content Include="WTactics\CardTemplates\the_empire\event.svg" />
+    <Content Include="WTactics\CardTemplates\the_empire\event_overlay.svg" />
+    <Content Include="WTactics\CardTemplates\the_empire\event_overlay_plain.svg" />
     <Content Include="WTactics\CardTemplates\house_of_nobels\city.png" />
     <Content Include="WTactics\CardTemplates\house_of_nobels\city.svg" />
     <Content Include="WTactics\CardTemplates\house_of_nobels\city_overlay.svg" />

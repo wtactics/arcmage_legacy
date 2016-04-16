@@ -167,7 +167,39 @@
     font-style: normal;
 }
 </style>
-
+    <filter
+       y="-.25"
+       x="-.25"
+       height="1.5"
+       width="1.5"
+       inkscape:label="Drop shadow"
+       id="filter13413">
+      <feGaussianBlur
+         result="blur"
+         stdDeviation="0.5"
+         in="SourceAlpha"
+         id="feGaussianBlur13415" />
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.8 0 "
+         type="matrix"
+         result="bluralpha"
+         id="feColorMatrix13417" />
+      <feOffset
+         result="offsetBlur"
+         dy="0"
+         dx="1"
+         in="bluralpha"
+         id="feOffset13419" />
+      <feMerge
+         id="feMerge13421">
+        <feMergeNode
+           in="offsetBlur"
+           id="feMergeNode13423" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode13425" />
+      </feMerge>
+    </filter>
     <linearGradient
        id="linearGradient14098">
       <stop
