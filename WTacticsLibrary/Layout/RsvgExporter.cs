@@ -26,6 +26,7 @@ namespace WTacticsLibrary.Layout
                 processStartInfo.CreateNoWindow = true;
 
                 var process = new Process();
+                ImpersonateUserProcess.Impersonate(process);
                 process.StartInfo = processStartInfo;
                 process.Start();
                 process.WaitForExit();
