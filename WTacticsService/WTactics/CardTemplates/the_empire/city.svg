@@ -1377,7 +1377,7 @@
        id="cardtypetext" />
     <text
        style="fill:#1f170d;fill-opacity:1"
-       transform="translate(20,60)"
+       transform="translate(20,211.25)"
        id="cardtext" />
     <text
        y="314.66742"
