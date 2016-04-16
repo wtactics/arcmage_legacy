@@ -33,7 +33,7 @@ namespace WTacticsService.Helpers
             {
                 message = "An error occurred, please try again or contact the administrator.";
             }
-
+      
             throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.InternalServerError)
             {
                 Content = new StringContent(message),

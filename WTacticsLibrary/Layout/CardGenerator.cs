@@ -30,7 +30,7 @@ namespace WTacticsLibrary.Layout
         public static void CreatePngJob(Guid cardGuid)
         {
             var svgFile = Repository.GetSvgFile(cardGuid);
-            RsvgExporter.ExportPng(svgFile, Repository.GetHighResolutionPngFile(cardGuid));
+            InkscapeExporter.ExportPng(svgFile, Repository.GetHighResolutionPngFile(cardGuid));
             using (var repository = new Repository())
             {
                 var cardModel = repository.Context.Cards.FindByGuid(cardGuid);
