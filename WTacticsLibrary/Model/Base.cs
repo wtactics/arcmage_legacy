@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace WTacticsLibrary.Model
-{
-    
+{   
     public class Base
     {
         public Guid Guid { get; set; }
