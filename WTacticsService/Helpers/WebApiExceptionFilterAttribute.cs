@@ -16,7 +16,7 @@ namespace WTacticsService.Helpers
 
         public override void OnException(HttpActionExecutedContext context)
         {
-            _log.Error(context.Exception);
+            _log.LogException(context.Exception);
 
             if (context.Exception is HttpResponseException)
             {

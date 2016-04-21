@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Xml.Linq;
+using ImageMagick;
 using Newtonsoft.Json;
 using WTacticsLibrary.Model;
 
@@ -30,7 +31,30 @@ namespace WTacticsLibrary.Layout
         public static void CreatePngJob(Guid cardGuid)
         {
             var svgFile = Repository.GetSvgFile(cardGuid);
-            RsvgExporter.ExportPng(svgFile, Repository.GetHighResolutionPngFile(cardGuid));
+            InkscapeExporter.ExportPng(svgFile, Repository.GetPngFile(cardGuid));
+          
+            using (MagickImage image = new MagickImage(Repository.GetPngFile(cardGuid)))
+            {
+                image.Scale(320,454);
+                // You're done. Save it.
+                image.Write(Repository.GetJpegFile(cardGuid));
+            }
+
+            // convert to CMYK
+            using (MagickImage image = new MagickImage(Repository.GetPngFile(cardGuid)))
+            {
+                // Add a RGB profile if your image does not contain a color profile.
+                image.AddProfile(ColorProfile.SRGB);
+
+                // Adding the second profile will transform the colorspace from RGB to CMYK
+                image.AddProfile(ColorProfile.USWebCoatedSWOP);
+
+                // You're done. Save it.
+                image.Write(Repository.GetTifFile(cardGuid));
+            }
+
+
+
             using (var repository = new Repository())
             {
                 var cardModel = repository.Context.Cards.FindByGuid(cardGuid);

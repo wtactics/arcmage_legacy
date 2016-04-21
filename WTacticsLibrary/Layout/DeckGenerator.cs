@@ -7,6 +7,7 @@ using System.Linq;
 using System.Xml.Linq;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using ImageMagick;
 using Newtonsoft.Json;
 using WTacticsLibrary.Model;
 
@@ -66,10 +67,10 @@ namespace WTacticsLibrary.Layout
                     var cardcounter = 0;
                     foreach (var deckCard in deck.DeckCards)
                     {
-                        var cardPngFile = Repository.GetHighResolutionPngFile(deckCard.Card.Guid);
-                        if (!File.Exists(cardPngFile)) continue;
+                        var cardTifFile = Repository.GetTifFile(deckCard.Card.Guid);
+                        if (!File.Exists(cardTifFile)) continue;
 
-                        Image png = Image.GetInstance(cardPngFile);
+                        Image png = Image.GetInstance(cardTifFile);
                         png.SetDpi(dpi, dpi);
                         png.ScaleAbsolute(imageWidth, imageHeight);
 
@@ -101,10 +102,10 @@ namespace WTacticsLibrary.Layout
                         doc.NewPage();
                     }
 
-                    var cardBackPngFile = Repository.GetBackPngFile();
-                    if (File.Exists(cardBackPngFile))
+                    var cardBackTifFile = Repository.GetBackTifFile();
+                    if (File.Exists(cardBackTifFile))
                     {
-                        Image png = Image.GetInstance(cardBackPngFile);
+                        Image png = Image.GetInstance(cardBackTifFile);
                         png.SetDpi(dpi, dpi);
                         png.ScaleAbsolute(imageWidth, imageHeight);
 

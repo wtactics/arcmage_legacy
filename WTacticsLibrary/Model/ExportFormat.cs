@@ -9,12 +9,21 @@ namespace WTacticsLibrary.Model
     public enum ExportFormat
     {
         Art,
+
         Png,
+        Jpeg,
+        Tif,
         Svg,
+
+        BackPng,
+        BackJpeg,
+        BackTif,
+        BackSvg,
+
+        Pdf,
+
         BackgroundPng,
         OverlaySvg,
-        BackPng,
-        BackSvg,
-        Pdf
+
     }
 }

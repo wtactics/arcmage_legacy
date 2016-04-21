@@ -87,21 +87,17 @@ namespace WTacticsLibrary
             return Path.Combine(GetDeckPath(deckGuid), "deck.json");
         }
 
-        public static string GetBackPngFile()
+        public static string GetDeckFormatFile(Guid deckGuid)
         {
-            return Path.Combine(TemplatesPath, "back.png");
+            return Path.Combine(GetDeckPath(deckGuid), "deck.txt");
         }
-
 
         public static string GetArtFile(Guid cardGuid)
         {
             return Path.Combine(GetCardPath(cardGuid), "art.png");
         }
 
-        public static string GetSvgFile(Guid cardGuid)
-        {
-            return Path.Combine(GetCardPath(cardGuid), "card.svg");
-        }
+     
 
         public static string GetOverlaySvgFile(Guid cardGuid)
         {
@@ -113,21 +109,48 @@ namespace WTacticsLibrary
             return Path.Combine(GetCardPath(cardGuid), "card.json");
         }
 
-        public static string GetHighResolutionPngFile(Guid cardGuid)
+        public static string GetPngFile(Guid cardGuid)
         {
             return Path.Combine(GetCardPath(cardGuid), "card.png");
         }
 
-     
-        public static string GetHighResolutionBackPngFile()
+        public static string GetTifFile(Guid cardGuid)
         {
-            return Path.Combine(TemplatesPath, "back.png");
+            return Path.Combine(GetCardPath(cardGuid), "card.tif");
+        }
+        
+
+        public static string GetJpegFile(Guid cardGuid)
+        {
+            return Path.Combine(GetCardPath(cardGuid), "card.jpg");
+        }
+
+        public static string GetSvgFile(Guid cardGuid)
+        {
+            return Path.Combine(GetCardPath(cardGuid), "card.svg");
+        }
+
+
+        public static string GetBackTifFile()
+        {
+            return Path.Combine(TemplatesPath, "back.tif");
+        }
+
+        public static string GetBackJpegFile()
+        {
+            return Path.Combine(TemplatesPath, "back.jpeg");
         }
 
         public static string GetBackSvgFile()
         {
             return Path.Combine(TemplatesPath, "back.svg");
         }
+
+        public static string GetBackPngFile()
+        {
+            return Path.Combine(TemplatesPath, "back.png");
+        }
+
 
 
         public static string GetBackgroundPngFile(string faction, string cardType)

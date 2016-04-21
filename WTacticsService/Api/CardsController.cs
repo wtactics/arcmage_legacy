@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.WebPages;
 using Hangfire;
 using WTacticsDAL;
 using WTacticsLibrary;
@@ -65,12 +66,20 @@ namespace WTacticsService.Api
         {
             Repository.InitPaths();
             var cardPath = "";
-            var mediaType = "image/png";
+            var mediaType = "";
+            
             switch (format)
             {
                 case ExportFormat.Art:
+                    mediaType = "image/png";
                     cardPath = Repository.GetArtFile(id);
                     break;
+
+                case ExportFormat.Svg:
+                    cardPath = Repository.GetSvgFile(id);
+                    mediaType = "image/svg+xml";
+                    break;
+
                 case ExportFormat.Png:
                     using (var repository = new Repository())
                     {
@@ -81,42 +90,82 @@ namespace WTacticsService.Api
                             return Request.CreateResponse(HttpStatusCode.NotFound);
                         }
                     }
-                    cardPath = Repository.GetHighResolutionPngFile(id);
+                    mediaType = "image/png";
+                    cardPath = Repository.GetPngFile(id);
+                    break;
+                case ExportFormat.Jpeg:
+                    using (var repository = new Repository())
+                    {
+                        var result = await repository.Context.Cards.FindByGuidAsync(id);
+                        if (!string.IsNullOrEmpty(result.PngCreationJobId))
+                        {
+                            // still busy creating png
+                            return Request.CreateResponse(HttpStatusCode.NotFound);
+                        }
+                    }
+                    mediaType = "image/jpeg";
+                    cardPath = Repository.GetJpegFile(id);
 
                     break;
+                case ExportFormat.Tif:
+                    using (var repository = new Repository())
+                    {
+                        var result = await repository.Context.Cards.FindByGuidAsync(id);
+                        if (!string.IsNullOrEmpty(result.PngCreationJobId))
+                        {
+                            // still busy creating png
+                            return Request.CreateResponse(HttpStatusCode.NotFound);
+                        }
+                    }
+                    mediaType = "image/tiff";
+                    cardPath = Repository.GetTifFile(id);
+
+                    break;
+                case ExportFormat.OverlaySvg:
+                    cardPath = Repository.GetOverlaySvgFile(id);
+                    mediaType = "image/svg+xml";
+                    break;
+           
                 case ExportFormat.BackgroundPng:
                     using (var repository = new Repository())
                     {
                         var result = await repository.Context.Cards.FindByGuidAsync(id);
                         await repository.Context.Entry(result).Reference(x => x.Faction).LoadAsync();
                         await repository.Context.Entry(result).Reference(x => x.Type).LoadAsync();
+                        mediaType = "image/png";
                         cardPath = Repository.GetBackgroundPngFile(result.Faction.Name, result.Type.Name);
                     }
                     break;
                 case ExportFormat.BackPng:
-                    cardPath = Repository.GetHighResolutionBackPngFile();
+                    mediaType = "image/png";
+                    cardPath = Repository.GetBackPngFile();
                     break;
-                case ExportFormat.OverlaySvg:
-                    cardPath = Repository.GetOverlaySvgFile(id);
-                    mediaType = "image/svg+xml";
+                case ExportFormat.BackJpeg:
+                    mediaType = "image/jpeg";
+                    cardPath = Repository.GetBackJpegFile();
                     break;
-                case ExportFormat.Svg:
-                    cardPath = Repository.GetSvgFile(id);
-                    mediaType = "image/svg+xml";
+                case ExportFormat.BackTif:
+                    mediaType = "image/tiff";
+                    cardPath = Repository.GetBackTifFile();
                     break;
                 case ExportFormat.BackSvg:
                     cardPath = Repository.GetBackSvgFile();
                     mediaType = "image/svg+xml";
                     break;
+               
+                
             }
 
             if (!File.Exists(cardPath)) return Request.CreateErrorResponse(HttpStatusCode.NotFound, "The card with the specified id does not exist");
+
+            var filename = Path.GetFileName(cardPath);
 
             Stream stream = new FileStream(cardPath, FileMode.Open);
 
             var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StreamContent(stream) };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue(mediaType);
             response.Content.Headers.ContentLength = stream.Length;
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") {FileName = filename };
             return response;
         }
 
@@ -261,7 +310,7 @@ namespace WTacticsService.Api
                     //var targetWith = (int) (cardWidthPx*factor);
 
                     cardModel.PngCreationJobId = BackgroundJob.Schedule(() => CardGenerator.CreatePngJob(card.Guid), TimeSpan.FromMinutes(1));
-
+                    
                 }
                 await repository.Context.SaveChangesAsync();
 

@@ -1,0 +1,26 @@
+﻿@{
+    Layout = null; 
+}
+<html>
+<head>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/sharedCode")
+    <script src="~/Views/Log/Index.js"></script>
+
+    <style>
+.panel-heading:hover {
+   color: #333333;    
+   background:#f5f5f5;    
+   border-color: #dddddd;
+}
+    </style>
+
+</head>
+<body class="container" ng-app="logApp" ng-controller="LogController">
+
+    <h2>Log</h2>
+
+    <article ng-repeat="logevent in logevents" log-event-list-item></article>
+
+</body>
+</html>

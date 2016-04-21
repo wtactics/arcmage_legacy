@@ -50,7 +50,7 @@ namespace WTacticsService.Api
                     repository.Context.SaveChanges();
                     var expiryDate = DateTime.UtcNow.AddYears(1);
 
-                    var token = "Bearer " + user.Token;
+                    var token = user.Token;
                     var response = Request.CreateResponse(token);
                     var cookie = new CookieHeaderValue("Authorization", token)
                     {

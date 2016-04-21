@@ -142,6 +142,9 @@ namespace WTacticsService.Api
                 deckModel.Patch(deck, repository.ServiceUser);
                 deck = deckModel.FromDal(true);
                 File.WriteAllText(Repository.GetDeckJsonFile(deck.Guid), JsonConvert.SerializeObject(deck));
+                File.WriteAllText(Repository.GetDeckFormatFile(deck.Guid), GetDeckFormat(deckModel));
+
+
                 DeckGenerator.GenerateDeck(deck.Guid);
 
                 await repository.Context.SaveChangesAsync();
@@ -153,6 +156,30 @@ namespace WTacticsService.Api
 
                 return Request.CreateResponse(deck);
             }
+        }
+
+        private string GetDeckFormat(DeckModel deckModel)
+        {
+            string deck = "[DECK]" + Environment.NewLine;
+           
+            var mainCards = deckModel.DeckCards.Where(x => x.Card.Type.Guid != PredefinedGuids.City);
+            foreach (var deckCardModel in mainCards)
+            {
+                deck += $"{deckCardModel.Quantity}x\t{deckCardModel.Card.Name}" + Environment.NewLine;
+            }
+
+            //deck += Environment.NewLine + "Secondary" + Environment.NewLine;
+
+            //var cityCards = deckModel.DeckCards.Where(x => x.Card.Type.Guid == PredefinedGuids.City);
+            //foreach (var deckCardModel in cityCards)
+            //{
+            //    deck += $"{deckCardModel.Quantity}x\t{deckCardModel.Card.Name}" + Environment.NewLine;
+            //}
+            deck += Environment.NewLine;
+            deck += "[/DECK]";
+            deck += $"[URL=\"http://wtactics.westeurope.cloudapp.azure.com/#/decks/{deckModel.Guid}\"]{deckModel.Name}[/URL]";
+            deck += Environment.NewLine;
+            return deck;
         }
 
     }

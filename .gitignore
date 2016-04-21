@@ -235,3 +235,4 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 /WTacticsService/WTactics/Cards
+/WTacticsService/WTactics/Decks/b9c3f75d-8aaa-437a-b0dd-3d973edb3083

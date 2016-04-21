@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Http.Filters;
 using log4net;
 using WTacticsLibrary;
+using WTacticsService.Helpers;
 
 namespace WTacticsService.Api.Authentication
 {
@@ -25,25 +26,28 @@ namespace WTacticsService.Api.Authentication
         /// </summary>
         public async Task AuthenticateAsync(HttpAuthenticationContext context, CancellationToken cancellationToken)
         {
-            // We look for the token in the header and the cookie (header takes precedence)
-            var token = GetToken(context);
-            if (token == null)
+            using (_log.LogMethodEnter(new MethodParameter(nameof(context), context.Request.RequestUri)))
             {
-                // We cannot authenticate the user
-                return;
-            }
-
-            using (Repository repo = new Repository())
-            {
-                var user = await repo.Context.Users.FirstOrDefaultAsync(it => it.Token == token);
-                if (user == null)
+                // We look for the token in the header and the cookie (header takes precedence)
+                var token = GetToken(context);
+                if (token == null)
                 {
-                    // No user corresponds with the token
+                    // We cannot authenticate the user
                     return;
                 }
 
-                var principal = new Principal(user.Guid,user.Email,user.Role.Name);
-                context.Principal = principal;
+                using (Repository repo = new Repository())
+                {
+                    var user = await repo.Context.Users.FirstOrDefaultAsync(it => it.Token == token);
+                    if (user == null)
+                    {
+                        // No user corresponds with the token
+                        return;
+                    }
+
+                    var principal = new Principal(user.Guid, user.Email, user.Role.Name);
+                    context.Principal = principal;
+                }
             }
         }
 
@@ -72,10 +76,6 @@ namespace WTacticsService.Api.Authentication
         public static string DecodeTokenFromCookie(string cookieValue)
         {
             var token = HttpUtility.UrlDecode(cookieValue);
-            if (!token.StartsWith("Bearer ")) return null;   // We don't now how to authenticate agains this scheme
-
-            token = token.Substring("Bearer ".Length);
-           
             return token;
         }
 

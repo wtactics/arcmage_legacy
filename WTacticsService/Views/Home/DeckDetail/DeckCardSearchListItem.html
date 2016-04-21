@@ -1,4 +1,4 @@
 ﻿<td><a href="" data-content="{{card}}" data-content-template="Views/Home/Cards/CardPopupInfoTemplate.html" data-placement="auto right" data-trigger="hover" data-auto-close="1" bs-popover><span class="glyphicon glyphicon-info-sign"></span></a></td>
-<td>{{card.name}}</td>
+<td><a ui-sref="carddetail({ cardGuid: card.guid })" target="_blank">{{card.name}}</a></td>
 <td><a href="" ng-click="increaseDeckCard(card, deck)" ng-show="deck.isEditable"><span class="glyphicon glyphicon-plus-sign"></span></a></td>
 

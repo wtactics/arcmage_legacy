@@ -59,16 +59,28 @@ namespace WTacticsLibrary.Model
 
         public string Png { get; set; }
 
-        public bool IsPngAvailble { get; set; }
+        public string Jpeg { get; set; }
+
+        public string Tif { get; set; }
+
+        //
+        
+        public string BackSvg { get; set; }
+
+        public string BackPng { get; set; }
+
+        public string BackJpeg { get; set; }
+
+        public string BackTif { get; set; }
+
+
+        public bool IsGenerated { get; set; }
 
         public string BackgroundPng { get; set; }
 
         public string OverlaySvg { get; set; }
 
-        //
-        public string BackPng { get; set; }
-
-        public string BackSvg { get; set; }
+      
 
     }
 }

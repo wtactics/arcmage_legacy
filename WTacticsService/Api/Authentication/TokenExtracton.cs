@@ -24,10 +24,6 @@ namespace WTacticsService.Api.Authentication
         private static string DecodeTokenFromCookie(string cookieValue)
         {
             var token = HttpUtility.UrlDecode(cookieValue);
-            if (!token.StartsWith("Bearer ")) return null;   // We don't now how to authenticate agains this scheme
-
-            token = token.Substring("Bearer ".Length);
-
             return token;
         }
     

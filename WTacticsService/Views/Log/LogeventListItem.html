@@ -1,0 +1,12 @@
+﻿<div id="{{logevent.timestamp}}">
+    <dl class="dl-horizontal">
+        <dt>Timestamp</dt>
+        <dd>{{logevent.timeStamp | date:'yyyy-MM-dd HH:mm:ss'}}</dd>
+        <dt>LogLevel</dt>
+        <dd>{{logevent.levelName}}</dd>
+        <dt>Message</dt>
+        <dd style="white-space: pre;">{{logevent.renderedMessage}}</dd>
+        <dt ng-if="logevent.exception">Exception</dt>
+        <dd ng-if="logevent.exception">{{logevent.exception}}</dd>
+    </dl>
+</div>

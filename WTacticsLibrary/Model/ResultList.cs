@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace WTacticsLibrary.Model
 {
-    public class ResultList<T> where T: Base
+    public class ResultList<T> 
     {
         public List<T> Items { get; set; }
 

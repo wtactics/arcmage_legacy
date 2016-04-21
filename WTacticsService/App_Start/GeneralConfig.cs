@@ -1,7 +1,10 @@
 ﻿using System.Web.Http;
 using log4net;
+using log4net.Core;
+using log4net.Repository.Hierarchy;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using WTacticsService.Helpers;
 
 namespace WTacticsService
 {
@@ -31,6 +34,16 @@ namespace WTacticsService
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 NullValueHandling = NullValueHandling.Ignore,
             };
+
+            
+            var repository = LogManager.GetRepository() as Hierarchy;
+
+            if (repository != null)
+            {
+                repository.Root.AddAppender(new FixedSizeMemoryAppender() { Name = "FixedSizeMemoryAppender" });
+                repository.Root.Level = Level.Error;
+                repository.Configured = true;
+            }
         }
     }
 }
