@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Xml.Linq;
 using iTextSharp.text;
@@ -15,123 +16,65 @@ namespace WTacticsLibrary.Layout
 {
     public static class DeckGenerator
     {
-
-        public static void GenerateDeck(Guid deckGuid)
+        
+        public static void GenerateDeck(Guid deckGuid, bool generateMissingCards)
         {
             var jsonFile = Repository.GetDeckJsonFile(deckGuid);
             if (!File.Exists(jsonFile)) return;
 
             var deck = JsonConvert.DeserializeObject<Deck>(File.ReadAllText(jsonFile));
-            if (deck.DeckCards.Sum(x=>x.Quantity) > 75) return;
 
-            using (var doc = new Document(PageSize.A4))
+            using (FileStream zipToOpen = new FileStream(Repository.GetDeckZipFile(deckGuid), FileMode.Create))
             {
-                try
+                using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
                 {
-                    var dpi = 600;
-
-                    var height = doc.PageSize.Height;
-                    var width = doc.PageSize.Width;
-
-                    var dpiFactor = 72.0f/dpi;
-
-                    var gap = Utilities.MillimetersToPoints(1);
-
-                    var imageWidth = 1535*dpiFactor;
-                    var startx = (width - 3*imageWidth - 2*gap) /2.0f;
-                    var increasex = (imageWidth + gap);
-
-                    var imageHeight = 2175*dpiFactor;
-                    var starty = (height - 3*imageHeight - 2*gap) /2.0f;
-                    var increasey = (imageHeight + gap);
-
-
-                    PdfWriter.GetInstance(doc, new FileStream(Repository.GetDeckFile(deck.Guid), FileMode.Create));
-
-                    doc.AddAuthor($"{deck.Creator.Name}");
-                    doc.AddCreator($"{deck.Creator.Name} - wtactics.org");
-                    doc.AddTitle($"{deck.Name} - wtactics.org");
-
-                    doc.Open();
-
-                    doc.Add(new Paragraph($"{deck.Name}") { SpacingAfter = 12, Font = { Size = 28 } });
-                    doc.Add(new Paragraph($"By {deck.Creator.Name} - {deck.LastModifiedTime.Value.ToShortDateString()} - wtactics.org") { SpacingAfter = 24, Font = { Size = 16 } });
-                    doc.Add(new Paragraph($"Cards List") { SpacingAfter = 12, Font = { Size = 28 } });
                     foreach (var deckCard in deck.DeckCards)
                     {
-                        doc.Add(new Paragraph($"{deckCard.Quantity} x {deckCard.Card.Name}") { Font = { Size = 16 } });
-                    }
+                        var cardPdf = Repository.GetPdfFile(deckCard.Card.Guid);
+                        if (!File.Exists(cardPdf))
+                        {
+                            if (generateMissingCards)
+                            {
+                                CardGenerator.CreatePngJob(deckCard.Card.Guid,deckCard.Card.Faction.Name, deckCard.Card.Type.Name);
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
 
-                    doc.NewPage();
-                    
-                    var cardcounter = 0;
-                    foreach (var deckCard in deck.DeckCards)
-                    {
-                        var cardTifFile = Repository.GetTifFile(deckCard.Card.Guid);
-                        if (!File.Exists(cardTifFile)) continue;
-
-                        Image png = Image.GetInstance(cardTifFile);
-                        png.SetDpi(dpi, dpi);
-                        png.ScaleAbsolute(imageWidth, imageHeight);
+                        var entryName = SanitizeName(deckCard.Card.Name);
 
                         for (var i = 0; i < deckCard.Quantity; i++)
                         {
-
-                          
-                            var row = cardcounter/3;
-                            var col = cardcounter%3;
-
-                            var x = startx + col*increasex;
-                            var y = starty + (2 - row)*increasey;
-
-                            png.SetAbsolutePosition( x, y);
-                            doc.Add(png);
-
-                            cardcounter++;
-                            if (cardcounter == 9)
-                            {
-                                doc.NewPage();
-                                cardcounter = 0;
-                            }
+                            archive.CreateEntryFromFile(cardPdf, $"{entryName}_{i + 1}.pdf");
                         }
                     }
 
-                    // start new page for back
-                    if (cardcounter != 0)
+                    var cardBackPdfFile = Repository.GetBackPdfFile();
+                    if (File.Exists(cardBackPdfFile))
                     {
-                        doc.NewPage();
+                        archive.CreateEntryFromFile(cardBackPdfFile, $"back.pdf");
                     }
 
-                    var cardBackTifFile = Repository.GetBackTifFile();
-                    if (File.Exists(cardBackTifFile))
+                    var deckFormatFile = Repository.GetDeckFormatFile(deckGuid);
+                    if (File.Exists(deckFormatFile))
                     {
-                        Image png = Image.GetInstance(cardBackTifFile);
-                        png.SetDpi(dpi, dpi);
-                        png.ScaleAbsolute(imageWidth, imageHeight);
-
-                        for (var i = 0; i < 9; i++)
-                        {
-                            var row = i / 3;
-                            var col = i % 3;
-
-                            var x = startx + col * increasex;
-                            var y = starty + (2 - row) * increasey;
-
-                            png.SetAbsolutePosition(x, y);
-                            doc.Add(png);
-                        }
+                        archive.CreateEntryFromFile(deckFormatFile, $"deck.txt");
                     }
-
-                   
-
-                }
-                catch (Exception ex)
-                {
 
                 }
             }
 
         }
+
+        private static readonly char [] Invalids = System.IO.Path.GetInvalidFileNameChars();
+
+        private static string SanitizeName(string name)
+        {
+            return string.Join("_", name.Split(Invalids, StringSplitOptions.RemoveEmptyEntries)).TrimEnd('.');
+        }
+
 
     }
 

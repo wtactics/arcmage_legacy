@@ -53,11 +53,11 @@ namespace WTacticsService.Api
         {
             Repository.InitPaths();
             var deckFile = "";
-            var mediaType = "application/pdf";
+            var mediaType = "application/zip";
             switch (format)
             {
-                case ExportFormat.Pdf:
-                    deckFile = Repository.GetDeckFile(id);
+                case ExportFormat.Zip:
+                    deckFile = Repository.GetDeckZipFile(id);
                     break;
             }
 
@@ -68,7 +68,7 @@ namespace WTacticsService.Api
             var response = new HttpResponseMessage(HttpStatusCode.OK) { Content = new StreamContent(stream) };
             response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
             {
-                FileName = $"deck_{id}.pdf"
+                FileName = $"deck_{id}.zip"
             };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue(mediaType);
             response.Content.Headers.ContentLength = stream.Length;
@@ -144,8 +144,11 @@ namespace WTacticsService.Api
                 File.WriteAllText(Repository.GetDeckJsonFile(deck.Guid), JsonConvert.SerializeObject(deck));
                 File.WriteAllText(Repository.GetDeckFormatFile(deck.Guid), GetDeckFormat(deckModel));
 
+                await repository.Context.Entry(repository.ServiceUser).Reference(x => x.Role).LoadAsync();
+                var generateMissing = repository.ServiceUser.Guid == PredefinedGuids.Administrator ||
+                                      repository.ServiceUser.Guid == PredefinedGuids.ServiceUser;
 
-                DeckGenerator.GenerateDeck(deck.Guid);
+                DeckGenerator.GenerateDeck(deck.Guid, generateMissing);
 
                 await repository.Context.SaveChangesAsync();
 
@@ -160,25 +163,12 @@ namespace WTacticsService.Api
 
         private string GetDeckFormat(DeckModel deckModel)
         {
-            string deck = "[DECK]" + Environment.NewLine;
+            string deck = $"# {deckModel.Name} by {deckModel.Creator.Name}" + Environment.NewLine + Environment.NewLine; 
            
-            var mainCards = deckModel.DeckCards.Where(x => x.Card.Type.Guid != PredefinedGuids.City);
-            foreach (var deckCardModel in mainCards)
+            foreach (var deckCardModel in deckModel.DeckCards)
             {
-                deck += $"{deckCardModel.Quantity}x\t{deckCardModel.Card.Name}" + Environment.NewLine;
+                deck += $"{deckCardModel.Quantity}x {deckCardModel.Card.Name}" + Environment.NewLine;
             }
-
-            //deck += Environment.NewLine + "Secondary" + Environment.NewLine;
-
-            //var cityCards = deckModel.DeckCards.Where(x => x.Card.Type.Guid == PredefinedGuids.City);
-            //foreach (var deckCardModel in cityCards)
-            //{
-            //    deck += $"{deckCardModel.Quantity}x\t{deckCardModel.Card.Name}" + Environment.NewLine;
-            //}
-            deck += Environment.NewLine;
-            deck += "[/DECK]";
-            deck += $"[URL=\"http://wtactics.westeurope.cloudapp.azure.com/#/decks/{deckModel.Guid}\"]{deckModel.Name}[/URL]";
-            deck += Environment.NewLine;
             return deck;
         }
 

@@ -25,9 +25,9 @@ namespace WTacticsLibrary.Assembler
             }
             result.SyncBase(deckModel, true, true);
 
-            result.Pdf = $"/api/Decks/{deckModel.Guid}?format=PDf&modified={result.LastModifiedTime.Value.Ticks}";
+            result.Zip = $"/api/Decks/{deckModel.Guid}?format=Zip&modified={result.LastModifiedTime.Value.Ticks}";
             result.Txt = $"/WTactics/Decks/{deckModel.Guid}/deck.txt";
-            result.IsPdfAvailable = File.Exists(Repository.GetDeckFile(deckModel.Guid));
+            result.IsAvailable = File.Exists(Repository.GetDeckFile(deckModel.Guid));
 
             return result;
         }

@@ -12,11 +12,11 @@ namespace WTacticsLibrary.Model
 
         public string Name { get; set; }
 
-        public string Pdf { get; set; }
+        public string Zip { get; set; }
 
         public string Txt { get; set; }
 
-        public bool IsPdfAvailable { get; set; }
+        public bool IsAvailable { get; set; }
 
         public bool IsEditable { get; set; }
 

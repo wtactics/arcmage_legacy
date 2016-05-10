@@ -61,7 +61,7 @@ namespace WTacticsLibrary.Model
 
         public string Jpeg { get; set; }
 
-        public string Tif { get; set; }
+        public string Pdf { get; set; }
 
         //
         
@@ -71,7 +71,7 @@ namespace WTacticsLibrary.Model
 
         public string BackJpeg { get; set; }
 
-        public string BackTif { get; set; }
+        public string BackPdf { get; set; }
 
 
         public bool IsGenerated { get; set; }

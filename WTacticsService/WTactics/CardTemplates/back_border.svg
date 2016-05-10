@@ -15,7 +15,7 @@
    inkscape:export-xdpi="234.39783"
    inkscape:export-filename="/home/snowdrop/Skrivbord/back.png"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:docname="back.svg"
+   sodipodi:docname="back_border.svg"
    version="1.0"
    inkscape:version="0.91 r13725"
    sodipodi:version="0.32"
@@ -33,11 +33,11 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.9406868"
-     inkscape:cx="142.64706"
-     inkscape:cy="313.94897"
+     inkscape:zoom="2.7445456"
+     inkscape:cx="56.612042"
+     inkscape:cy="106.16859"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer4"
+     inkscape:current-layer="layer3"
      showgrid="false"
      inkscape:window-width="2560"
      inkscape:window-height="1377"
@@ -49,7 +49,7 @@
      inkscape:window-maximized="1"
      units="mm"
      inkscape:showpageshadow="false"
-     borderlayer="true"
+     borderlayer="false"
      width="65mm"
      inkscape:snap-grids="false"
      inkscape:snap-to-guides="false"
@@ -59,7 +59,8 @@
      inkscape:snap-nodes="false"
      inkscape:snap-bbox-edge-midpoints="false"
      inkscape:bbox-nodes="false"
-     inkscape:snap-bbox-midpoints="false">
+     inkscape:snap-bbox-midpoints="false"
+     showborder="false">
     <inkscape:grid
        id="grid8916"
        type="xygrid"
@@ -1383,6 +1384,26 @@
          values="300"
          type="hueRotate" />
     </filter>
+    <linearGradient
+       xlink:href="#frameGradient"
+       id="linearGradient"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.84313348,0,0,0.83793418,-7.2792322,-7.3078569)"
+       x1="0.88076979"
+       y1="394.47134"
+       x2="0.23254675"
+       y2="0.26402891" />
+    <linearGradient
+       id="frameGradient">
+      <stop
+         id="stop6193-3"
+         offset="0"
+         style="stop-color:#504416;stop-opacity:1" />
+      <stop
+         id="stop6195-9"
+         offset="1"
+         style="stop-color:#000000;stop-opacity:1;" />
+    </linearGradient>
   </defs>
   <metadata
      id="metadata7">
@@ -1392,7 +1413,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -1402,6 +1423,23 @@
      style="display:inline"
      id="layer2"
      inkscape:groupmode="layer">
+    <g
+       inkscape:groupmode="layer"
+       id="layer5"
+       inkscape:label="Print">
+      <g
+         transform="translate(0.05821479,80.107977)"
+         style="display:inline;enable-background:new"
+         id="layer3">
+        <rect
+           y="-7.0866184"
+           x="-7.0866141"
+           height="340.15747"
+           width="244.48819"
+           id="rect4155"
+           style="display:inline;overflow:visible;visibility:visible;fill:url(#linearGradient);fill-opacity:1;fill-rule:nonzero;stroke:none" />
+      </g>
+    </g>
     <g
        style="display:inline"
        inkscape:label="Creature: Brown Overlay"

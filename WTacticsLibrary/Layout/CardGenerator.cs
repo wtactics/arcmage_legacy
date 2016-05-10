@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Xml.Linq;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using ImageMagick;
 using Newtonsoft.Json;
 using WTacticsLibrary.Model;
@@ -28,7 +30,7 @@ namespace WTacticsLibrary.Layout
             Template = card.Type.TemplateInfo;
         }
 
-        public static void CreatePngJob(Guid cardGuid)
+        public static void CreatePngJob(Guid cardGuid, string faction, string type)
         {
             var svgFile = Repository.GetSvgFile(cardGuid);
             InkscapeExporter.ExportPng(svgFile, Repository.GetPngFile(cardGuid));
@@ -40,20 +42,26 @@ namespace WTacticsLibrary.Layout
                 image.Write(Repository.GetJpegFile(cardGuid));
             }
 
-            // convert to CMYK
-            using (MagickImage image = new MagickImage(Repository.GetPngFile(cardGuid)))
-            {
-                // Add a RGB profile if your image does not contain a color profile.
-                image.AddProfile(ColorProfile.SRGB);
+            var border = Repository.GetPrintBorderFile(faction, type, "png");
+         
 
-                // Adding the second profile will transform the colorspace from RGB to CMYK
+            using (MagickImage image = new MagickImage(border))
+            {
+                
+                image.AddProfile(ColorProfile.SRGB);
                 image.AddProfile(ColorProfile.USWebCoatedSWOP);
 
-                // You're done. Save it.
-                image.Write(Repository.GetTifFile(cardGuid));
+                // Read the watermark that will be put on top of the image
+                using (MagickImage card = new MagickImage(Repository.GetPngFile(cardGuid)))
+                {
+                    card.AddProfile(ColorProfile.SRGB);
+                    card.AddProfile(ColorProfile.USWebCoatedSWOP);
+
+                    image.Composite(card, Gravity.Center, CompositeOperator.Over);
+                }
+                // Save the result
+                image.Write(Repository.GetPdfFile(cardGuid));
             }
-
-
 
             using (var repository = new Repository())
             {

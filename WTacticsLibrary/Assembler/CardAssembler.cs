@@ -44,11 +44,11 @@ namespace WTacticsLibrary.Assembler
             result.Svg = $"/api/Cards/{cardModel.Guid}?format=Svg&modified={result.LastModifiedTime.Value.Ticks}";
             result.Png = $"/api/Cards/{cardModel.Guid}?format=Png&modified={result.LastModifiedTime.Value.Ticks}";
             result.Jpeg = $"/WTactics/Cards/{cardModel.Guid}/card.jpg";
-            result.Tif = $"/api/Cards/{cardModel.Guid}?format=Tif&modified={result.LastModifiedTime.Value.Ticks}";
+            result.Pdf = $"/api/Cards/{cardModel.Guid}?format=Pdf&modified={result.LastModifiedTime.Value.Ticks}";
 
             result.BackPng = $"/api/Cards/{cardModel.Guid}?format=BackPng";
             result.BackJpeg = $"/api/Cards/{cardModel.Guid}?format=BackJpeg";
-            result.BackTif = $"/api/Cards/{cardModel.Guid}?format=BackTif";
+            result.BackPdf = $"/api/Cards/{cardModel.Guid}?format=BackPdf";
             result.BackSvg = $"/api/Cards/{cardModel.Guid}?format=BackSvg";
 
             result.OverlaySvg = $"/api/Cards/{cardModel.Guid}?format=OverlaySvg&modified={result.LastModifiedTime.Value.Ticks}";

@@ -301,7 +301,20 @@
     <Content Include="WTactics\CardTemplates\back.jpeg" />
     <Content Include="WTactics\CardTemplates\back.svg" />
     <Content Include="WTactics\CardTemplates\back.png" />
-    <Content Include="WTactics\CardTemplates\back.tif" />
+    <Content Include="WTactics\CardTemplates\back_border.svg" />
+    <Content Include="WTactics\CardTemplates\border.png" />
+    <Content Include="WTactics\CardTemplates\dark_legion\border.png" />
+    <Content Include="WTactics\CardTemplates\dark_legion\border.svg" />
+    <Content Include="WTactics\CardTemplates\gaian\border.png" />
+    <Content Include="WTactics\CardTemplates\gaian\border.svg" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\border.png" />
+    <Content Include="WTactics\CardTemplates\house_of_nobels\border.svg" />
+    <Content Include="WTactics\CardTemplates\none\border.png" />
+    <Content Include="WTactics\CardTemplates\none\border.svg" />
+    <Content Include="WTactics\CardTemplates\red_banner\border.png" />
+    <Content Include="WTactics\CardTemplates\red_banner\border.svg" />
+    <Content Include="WTactics\CardTemplates\the_empire\border.png" />
+    <Content Include="WTactics\CardTemplates\the_empire\border.svg" />
     <Content Include="WTactics\CardTemplates\the_empire\city.png" />
     <Content Include="WTactics\CardTemplates\the_empire\city.svg" />
     <Content Include="WTactics\CardTemplates\the_empire\city_overlay.svg" />
@@ -539,6 +552,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Log\Index.cshtml" />
+    <Content Include="WTactics\CardTemplates\back.pdf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WTacticsDAL\WTacticsDAL.csproj">

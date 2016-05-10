@@ -107,7 +107,7 @@ namespace WTacticsService.Api
                     cardPath = Repository.GetJpegFile(id);
 
                     break;
-                case ExportFormat.Tif:
+                case ExportFormat.Pdf:
                     using (var repository = new Repository())
                     {
                         var result = await repository.Context.Cards.FindByGuidAsync(id);
@@ -117,8 +117,8 @@ namespace WTacticsService.Api
                             return Request.CreateResponse(HttpStatusCode.NotFound);
                         }
                     }
-                    mediaType = "image/tiff";
-                    cardPath = Repository.GetTifFile(id);
+                    mediaType = "application/pdf";
+                    cardPath = Repository.GetPdfFile(id);
 
                     break;
                 case ExportFormat.OverlaySvg:
@@ -144,9 +144,9 @@ namespace WTacticsService.Api
                     mediaType = "image/jpeg";
                     cardPath = Repository.GetBackJpegFile();
                     break;
-                case ExportFormat.BackTif:
-                    mediaType = "image/tiff";
-                    cardPath = Repository.GetBackTifFile();
+                case ExportFormat.BackPdf:
+                    mediaType = "application/pdf";
+                    cardPath = Repository.GetBackPdfFile();
                     break;
                 case ExportFormat.BackSvg:
                     cardPath = Repository.GetBackSvgFile();
@@ -208,7 +208,7 @@ namespace WTacticsService.Api
                 await cardGenerator.Generate();
                 await cardGenerator.Generate(false);
 
-                cardModel.PngCreationJobId = BackgroundJob.Schedule(() => CardGenerator.CreatePngJob(card.Guid), TimeSpan.FromMinutes(1));
+                cardModel.PngCreationJobId = BackgroundJob.Schedule(() => CardGenerator.CreatePngJob(card.Guid, card.Faction.Name, card.Type.Name), TimeSpan.FromMinutes(1));
                 await repository.Context.SaveChangesAsync();
 
                 return Request.CreateResponse(card);
@@ -299,18 +299,8 @@ namespace WTacticsService.Api
                     await cardGenerator.Generate();
                     await cardGenerator.Generate(false);
 
-                    //var cardWidthPx = 1535;
-                    //var defaultDpi = 600;
+                    cardModel.PngCreationJobId = BackgroundJob.Schedule(() => CardGenerator.CreatePngJob(card.Guid, card.Faction.Name, card.Type.Name), TimeSpan.FromMinutes(1));
 
-                    // write low res png
-                    // UlraHD (4k) 3840x2160 =>200.29 dpi
-                    // fullHD 1920x1080 => 100.13 dpi
-                    //var targetDpi = 100;
-                    //var factor = (double)targetDpi/defaultDpi;
-                    //var targetWith = (int) (cardWidthPx*factor);
-
-                    cardModel.PngCreationJobId = BackgroundJob.Schedule(() => CardGenerator.CreatePngJob(card.Guid), TimeSpan.FromMinutes(1));
-                    
                 }
                 await repository.Context.SaveChangesAsync();
 

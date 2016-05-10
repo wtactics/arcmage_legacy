@@ -12,18 +12,18 @@ namespace WTacticsLibrary.Model
 
         Png,
         Jpeg,
-        Tif,
         Svg,
 
         BackPng,
         BackJpeg,
-        BackTif,
+        BackPdf,
         BackSvg,
 
         Pdf,
 
         BackgroundPng,
         OverlaySvg,
+        Zip,
 
     }
 }

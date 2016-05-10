@@ -87,6 +87,12 @@ namespace WTacticsLibrary
             return Path.Combine(GetDeckPath(deckGuid), "deck.json");
         }
 
+        public static string GetDeckZipFile(Guid deckGuid)
+        {
+            return Path.Combine(GetDeckPath(deckGuid), "deck.zip");
+        }
+        
+
         public static string GetDeckFormatFile(Guid deckGuid)
         {
             return Path.Combine(GetDeckPath(deckGuid), "deck.txt");
@@ -114,11 +120,10 @@ namespace WTacticsLibrary
             return Path.Combine(GetCardPath(cardGuid), "card.png");
         }
 
-        public static string GetTifFile(Guid cardGuid)
+        public static string GetPdfFile(Guid cardGuid)
         {
-            return Path.Combine(GetCardPath(cardGuid), "card.tif");
+            return Path.Combine(GetCardPath(cardGuid), "card.pdf");
         }
-        
 
         public static string GetJpegFile(Guid cardGuid)
         {
@@ -131,9 +136,9 @@ namespace WTacticsLibrary
         }
 
 
-        public static string GetBackTifFile()
+        public static string GetBackPdfFile()
         {
-            return Path.Combine(TemplatesPath, "back.tif");
+            return Path.Combine(TemplatesPath, "back.pdf");
         }
 
         public static string GetBackJpegFile()
@@ -165,6 +170,13 @@ namespace WTacticsLibrary
             faction = faction.Replace(' ', '_');
             cardType = cardType.Replace(' ', '_');
            return Path.Combine(TemplatesPath, $"{faction}", $"{cardType}.svg");
+        }
+
+        public static string GetPrintBorderFile(string faction, string cardType, string ext)
+        {
+            faction = faction.Replace(' ', '_');
+            cardType = cardType.Replace(' ', '_');
+            return Path.Combine(TemplatesPath, $"{faction}", $"border.{ext}");
         }
 
         public static string GetOverlayTemplateFile(string faction, string cardType)
