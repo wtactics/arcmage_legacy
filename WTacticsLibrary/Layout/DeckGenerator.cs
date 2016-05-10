@@ -16,8 +16,10 @@ namespace WTacticsLibrary.Layout
 {
     public static class DeckGenerator
     {
-        
-        public static void GenerateDeck(Guid deckGuid, bool generateMissingCards)
+
+     
+
+        public static void GenerateDeck(Guid deckGuid, bool generateMissingCards, bool singleDoc = true)
         {
             var jsonFile = Repository.GetDeckJsonFile(deckGuid);
             if (!File.Exists(jsonFile)) return;
@@ -43,27 +45,79 @@ namespace WTacticsLibrary.Layout
                             }
                         }
 
-                        var entryName = SanitizeName(deckCard.Card.Name);
-
-                        for (var i = 0; i < deckCard.Quantity; i++)
+                        if (!singleDoc)
                         {
-                            archive.CreateEntryFromFile(cardPdf, $"{entryName}_{i + 1}.pdf");
+                            var entryName = SanitizeName(deckCard.Card.Name);
+
+                            for (var i = 0; i < deckCard.Quantity; i++)
+                            {
+                                archive.CreateEntryFromFile(cardPdf, $"{entryName}_{i + 1}.pdf");
+                            }
                         }
+                       
                     }
 
                     var cardBackPdfFile = Repository.GetBackPdfFile();
-                    if (File.Exists(cardBackPdfFile))
+                    if (!singleDoc)
                     {
-                        archive.CreateEntryFromFile(cardBackPdfFile, $"back.pdf");
+                       
+                        if (File.Exists(cardBackPdfFile))
+                        {
+                            archive.CreateEntryFromFile(cardBackPdfFile, $"back.pdf");
+                        }
                     }
-
                     var deckFormatFile = Repository.GetDeckFormatFile(deckGuid);
                     if (File.Exists(deckFormatFile))
                     {
                         archive.CreateEntryFromFile(deckFormatFile, $"deck.txt");
                     }
 
+                    if (singleDoc)
+                    {
+                        var deckpdf = Repository.GetDeckFile(deck.Guid);
+                        using (FileStream stream = new FileStream(deckpdf, FileMode.Create))
+                        {
+                            using (Document pdfDoc = new Document())
+                            {
+                                pdfDoc.AddAuthor($"{deck.Creator.Name}");
+                                pdfDoc.AddCreator($"{deck.Creator.Name} - wtactics.org");
+                                pdfDoc.AddTitle($"{deck.Name} - wtactics.org");
+                                PdfCopy pdf = new PdfSmartCopy(pdfDoc, stream);
+
+                                pdfDoc.Open();
+                                foreach (var deckCard in deck.DeckCards)
+                                {
+
+                                    var cardPdf = Repository.GetPdfFile(deckCard.Card.Guid);
+                                    using (var reader = new PdfReader(cardPdf))
+                                    {
+                                        for (var i = 0; i < deckCard.Quantity; i++)
+                                        {
+                                            pdf.AddPage(pdf.GetImportedPage(reader, 1));
+                                        }
+                                    }
+
+                                }
+
+                                using (var reader = new PdfReader(cardBackPdfFile))
+                                {
+                                    pdf.AddPage(pdf.GetImportedPage(reader, 1));
+                                }
+
+
+                            }
+                            archive.CreateEntryFromFile(deckpdf, $"deck.pdf");
+
+                        }
+                    }
+
+                  
+
+
                 }
+
+
+
             }
 
         }
