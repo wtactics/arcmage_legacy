@@ -34,16 +34,38 @@
             $scope.isGenerating = false;
             $scope.deck = {};
 
-            $scope.searchClicked = function () {
+            $scope.cardSearchOptions = {
+                search: "",
+                pageSize: 30,
+                pageNumber: 1,
+                //showDraftVersions: $scope.isLogedIn,
+                showDraftVersions: true,
+                reverseOrder: false,
+                orderBy: "Name"
+            };
 
+            $scope.searchClicked = function () {
                 $scope.isLoading = true;
                 $scope.cards = [];
-             
-                services.Cards.query({ search: $scope.search}, function (response) {
+                services.CardSearch.save($scope.cardSearchOptions, function (response) {
                     $scope.cards = response.items;
+                    $scope.totalItems = response.totalItems;
+                    $scope.cardSearchOptions = response.searchOptions;
                     $scope.isLoading = false;
                 }, services.ErrorHandler);
-            };
+            }
+
+            $scope.sortOrderClicked = function (orderBy) {
+
+                if ($scope.cardSearchOptions.orderBy === orderBy) {
+                    $scope.cardSearchOptions.reverseOrder = !$scope.cardSearchOptions.reverseOrder;
+                }
+                else {
+                    $scope.cardSearchOptions.reverseOrder = false;
+                }
+                $scope.cardSearchOptions.orderBy = orderBy;
+                $scope.searchClicked();
+            }
 
             $scope.generateDeck = function () {
 
@@ -68,7 +90,7 @@
                 $scope.isLoading = true;
                 deckCard.deck = { guid: $scope.deck.guid };
                 services.DeckCards.save(deckCard , function (response) {
-                    if (index && deckCard.quantity <= 0) {
+                    if (index >= 0 && deckCard.quantity <= 0) {
                         $scope.deck.deckCards.splice(index, 1);    
                     }
                     deckCard.deck = $scope.deck;

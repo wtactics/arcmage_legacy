@@ -12,32 +12,40 @@ namespace WTacticsService.Api
     {
         public static bool PropertyExists<T>(string propertyName)
         {
-            if (string.IsNullOrEmpty(propertyName)) return false;
-            return typeof(T).GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) != null;
+            return GetPropertyType<T>(propertyName) != null;
         }
 
-        public static Expression<Func<T, string>> GetPropertyExpression<T>(string propertyName)
+        public static Type GetPropertyType<T>(string propertyName)
         {
-            if (typeof(T).GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) == null)
+            if (string.IsNullOrEmpty(propertyName)) return null;
+            var subproperties = propertyName.Split('.');
+            var type = typeof (T);
+            foreach (var subproperty in subproperties)
             {
-                return null;
+                var propertyType = type.GetProperty(subproperty,
+                    BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                if (propertyType == null) return null;
+                type = propertyType.PropertyType;
             }
-
-            var paramterExpression = Expression.Parameter(typeof(T));
-
-            return (Expression<Func<T, string>>)Expression.Lambda(Expression.PropertyOrField(paramterExpression, propertyName), paramterExpression);
+            return type;
         }
 
-        public static Expression<Func<T, int>> GetPropertyExpressionInt<T>(string propertyName)
+
+        public static Expression<Func<T, RT>> GetPropertyExpression<T, RT>(string propertyName)
         {
-            if (typeof(T).GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) == null)
+            if (string.IsNullOrEmpty(propertyName)) return null;
+
+            var paramterExpression = Expression.Parameter(typeof (T), "x");
+            Expression body = paramterExpression;
+
+            var subproperties = propertyName.Split('.');
+            foreach (var subproperty in subproperties)
             {
-                return null;
+                body = Expression.PropertyOrField(body, subproperty);
+
             }
-
-            var paramterExpression = Expression.Parameter(typeof(T));
-
-            return (Expression<Func<T, int>>)Expression.Lambda(Expression.PropertyOrField(paramterExpression, propertyName), paramterExpression);
+            return (Expression<Func<T, RT>>) Expression.Lambda(body, paramterExpression);
         }
     }
+
 }

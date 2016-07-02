@@ -30,9 +30,9 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>Name</th>
-            <th>Creator</th>
-            <th>Last modified</th>
+            <th><a href="" ng-click="sortOrderClicked('Name')">Name<span ng-show="deckSearchOptions.orderBy === 'Name'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : deckSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !deckSearchOptions.reverseOrder}"></span></span></a></th>
+            <th><a href="" ng-click="sortOrderClicked('Creator.Name')">Creator<span ng-show="deckSearchOptions.orderBy === 'Creator.Name'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : deckSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !deckSearchOptions.reverseOrder}"></span></span></a></th>
+            <th><a href="" ng-click="sortOrderClicked('LastModifiedTime')">Last edit<span ng-show="deckSearchOptions.orderBy === 'LastModifiedTime'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : deckSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !deckSearchOptions.reverseOrder}"></span></span></a></th>
         </tr>
         </thead>
         <tbody>

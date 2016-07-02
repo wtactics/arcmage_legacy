@@ -2,12 +2,13 @@
 <td><a ui-sref="carddetail({ cardGuid: card.guid })">{{card.name}}</a></td>
 <td>{{card.type.name}}</td>
 <td>{{card.faction.name}}</td>
-<td>{{card.cost}}</td>
-<td>{{card.attack}}</td>
-<td>{{card.defense}}</td>
+<td style="text-align:center">{{card.cost}}</td>
+<td style="text-align:center">{{card.loyalty}}</td>
+<td style="text-align: center">{{card.attack}}</td>
+<td style="text-align:center">{{card.defense}}</td>
 <td>{{card.serie.name}}</td>
-<td>{{card.creator.name}}</td>
+<td>{{card.artist}}</td>
 <td>{{card.lastModifiedBy.name}}</td>
-<td>{{card.lastModifiedTime}}</td>
+<td>{{card.lastModifiedTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
 <td>{{card.status.name}}</td>
 

@@ -55,7 +55,10 @@
                 search : "",
                 pageSize : 30,
                 pageNumber: 1,
-                showDraftVersions: $scope.isLogedIn
+                //showDraftVersions: $scope.isLogedIn,
+                showDraftVersions: true,
+                reverseOrder: false,
+                orderBy: "Name"
             };
 
             $scope.searchClicked = function () {
@@ -67,6 +70,19 @@
                     $scope.cardSearchOptions = response.searchOptions;
                     $scope.isLoading = false;
                 }, services.ErrorHandler);
+            }
+
+            $scope.sortOrderClicked = function (orderBy) {
+
+                if ($scope.cardSearchOptions.orderBy === orderBy) {
+                    $scope.cardSearchOptions.reverseOrder = !$scope.cardSearchOptions.reverseOrder;
+                }
+                else
+                {
+                    $scope.cardSearchOptions.reverseOrder = false;
+                }
+                $scope.cardSearchOptions.orderBy = orderBy;
+                $scope.searchClicked();
             }
 
            

@@ -8,10 +8,10 @@
                 </div>
             </div>
         </form>
-        <div>
+        <!--<div>
             <input type="checkbox" id="card_showdraftversions" ng-change="searchClicked()" ng-model="cardSearchOptions.showDraftVersions"/>
             <label for="card_showdraftversions">Show Draft Versions</label>
-        </div>
+        </div>-->
 
         <button ng-click="addClicked()" ng-show="isLogedIn" class="btn btn-default btn-lg  pull-right">Create Your Own Card!</button>
 
@@ -34,20 +34,21 @@
     <uib-pagination class="pull-right pagination-sm" total-items="totalItems" ng-model="cardSearchOptions.pageNumber" ng-disabled="isLoading" boundary-link-numbers="true" items-per-page="cardSearchOptions.pageSize" ng-change="searchClicked()"></uib-pagination>
     <table class="table table-striped">
         <thead>
-        <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Faction</th>
-            <th>C</th>
-            <th>A</th>
-            <th>D</th>
-            <th>Serie</th>
-            <th>Creator</th>
-            <th>Modified by</th>
-            <th></th>
-            <th>State</th>
-        </tr>
+            <tr>
+                <th></th>
+                <th><a href="" ng-click="sortOrderClicked('Name')">Name<span ng-show="cardSearchOptions.orderBy === 'Name'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+                <th><a href="" ng-click="sortOrderClicked('Type.Name')">Type<span ng-show="cardSearchOptions.orderBy === 'Type.Name'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+                <th><a href="" ng-click="sortOrderClicked('Faction.Name')">Faction<span ng-show="cardSearchOptions.orderBy === 'Faction.Name'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+                <th><a href="" ng-click="sortOrderClicked('Cost')" style="text-align:center">C<span ng-show="cardSearchOptions.orderBy === 'Cost'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+                <th><a href="" ng-click="sortOrderClicked('Loyalty')" style="text-align:center">L<span ng-show="cardSearchOptions.orderBy === 'Loyalty'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+                <th><a href="" ng-click="sortOrderClicked('Attack')" style="text-align: center">A<span ng-show="cardSearchOptions.orderBy === 'Attack'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+                <th><a href="" ng-click="sortOrderClicked('Defense')" style="text-align:center">D<span ng-show="cardSearchOptions.orderBy === 'Defense'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+                <th><a href="" ng-click="sortOrderClicked('Serie.Name')">Serie<span ng-show="cardSearchOptions.orderBy === 'Serie.Name'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+                <th><a href="" ng-click="sortOrderClicked('Artist')">Artist<span ng-show="cardSearchOptions.orderBy === 'Artist'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+                <th><a href="" ng-click="sortOrderClicked('Creator.Name')">Creator<span ng-show="cardSearchOptions.orderBy === 'Creator.Name'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+                <th><a href="" ng-click="sortOrderClicked('LastModifiedTime')">Last edit<span ng-show="cardSearchOptions.orderBy === 'LastModifiedTime'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+                <th><a href="" ng-click="sortOrderClicked('Status.Name')">State<span ng-show="cardSearchOptions.orderBy === 'Status.Name'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+            </tr>
         </thead>
         <tbody>
         <tr ng-repeat="card in cards" card-list-item></tr>

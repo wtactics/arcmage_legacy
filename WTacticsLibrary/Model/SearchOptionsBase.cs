@@ -15,6 +15,8 @@ namespace WTacticsLibrary.Model
         public int PageNumber { get; set; }
 
         public string OrderBy { get; set; }
+
+        public bool ReverseOrder { get; set; }
         
     }
 }

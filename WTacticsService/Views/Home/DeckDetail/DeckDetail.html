@@ -2,7 +2,7 @@
     <div class="col-md-6">
         <form role="search">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search Cards" ng-model="search">
+                <input type="text" class="form-control" placeholder="Search Cards" ng-model="cardSearchOptions.search">
                 <div class="input-group-btn">
                     <button class="btn btn-default" type="submit" ng-click="searchClicked()"><i class="glyphicon glyphicon-search"></i></button>
                 </div>
@@ -52,16 +52,40 @@
 
 <div class="row">
     <div class="col-md-6">
+        <uib-pagination class="pull-right pagination-sm" total-items="totalItems" ng-model="cardSearchOptions.pageNumber" ng-disabled="isLoading" boundary-link-numbers="true" items-per-page="cardSearchOptions.pageSize" ng-change="searchClicked()"></uib-pagination>
         <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th><a href="" ng-click="sortOrderClicked('Name')">Name<span ng-show="cardSearchOptions.orderBy === 'Name'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+                    <th><a href="" ng-click="sortOrderClicked('Type.Name')">Type<span ng-show="cardSearchOptions.orderBy === 'Type.Name'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+                    <th><a href="" ng-click="sortOrderClicked('Faction.Name')">Faction<span ng-show="cardSearchOptions.orderBy === 'Faction.Name'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+                    <th><a href="" ng-click="sortOrderClicked('Cost')" style="text-align:center">C<span ng-show="cardSearchOptions.orderBy === 'Cost'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+                    <th><a href="" ng-click="sortOrderClicked('Loyalty')" style="text-align:center">L<span ng-show="cardSearchOptions.orderBy === 'Loyalty'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+                    <th><a href="" ng-click="sortOrderClicked('Attack')" style="text-align: center">A<span ng-show="cardSearchOptions.orderBy === 'Attack'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+                    <th><a href="" ng-click="sortOrderClicked('Defense')" style="text-align: center">D<span ng-show="cardSearchOptions.orderBy === 'Defense'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : cardSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !cardSearchOptions.reverseOrder}"></span></span></a></th>
+                    <th></th>
+                </tr>
+            </thead>
             <tbody>
                 <tr ng-repeat="card in cards" deck-card-search-list-item></tr>
             </tbody>
         </table>
     </div>
     <div class="col-md-6">
+        <uib-pagination class="pull-right pagination-sm" total-items="deck.deckCards.length" ng-model="cardSearchOptions.pageNumber" ng-disabled="isLoading" boundary-link-numbers="true" items-per-page="200" ></uib-pagination>
         <table class="table table-striped">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Amount</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
             <tbody>
-                <tr ng-repeat="deckcard in deck.deckCards" deck-card-list-item></tr>
+            <tr ng-repeat="deckcard in deck.deckCards" deck-card-list-item></tr>
             </tbody>
         </table>
     </div>

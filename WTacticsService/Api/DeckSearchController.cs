@@ -32,14 +32,30 @@ namespace WTacticsService.Api
                 }
                 var totalCount = dbResult.Count();
 
-                if (QueryHelper.PropertyExists<DeckModel>(searchOptionsBase.OrderBy))
+                // default order by
+                if (string.IsNullOrWhiteSpace(searchOptionsBase.OrderBy))
                 {
-                    var orderByExpression = QueryHelper.GetPropertyExpression<DeckModel>(searchOptionsBase.OrderBy);
-                    dbResult = dbResult.OrderBy(orderByExpression);
+                    searchOptionsBase.OrderBy = "Name";
                 }
-                else
+
+                var orderByType = QueryHelper.GetPropertyType<DeckModel>(searchOptionsBase.OrderBy);
+                if (orderByType != null)
                 {
-                    dbResult = dbResult.OrderByDescending(it => it.LastModifiedTime);
+                    if (orderByType == typeof(string))
+                    {
+                        var orderByExpression = QueryHelper.GetPropertyExpression<DeckModel, string>(searchOptionsBase.OrderBy);
+                        dbResult = searchOptionsBase.ReverseOrder ? dbResult.OrderByDescending(orderByExpression) : dbResult.OrderBy(orderByExpression);
+                    }
+                    if (orderByType == typeof(int))
+                    {
+                        var orderByExpression = QueryHelper.GetPropertyExpression<DeckModel, int>(searchOptionsBase.OrderBy);
+                        dbResult = searchOptionsBase.ReverseOrder ? dbResult.OrderByDescending(orderByExpression) : dbResult.OrderBy(orderByExpression);
+                    }
+                    if (orderByType == typeof(DateTime))
+                    {
+                        var orderByExpression = QueryHelper.GetPropertyExpression<DeckModel, DateTime>(searchOptionsBase.OrderBy);
+                        dbResult = searchOptionsBase.ReverseOrder ? dbResult.OrderByDescending(orderByExpression) : dbResult.OrderBy(orderByExpression);
+                    }
                 }
 
 

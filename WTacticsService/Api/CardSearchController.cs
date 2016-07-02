@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -31,29 +32,40 @@ namespace WTacticsService.Api
                     dbResult = dbResult.Where(x => x.Status.Guid == PredefinedGuids.Final);
                 }
 
-                
-
                 if (!string.IsNullOrWhiteSpace(searchOptionsBase.Search))
                 {
                     dbResult = dbResult.Where(it => it.Name.Contains(searchOptionsBase.Search) || it.Creator.Name.Contains(searchOptionsBase.Search));
                 }
                 var totalCount = dbResult.Count();
 
-                if (QueryHelper.PropertyExists<CardModel>(searchOptionsBase.OrderBy))
+                // default order by
+                if (string.IsNullOrWhiteSpace(searchOptionsBase.OrderBy))
                 {
-                    var orderByExpression = QueryHelper.GetPropertyExpression<CardModel>(searchOptionsBase.OrderBy);
-                    dbResult = dbResult.OrderBy(orderByExpression);
-                }
-                else
-                {
-                    dbResult = dbResult.OrderByDescending(it => it.LastModifiedTime);
+                    searchOptionsBase.OrderBy = "Name";
                 }
 
+                var orderByType = QueryHelper.GetPropertyType<CardModel>(searchOptionsBase.OrderBy);
+                if (orderByType != null)
+                {
+                    if (orderByType == typeof (string))
+                    {
+                        var orderByExpression = QueryHelper.GetPropertyExpression<CardModel, string>(searchOptionsBase.OrderBy);
+                        dbResult = searchOptionsBase.ReverseOrder ? dbResult.OrderByDescending(orderByExpression) : dbResult.OrderBy(orderByExpression);
+                    }
+                    if (orderByType == typeof(int))
+                    {
+                        var orderByExpression = QueryHelper.GetPropertyExpression<CardModel, int>(searchOptionsBase.OrderBy);
+                        dbResult = searchOptionsBase.ReverseOrder ? dbResult.OrderByDescending(orderByExpression) : dbResult.OrderBy(orderByExpression);
+                    }
+                    if (orderByType == typeof(DateTime))
+                    {
+                        var orderByExpression = QueryHelper.GetPropertyExpression<CardModel, DateTime>(searchOptionsBase.OrderBy);
+                        dbResult = searchOptionsBase.ReverseOrder ? dbResult.OrderByDescending(orderByExpression) : dbResult.OrderBy(orderByExpression);
+                    }
+                }
 
                 searchOptionsBase.PageSize = Math.Min(50, searchOptionsBase.PageSize);
-
                 var query = await dbResult.Skip((searchOptionsBase.PageNumber - 1) * searchOptionsBase.PageSize).Take(searchOptionsBase.PageSize).ToListAsync();
-
                 var result = new ResultList<Card>(query.Select(x => x.FromDal()).ToList()) { TotalItems = totalCount, SearchOptions = searchOptionsBase };
                 return Request.CreateResponse(result);
             }

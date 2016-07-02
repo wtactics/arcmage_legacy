@@ -21,7 +21,7 @@ namespace WTacticsLibrary.Assembler
             };
             if (includeCards)
             {
-                deckModel.DeckCards.ForEach(x => result.DeckCards.Add(x.FromDal()));
+                deckModel.DeckCards.OrderBy(x=>x.Card.Name).ToList().ForEach(x => result.DeckCards.Add(x.FromDal()));
             }
             result.SyncBase(deckModel, true, true);
 

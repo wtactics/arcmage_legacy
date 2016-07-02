@@ -53,8 +53,10 @@
 
             $scope.deckSearchOptions = {
                 search : "",
-                pageSize : 30,
-                pageNumber : 1,
+                pageSize : 50,
+                pageNumber: 1,
+                reverseOrder: false,
+                orderBy: "Name"
             };
 
             $scope.searchClicked = function () {
@@ -66,6 +68,18 @@
                     $scope.deckSearchOptions = response.searchOptions;
                     $scope.isLoading = false;
                 }, services.ErrorHandler);
+            }
+
+            $scope.sortOrderClicked = function (orderBy) {
+
+                if ($scope.deckSearchOptions.orderBy === orderBy) {
+                    $scope.deckSearchOptions.reverseOrder = !$scope.deckSearchOptions.reverseOrder;
+                }
+                else {
+                    $scope.deckSearchOptions.reverseOrder = false;
+                }
+                $scope.deckSearchOptions.orderBy = orderBy;
+                $scope.searchClicked();
             }
 
            
