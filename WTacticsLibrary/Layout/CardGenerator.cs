@@ -34,20 +34,24 @@ namespace WTacticsLibrary.Layout
         {
             var svgFile = Repository.GetSvgFile(cardGuid);
             InkscapeExporter.ExportPng(svgFile, Repository.GetPngFile(cardGuid));
-          
+
+            //var printSvgFile = Repository.GetPrintSvgFile(cardGuid);
+            //InkscapeExporter.ExportPdf(printSvgFile, Repository.GetRGBPdfFile(cardGuid));
+           // GhostScriptConvertor.ConvertToCMYKPdf(Repository.GetRGBPdfFile(cardGuid), Repository.GetPdfFile(cardGuid));
+
             using (MagickImage image = new MagickImage(Repository.GetPngFile(cardGuid)))
             {
-                image.Scale(320,454);
+                image.Scale(320, 454);
                 // You're done. Save it.
                 image.Write(Repository.GetJpegFile(cardGuid));
             }
 
             var border = Repository.GetPrintBorderFile(faction, type, "png");
-         
+
 
             using (MagickImage image = new MagickImage(border))
             {
-                
+
                 image.AddProfile(ColorProfile.SRGB);
                 image.AddProfile(ColorProfile.USWebCoatedSWOP);
 
@@ -119,8 +123,25 @@ namespace WTacticsLibrary.Layout
                 string cardString = JsonConvert.SerializeObject(Card, Formatting.Indented);
                 File.WriteAllText(Repository.GetJsonFile(Card.Guid), cardString);
 
+                if (!overlay)
+                {
+                    var merge = XDocument.Parse("<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" height=\"340.15747\" width=\"244.48819\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"></svg>");
+                    var border = XDocument.Load(Repository.GetPrintBorderFile(Card.Faction.Name, Card.Type.Name, "svg"));
+                    border.Root.SetAttributeValue("height", "340.15747");
+                    border.Root.SetAttributeValue("width", "244.48819");
+                    border.Root.SetAttributeValue("y", "0");
+                    border.Root.SetAttributeValue("x", "0");
 
-
+                    
+                    svg.Root.SetAttributeValue("height", "325.98425");
+                    svg.Root.SetAttributeValue("width", "230.31496");
+                    svg.Root.SetAttributeValue("y", "7.0866184");
+                    svg.Root.SetAttributeValue("x", "7.0866184");
+                    merge.Root.Add(svg.Root);
+                    merge.Root.Add(border.Root);
+                    
+                    File.WriteAllText(Repository.GetPrintSvgFile(Card.Guid), merge.ToString());
+                }
               
             });
             

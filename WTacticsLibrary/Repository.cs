@@ -110,6 +110,11 @@ namespace WTacticsLibrary
             return Path.Combine(GetCardPath(cardGuid), "card_overlay.svg");
         }
 
+        public static string GetPrintSvgFile(Guid cardGuid)
+        {
+            return Path.Combine(GetCardPath(cardGuid), "card_print.svg");
+        }
+
         public static string GetJsonFile(Guid cardGuid)
         {
             return Path.Combine(GetCardPath(cardGuid), "card.json");
@@ -123,6 +128,11 @@ namespace WTacticsLibrary
         public static string GetPdfFile(Guid cardGuid)
         {
             return Path.Combine(GetCardPath(cardGuid), "card.pdf");
+        }
+
+        public static string GetRGBPdfFile(Guid cardGuid)
+        {
+            return Path.Combine(GetCardPath(cardGuid), "card-rgb.pdf");
         }
 
         public static string GetJpegFile(Guid cardGuid)

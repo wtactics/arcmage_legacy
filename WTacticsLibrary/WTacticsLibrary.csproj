@@ -94,6 +94,7 @@
     <Compile Include="GuidUtility.cs" />
     <Compile Include="Layout\DeckGenerator.cs" />
     <Compile Include="Layout\ImpersonateUserProcess.cs" />
+    <Compile Include="Layout\GhostScriptConvertor.cs" />
     <Compile Include="Layout\RsvgExporter.cs" />
     <Compile Include="Layout\InkscapeExporter.cs" />
     <Compile Include="Layout\MeausureFont.cs" />

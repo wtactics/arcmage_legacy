@@ -41,7 +41,7 @@ namespace WTacticsLibrary.Layout
 
     
 
-        public static void ExportPdfFromInkscape(string inputfile, string outputfile, int dpi = 600)
+        public static void ExportPdf(string inputfile, string outputfile, int dpi = 600)
         {
             try
             {
