@@ -60,7 +60,7 @@ namespace WTacticsLibrary
 
         public static Guid RedBanner = GuidUtility.Create(Faction, "RedBanner");
 
-        public static Guid HouseOfNobels = GuidUtility.Create(Faction, "HouseOfNobels");
+        public static Guid HouseOfNobles = GuidUtility.Create(Faction, "HouseOfNobles");
 
         public static Guid Empire = GuidUtility.Create(Faction, "Empire");
 

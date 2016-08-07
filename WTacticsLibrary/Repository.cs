@@ -662,7 +662,7 @@ namespace WTacticsLibrary
             CreateFaction("Gaian", PredefinedGuids.Gaian);
             CreateFaction("Dark Legion", PredefinedGuids.DarkLegion);
             CreateFaction("Red Banner", PredefinedGuids.RedBanner);
-            CreateFaction("House of Nobels", PredefinedGuids.HouseOfNobels);
+            CreateFaction("House of Nobles", PredefinedGuids.HouseOfNobles);
             CreateFaction("The Empire", PredefinedGuids.Empire);
         }
 
