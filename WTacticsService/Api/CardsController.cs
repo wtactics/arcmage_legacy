@@ -209,6 +209,7 @@ namespace WTacticsService.Api
                 await cardGenerator.Generate(false);
 
                 cardModel.PngCreationJobId = BackgroundJob.Schedule(() => CardGenerator.CreatePngJob(card.Guid, card.Faction.Name, card.Type.Name), TimeSpan.FromMinutes(1));
+              
                 await repository.Context.SaveChangesAsync();
 
                 return Request.CreateResponse(card);
@@ -300,6 +301,7 @@ namespace WTacticsService.Api
                     await cardGenerator.Generate(false);
 
                     cardModel.PngCreationJobId = BackgroundJob.Schedule(() => CardGenerator.CreatePngJob(card.Guid, card.Faction.Name, card.Type.Name), TimeSpan.FromMinutes(1));
+                    //CardGenerator.CreatePngJob(card.Guid, card.Faction.Name, card.Type.Name);
 
                 }
                 await repository.Context.SaveChangesAsync();

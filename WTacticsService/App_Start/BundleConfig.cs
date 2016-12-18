@@ -25,6 +25,8 @@ namespace WTacticsService
                     "~/Scripts/angular-sanitize.js",
                     "~/Scripts/angular-ui-router.js",
                     "~/Scripts/angular-md5.js",
+                    "~/Scripts/slick/slick.js",
+                    "~/Scripts/angular-slick.js",
                     "~/Scripts/angular-strap.js",
                     "~/Scripts/angular-strap.tpl.js",
                     "~/Scripts/jquery-{version}.js",
@@ -42,13 +44,17 @@ namespace WTacticsService
                    "~/Views/Home/CardDetail/CardDetail.js",
                    "~/Views/Home/Decks/Decks.js",
                    "~/Views/Home/DeckDetail/DeckDetail.js",
+                   "~/Views/Home/Games/Games.js",
                    "~/Views/Home/SignUp/SignUp.js",
                    "~/Views/Home/Index.js"
            ));
 
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
+                      "~/Scripts/slick/slick.css",
+                      "~/Scripts/slick/slick-theme.css",
                       "~/Content/bootstrap.css",
+                      "~/Content/theme.css",
                       "~/Content/site.css"));
 
             bundles.Add(new AngularTemplateBundle("wtacticsApp", "~/bundles/angularTemplates")

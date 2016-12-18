@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WTacticsService.Api
+namespace WTacticsLibrary
 {
     public static class QueryHelper
     {

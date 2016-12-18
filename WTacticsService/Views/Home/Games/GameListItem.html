@@ -1,0 +1,19 @@
+﻿<td>{{game.name}}</td>
+<td>{{game.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+<td>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle carddropdown"
+                id="{{ 'deckselection_' + $index }}"
+                type="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="true">{{selecteddeck.name}} <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu carddropdown" aria-labelledby="{{ 'deckselection_' + $index }}">
+            <li ng-repeat="deck in decks"><a ng-click="selectDeck(deck)">{{deck.name}}</a></li>
+        </ul>
+    </div>
+</td>
+<td><button ng-show="selecteddeck.guid && game.canJoin" class="btn btn-default" type="submit" ng-click="joinGame(game)">Join <span class="glyphicon glyphicon-circle-arrow-right"></span></button>
+    <span ng-show="selecteddeck.guid && !game.canJoin">Full</span></td>
+

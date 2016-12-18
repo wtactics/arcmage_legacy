@@ -30,6 +30,13 @@ namespace WTacticsLibrary.Layout
             {
                 using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
                 {
+                    var licfiles = Directory.GetFiles(Repository.LicPath);
+                    foreach(var licfile in licfiles)
+                    {
+                        var licName = Path.GetFileName(licfile);
+                        archive.CreateEntryFromFile(licfile, licName);
+                    }
+
                     foreach (var deckCard in deck.DeckCards)
                     {
                         var cardPdf = Repository.GetPdfFile(deckCard.Card.Guid);
@@ -58,6 +65,14 @@ namespace WTacticsLibrary.Layout
                     }
 
                     var cardBackPdfFile = Repository.GetBackPdfFile();
+                    if (!File.Exists(cardBackPdfFile))
+                    {
+                        if (generateMissingCards)
+                        {
+                            CardGenerator.CreateBackPdfJob();
+                        }
+                    }
+
                     if (!singleDoc)
                     {
                        

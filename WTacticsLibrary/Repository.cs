@@ -20,6 +20,7 @@ namespace WTacticsLibrary
 
         public static string DecksPath;
 
+        public static string LicPath;
 
         static Repository()
         {
@@ -29,6 +30,7 @@ namespace WTacticsLibrary
                 TemplatesPath = Path.Combine(RepostioryPath, "CardTemplates");
                 CardsPath = Path.Combine(RepostioryPath, "Cards");
                 DecksPath = Path.Combine(RepostioryPath, "Decks");
+                LicPath = Path.Combine(RepostioryPath, "Lic");
             }
             catch (Exception e)
             {
@@ -38,7 +40,7 @@ namespace WTacticsLibrary
 
      
      
-        public string JoinUsText = "wtactics.org - join us!";
+        public string JoinUsText = "arcmage.org - join us!";
 
         public static void InitPaths()
         {
@@ -54,6 +56,10 @@ namespace WTacticsLibrary
             if (!Directory.Exists(CardsPath))
             {
                 Directory.CreateDirectory(CardsPath);
+            }
+            if (!Directory.Exists(LicPath))
+            {
+                Directory.CreateDirectory(LicPath);
             }
         }
 
@@ -166,6 +172,11 @@ namespace WTacticsLibrary
             return Path.Combine(TemplatesPath, "back.png");
         }
 
+        public static string GetBackBorderPngFile()
+        {
+            return Path.Combine(TemplatesPath, "border.png");
+        }
+
 
 
         public static string GetBackgroundPngFile(string faction, string cardType)
@@ -240,7 +251,7 @@ namespace WTacticsLibrary
             }
             else
             {
-              //  FillPredefinedRuleSets();
+               // CreateStatus("Release Candidate", PredefinedGuids.ReleaseCandidate);
             }
         }
 
@@ -633,26 +644,13 @@ namespace WTacticsLibrary
             templateInfo.MaxTextBoxWidth = 190;
             templateInfo.MaxTextBoxHeight = 105;
             CreateCardType("City", PredefinedGuids.City, templateInfo);
-
-            templateInfo = CreateTemplateInfoModel();
-            templateInfo.ShowName = true;
-            templateInfo.ShowType = true;
-            templateInfo.ShowFaction = true;
-            templateInfo.ShowAttack = false;
-            templateInfo.ShowDefense = false;
-            templateInfo.ShowText = true;
-            templateInfo.ShowGoldCost = true;
-            templateInfo.ShowLoyalty = true;
-            templateInfo.ShowArt = true;
-            templateInfo.ShowInfo = true;
-            templateInfo.MaxTextBoxWidth = 190;
-            templateInfo.MaxTextBoxHeight = 105;
-            CreateCardType("Player", PredefinedGuids.Player, templateInfo);
+           
         }
 
         private void FillPredefinedStatuses()
         {
             CreateStatus("Draft", PredefinedGuids.Draft);
+            CreateStatus("Release Candidate", PredefinedGuids.ReleaseCandidate);
             CreateStatus("Final", PredefinedGuids.Final);
         }
 

@@ -1,0 +1,530 @@
+﻿<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>WTactics Game</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="HandheldFriendly" content="true" />
+
+    <link rel="stylesheet" type="text/css" href="vue-modal/modal.css">
+    <link rel="stylesheet" type="text/css" href="roundslider/roundslider.min.css" />
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body id="wtacticsgame" translate="no">
+    <!--the entire content -->
+    <div id="content">
+
+        <!-- Region: BattleField -->
+        <!-- the battleField contains (on this element and it children, the perspective is applied) -->
+        <div id="battleField">
+            <!-- the battleField backgrounds -->
+            <div id="opponentField"></div>
+            <div id="playerField"></div>
+
+            <!-- Region : Opponent -->
+            <!-- Action bar for the opponent hand. It is a drop target to move cards to the opponents hand -->
+            <div id="opponentHand">
+                <!-- Take a card from the opponent's hand and put it in the player's hand -->
+                <!-- N.G. Remark: probably not needed as an action -->
+                <div class="action draw_action" @click="moveCardFrom('drawCard', opponent.playerGuid, 'hand', opponent.playerGuid, 'hand', false)"></div>
+                <!-- Take a card from the opponent's hand and put it in his graveyard -->
+                <!-- N.G. Remark: probably not needed as an action, or it should do it randomly -->
+                <div class="action graveyard_action" @click="moveCardFrom('discardCard', opponent.playerGuid, 'hand', opponent.playerGuid, 'graveyard', false)"></div>
+                <!-- Take a card from the opponent's hand and put it on top of his deck, face down -->
+                <!-- N.G. Remark: probably not needed as an action -->
+                <div class="action deck_action" @click="moveCardFrom('deckCard', opponent.playerGuid, 'hand', opponent.playerGuid, 'deck', true)"></div>
+                <!-- Take a card from the opponent hand and put it in play as one of his cards -->
+                <!-- N.G. Remark: probably not needed as an action -->
+                <div class="action play_action" @click="moveCardFrom('playCard', opponent.playerGuid, 'hand', opponent.playerGuid, 'play', false)"></div>
+                <!-- Shuffle the opponent's hand -->
+                <!-- N.G. Remark: probably not needed as an action -->
+                <div class="action shuffle_action" @click="shuffleCards(opponent.playerGuid, 'hand')"></div>
+                <!-- Look at the opponent's hand in detail (reorder, select a card, discard a card, ...) -->
+                <div class="action view_action" @click="showCardList(opponent.playerGuid, 'hand')"></div>
+                <!-- Show how many cards there are in the opponent's hand -->
+                <div class="action count_action">{{opponent.hand.length}}</div>
+            </div>
+
+            <!-- Action bar for the opponent's graveyard. -->
+            <div id="opponentGraveyardActions">
+                <!-- Take a card from the opponent's graveyard and put it in the player's hand -->
+                <div class="action draw_action" @click="moveCardFrom('drawCard', opponent.playerGuid, 'graveyard', player.playerGuid, 'hand', false)"></div>
+                <!-- Take a card from the opponent's graveyard and put it on top of his deck, face down -->
+                <div class="action deck_action" @click="moveCardFrom('deckCard', opponent.playerGuid, 'graveyard', opponent.playerGuid, 'deck', true)"></div>
+                <!-- Take a card from the opponent's graveyard and put it in to play as one of his cards -->
+                <div class="action play_action" @click="moveCardFrom('playCard', opponent.playerGuid, 'graveyard', opponent.playerGuid, 'play', false)"></div>
+                <!-- Shuffle the opponent's graveyard -->
+                <div class="action shuffle_action" @click="shuffleCards(opponent.playerGuid, 'graveyard')"></div>
+                <!-- Look at the opponent's graveyard in detail (reorder, select a card, discard a card, ...) -->
+                <div class="action view_action" @click="showCardList(opponent.playerGuid, 'graveyard')"></div>
+                <!-- Show how many cards there are in the opponent's graveyard -->
+                <div class="action count_action">{{opponent.graveyard.length}}</div>
+            </div>
+            <!-- The opponent graveyard. It is a drop target to move cards to the opponent's graveyard -->
+            <div id="opponentGraveyard">
+                <!-- Template for a card in the graveyard. The cards have a litle offset so they appear to be stacked -->
+                <template v-for="(index, card) in opponent.graveyard">
+                    <img class="card"
+                         v-bind:src="card.isFaceDown? 'back.png' : card.imageSrc"
+                         id="opponent-graveyard-{{card.cardId}}"
+                         :style="{ top: -0.5*index + 'px', left: 0.4*index + 'px' }"
+                         v-on:mouseover="this.$parent.showPreview(card)"
+                         v-on:mouseout="this.$parent.hidePreview(card)" />
+                </template>
+            </div>
+
+            <!-- Action bar for the opponent's deck. -->
+            <div id="opponentDeckActions">
+                <!-- Take a card from the opponent's deck and put it in the player's hand -->
+                <div class="action draw_action" @click="moveCardFrom('drawCard', opponent.playerGuid, 'deck', player.playerGuid, 'hand', false)"></div>
+                <!-- Take a card from the opponent's deck and put it in his graveyard -->
+                <div class="action graveyard_action" @click="moveCardFrom('discardCard', opponent.playerGuid, 'deck', opponent.playerGuid, 'graveyard', false)"></div>
+                <!-- Take a card from the opponent's deck and put it in to play as one of his cards -->
+                <div class="action play_action" @click="moveCardFrom('playCard', opponent.playerGuid, 'deck', opponent.playerGuid, 'play', false)"></div>
+                <!-- Shuffle the opponent's graveyard -->
+                <div class="action shuffle_action" @click="shuffleCards(opponent.playerGuid, 'deck')"></div>
+                <!-- Look at the opponent's deck in detail (reorder, select a card, discard a card, ...) -->
+                <div class="action view_action" @click="showCardList(opponent.playerGuid, 'deck')"></div>
+                <!-- Show how many cards there are in the opponent's deck -->
+                <div class="action count_action">{{opponent.deck.length}}</div>
+            </div>
+            <!-- The opponent's deck. It is a drop target to move cards to the opponent's deck -->
+            <div id="opponentDeck">
+                <!-- Template for a card in the graveyard. The cards have a litle offset so they appear to be stacked -->
+                <template v-for="(index, card) in opponent.deck">
+                    <img class="card" v-bind:src="card.isFaceDown? 'back.png' : card.imageSrc"
+                         id="opponent-deck-{{card.cardId}}"
+                         :style="{ top: -0.5*index + 'px', left: 0.4*index + 'px' }"
+                         v-on:mouseover="this.$parent.showPreview(card)"
+                         v-on:mouseout="this.$parent.hidePreview(card)" />
+                </template>
+            </div>
+
+            <!--
+                The opponent's resources bar. There are resource counters in black, yellow, green, blue and red.
+                Each resource has an 'available' and a 'used' counter. The available resources are within the [0,99] interval.
+                The used resources are limited by the available counter.
+
+                Each counter can be increased and decreased by clickin on the top/bottom of the number. The mouse wheel works as well.
+            -->
+            <div id="opponentResources">
+                <div class="resource blackResources">
+                    <div class="usedResources" v-on:wheel="usedResourceWheel($event, opponent.playerGuid, opponent.resources.black)">
+                        <div class="spinbutton" v-on:click="increaseUsedResource(opponent.playerGuid, opponent.resources.black)"></div>
+                        <div class="spinbutton" v-on:click="decreaseUsedResource(opponent.playerGuid, opponent.resources.black)"></div>
+                    </div>
+                    <div class="availableResources" v-on:wheel="availableResourceWheel($event, opponent.resources.black)">
+                        <div class="spinbutton" v-on:click="increaseAvailableResource(opponent.playerGuid, opponent.resources.black)"></div>
+                        <div class="spinbutton" v-on:click="decreaseAvailableResource(opponent.playerGuid, opponent.resources.black)"></div>
+                    </div>
+                    <span class="resourceCounter">{{opponent.resources.black.used}}/{{opponent.resources.black.available}}</span>
+                </div>
+                <div class="resource yellowResources">
+                    <div class="usedResources" v-on:wheel="usedResourceWheel($event, opponent.playerGuid, opponent.resources.yellow)">
+                        <div class="spinbutton" v-on:click="increaseUsedResource(opponent.playerGuid, opponent.resources.yellow)"></div>
+                        <div class="spinbutton" v-on:click="decreaseUsedResource(opponent.playerGuid, opponent.resources.yellow)"></div>
+                    </div>
+                    <div class="availableResources" v-on:wheel="availableResourceWheel($event, opponent.playerGuid, opponent.resources.yellow)">
+                        <div class="spinbutton" v-on:click="increaseAvailableResource(opponent.playerGuid, opponent.resources.yellow)"></div>
+                        <div class="spinbutton" v-on:click="decreaseAvailableResource(opponent.playerGuid, opponent.resources.yellow)"></div>
+                    </div>
+                    <span class="resourceCounter">{{opponent.resources.yellow.used}}/{{opponent.resources.yellow.available}}</span>
+                </div>
+                <div class="resource greenResources">
+                    <div class="usedResources" v-on:wheel="usedResourceWheel($event, opponent.playerGuid, opponent.resources.green)">
+                        <div class="spinbutton" v-on:click="increaseUsedResource(opponent.playerGuid, opponent.resources.green)"></div>
+                        <div class="spinbutton" v-on:click="decreaseUsedResource(opponent.playerGuid, opponent.resources.green)"></div>
+                    </div>
+                    <div class="availableResources" v-on:wheel="availableResourceWheel($event, opponent.playerGuid, opponent.resources.green)">
+                        <div class="spinbutton" v-on:click="increaseAvailableResource(opponent.playerGuid, opponent.resources.green)"></div>
+                        <div class="spinbutton" v-on:click="decreaseAvailableResource(opponent.playerGuid, opponent.resources.green)"></div>
+                    </div>
+                    <span class="resourceCounter">{{opponent.resources.green.used}}/{{opponent.resources.green.available}}</span>
+                </div>
+                <div class="resource blueResources">
+                    <div class="usedResources" v-on:wheel="usedResourceWheel($event, opponent.playerGuid, opponent.resources.blue)">
+                        <div class="spinbutton" v-on:click="increaseUsedResource(opponent.playerGuid, opponent.resources.blue)"></div>
+                        <div class="spinbutton" v-on:click="decreaseUsedResource(opponent.playerGuid, opponent.resources.blue)"></div>
+                    </div>
+                    <div class="availableResources" v-on:wheel="availableResourceWheel($event, opponent.playerGuid, opponent.resources.blue)">
+                        <div class="spinbutton" v-on:click="increaseAvailableResource(opponent.playerGuid, opponent.resources.blue)"></div>
+                        <div class="spinbutton" v-on:click="decreaseAvailableResource(opponent.playerGuid, opponent.resources.blue)"></div>
+                    </div>
+                    <span class="resourceCounter">{{opponent.resources.blue.used}}/{{opponent.resources.blue.available}}</span>
+                </div>
+                <div class="resource redResources">
+                    <div class="usedResources" v-on:wheel="usedResourceWheel($event, opponent.playerGuid, opponent.resources.red)">
+                        <div class="spinbutton" v-on:click="increaseUsedResource(opponent.playerGuid, opponent.resources.red)"></div>
+                        <div class="spinbutton" v-on:click="decreaseUsedResource(opponent.playerGuid, opponent.resources.red)"></div>
+                    </div>
+                    <div class="availableResources" v-on:wheel="availableResourceWheel($event, opponent.playerGuid, opponent.resources.red)">
+                        <div class="spinbutton" v-on:click="increaseAvailableResource(opponent.playerGuid, opponent.resources.red)"></div>
+                        <div class="spinbutton" v-on:click="decreaseAvailableResource(opponent.playerGuid, opponent.resources.red)"></div>
+                    </div>
+                    <span class="resourceCounter">{{opponent.resources.red.used}}/{{opponent.resources.red.available}}</span>
+                </div>
+            </div>
+
+            <!-- EndRegion : Opponent -->
+            <!-- Region : Player -->
+            <!-- Action bar for the player's deck. -->
+            <div id="playerDeckActions">
+                <!-- Take a card from the player's deck and put it in his hand -->
+                <div class="action draw_action" @click="moveCardFrom('drawCard', player.playerGuid, 'deck', player.playerGuid, 'hand', false)"></div>
+                <!-- Take a card from the player's deck and put it in his graveyard -->
+                <div class="action graveyard_action" @click="moveCardFrom('discardCard', player.playerGuid, 'deck', player.playerGuid, 'graveyard', false)"></div>
+                <!-- Take a card from the players's deck and put it in to play as one of his cards -->
+                <div class="action play_action" @click="moveCardFrom('playCard', player.playerGuid, 'deck', player.playerGuid, 'play', false)"></div>
+                <!-- Shuffle the player's graveyard -->
+                <div class="action shuffle_action" @click="shuffleCards(player.playerGuid, 'deck')"></div>
+                <!-- Look at the player's deck in detail (reorder, select a card, discard a card, ...) -->
+                <div class="action view_action" @click="showCardList(player.playerGuid, 'deck')"></div>
+                <!-- Show how many cards there are in the players's deck -->
+                <div class="action count_action">{{player.deck.length}}</div>
+            </div>
+            <!-- The player's deck. It is a drop target to move cards to the player's deck -->
+            <div id="playerDeck">
+                <!-- Template for a card in the deck. The cards have a litle offset so they appear to be stacked -->
+                <template v-for="(index, card) in player.deck">
+                    <img class="card"
+                         v-bind:src="card.isFaceDown? 'back.png' : card.imageSrc"
+                         id="player-deck-{{card.cardId}}"
+                         :style="{ top: -0.5*index + 'px', left: 0.4*index + 'px' }"
+                         v-on:mouseover="this.$parent.showPreview(card)"
+                         v-on:mouseout="this.$parent.hidePreview(card)" />
+                </template>
+            </div>
+
+            <!-- Action bar for the player's graveyard. -->
+            <div id="playerGraveyardActions">
+                <!-- Take a card from the player's graveyard and put it in the player's hand -->
+                <div class="action draw_action" @click="moveCardFrom('drawCard', player.playerGuid, 'graveyard', player.playerGuid, 'hand', false)"></div>
+                <!-- Take a card from the player's graveyard and put it on top of his deck, face down -->
+                <div class="action deck_action" @click="moveCardFrom('deckCard', player.playerGuid, 'graveyard', player.playerGuid, 'deck', true)"></div>
+                <!-- Take a card from the player's deck and put it in to play as one of his cards -->
+                <div class="action play_action" @click="moveCardFrom('playCard', player.playerGuid, 'graveyard', player.playerGuid, 'play', false)"></div>
+                <!-- Shuffle the player's graveyard -->
+                <div class="action shuffle_action" @click="shuffleCards(player.playerGuid, 'graveyard')"></div>
+                <!-- Look at the player's graveyard in detail (reorder, select a card, discard a card, ...) -->
+                <div class="action view_action" @click="showCardList(player.playerGuid, 'graveyard')"></div>
+                <!-- Show how many cards there are in the players's graveyard -->
+                <div class="action count_action">{{player.graveyard.length}}</div>
+            </div>
+            <!-- The player's graveyard. It is a drop target to move cards to the player's graveyard -->
+            <div id="playerGraveyard">
+                <!-- Template for a card in the graveyard. The cards have a litle offset so they appear to be stacked -->
+                <template v-for="(index, card) in player.graveyard">
+                    <img class="card"
+                         v-bind:src="card.isFaceDown? 'back.png' : card.imageSrc"
+                         id="player-graveyard-{{card.cardId}}"
+                         :style="{ top: -0.5*index + 'px', left: 0.4*index + 'px' }"
+                         v-on:mouseover="this.$parent.showPreview(card)"
+                         v-on:mouseout="this.$parent.hidePreview(card)" />
+                </template>
+            </div>
+
+            <!-- Background for the player hand -->
+            <div id="playerHandDecoration"></div>
+            <!--
+                The player's hand. It is a drop target to move cards to the player's hand.
+                It is also a drag source (card in the hand can be draged)
+            -->
+            <div id="playerHand">
+                <!--
+                Template for a card in the hand. Card in the hand can be:
+                - dragged, by dragging
+                - marked/unmarked, by doubleclick
+                - put face up/down, by rightclick (contextclick)
+                -->
+                <template v-for="card in player.hand">
+                    <img class="card draggable-card"
+                         id="player-hand-{{card.cardId}}"
+                         v-bind:src="card.isFaceDown? 'back.png' : card.imageSrc"
+                         v-bind:class="{ 'rotate': card.isMarked, 'rotate-reset' : !card.isMarked}"
+                         v-on:dblclick="this.$parent.toggleMark(card)"
+                         v-on:mouseover="this.$parent.showPreview(card)"
+                         v-on:mouseout="this.$parent.hidePreview(card)"
+                         v-on:contextmenu.prevent="this.$parent.toggleFaceDown(card)"
+                         v-bind:style="{ top: card.top + 'px' , left: card.left + 'px' }"
+                         v-draggable="{ fromPlayerGuid: player.playerGuid, fromKind: 'hand', item: card, isDraggable: card.isDraggable,  top: card.top, left: card.left} " />
+                </template>
+            </div>
+
+            <!--
+                The opponent's resources bar. There are resource counters in black, yellow, green, blue and red.
+                Each resource has an 'available' and a 'used' counter. The available resources are within the [0,99] interval.
+                The used resources are limited by the available counter.
+
+                Each counter can be increased and decreased by clickin on the top/bottom of the number. The mouse wheel works as well.
+            -->
+            <div id="playerResources">
+                <div class="resource blackResources">
+                    <div class="usedResources" v-on:wheel="usedResourceWheel($event, player.playerGuid, player.resources.black)">
+                        <div class="spinbutton" v-on:click="increaseUsedResource(player.playerGuid, player.resources.black)"></div>
+                        <div class="spinbutton" v-on:click="decreaseUsedResource(player.playerGuid, player.resources.black)"></div>
+                    </div>
+                    <div class="availableResources" v-on:wheel="availableResourceWheel($event, player.playerGuid, player.resources.black)">
+                        <div class="spinbutton" v-on:click="increaseAvailableResource(player.playerGuid, player.resources.black)"></div>
+                        <div class="spinbutton" v-on:click="decreaseAvailableResource(player.playerGuid, player.resources.black)"></div>
+                    </div>
+                    <span class="resourceCounter">{{player.resources.black.used}}/{{player.resources.black.available}}</span>
+                </div>
+                <div class="resource yellowResources">
+                    <div class="usedResources" v-on:wheel="usedResourceWheel($event, player.playerGuid, player.resources.yellow)">
+                        <div class="spinbutton" v-on:click="increaseUsedResource(player.playerGuid, player.resources.yellow)"></div>
+                        <div class="spinbutton" v-on:click="decreaseUsedResource(player.playerGuid, player.resources.yellow)"></div>
+                    </div>
+                    <div class="availableResources" v-on:wheel="availableResourceWheel($event, player.playerGuid, player.resources.yellow)">
+                        <div class="spinbutton" v-on:click="increaseAvailableResource(player.playerGuid, player.resources.yellow)"></div>
+                        <div class="spinbutton" v-on:click="decreaseAvailableResource(player.playerGuid, player.resources.yellow)"></div>
+                    </div>
+                    <span class="resourceCounter">{{player.resources.yellow.used}}/{{player.resources.yellow.available}}</span>
+                </div>
+                <div class="resource greenResources">
+                    <div class="usedResources" v-on:wheel="usedResourceWheel($event, player.playerGuid, player.resources.green)">
+                        <div class="spinbutton" v-on:click="increaseUsedResource(player.playerGuid, player.resources.green)"></div>
+                        <div class="spinbutton" v-on:click="decreaseUsedResource(player.playerGuid, player.resources.green)"></div>
+                    </div>
+                    <div class="availableResources" v-on:wheel="availableResourceWheel($event, player.playerGuid, player.resources.green)">
+                        <div class="spinbutton" v-on:click="increaseAvailableResource(player.playerGuid, player.resources.green)"></div>
+                        <div class="spinbutton" v-on:click="decreaseAvailableResource(player.playerGuid, player.resources.green)"></div>
+                    </div>
+                    <span class="resourceCounter">{{player.resources.green.used}}/{{player.resources.green.available}}</span>
+                </div>
+                <div class="resource blueResources">
+                    <div class="usedResources" v-on:wheel="usedResourceWheel($event, player.playerGuid, player.resources.blue)">
+                        <div class="spinbutton" v-on:click="increaseUsedResource(player.playerGuid, player.resources.blue)"></div>
+                        <div class="spinbutton" v-on:click="decreaseUsedResource(player.playerGuid, player.resources.blue)"></div>
+                    </div>
+                    <div class="availableResources" v-on:wheel="availableResourceWheel($event, player.playerGuid, player.resources.blue)">
+                        <div class="spinbutton" v-on:click="increaseAvailableResource(player.playerGuid, player.resources.blue)"></div>
+                        <div class="spinbutton" v-on:click="decreaseAvailableResource(player.playerGuid, player.resources.blue)"></div>
+                    </div>
+                    <span class="resourceCounter">{{player.resources.blue.used}}/{{player.resources.blue.available}}</span>
+                </div>
+                <div class="resource redResources">
+                    <div class="usedResources" v-on:wheel="usedResourceWheel($event, player.playerGuid, player.resources.red)">
+                        <div class="spinbutton" v-on:click="increaseUsedResource(player.playerGuid, player.resources.red)"></div>
+                        <div class="spinbutton" v-on:click="decreaseUsedResource(player.playerGuid, player.resources.red)"></div>
+                    </div>
+                    <div class="availableResources" v-on:wheel="availableResourceWheel($event, player.playerGuid, player.resources.red)">
+                        <div class="spinbutton" v-on:click="increaseAvailableResource(player.playerGuid, player.resources.red)"></div>
+                        <div class="spinbutton" v-on:click="decreaseAvailableResource(player.playerGuid, player.resources.red)"></div>
+                    </div>
+                    <span class="resourceCounter">{{player.resources.red.used}}/{{player.resources.red.available}}</span>
+                </div>
+            </div>
+
+            <!-- EndRegion : Player -->
+            <!-- Indication of the current player's turn structure -->
+            <!-- N.G. Remark: do we need this?
+            <div id="turnStructure">
+                <div class="turn unmark"></div>
+                <div class="turn draw"></div>
+                <div class="turn play"></div>
+                <div class="turn attack"></div>
+                <div class="turn play"></div>
+                <div class="turn end"></div>
+            </div>
+            -->
+            <!--
+                Template for a player's cards in play. The card can be:
+                 - dragged, by dragging
+                 - marked/unmarked, by doubleclick
+                 - put face up/down, by rightclick (contextclick)
+                 - previewed when face up, on hover
+            
+            <template v-for="card in player.play">
+                <img class="card draggable-card"
+                     id="player-play-{{card.cardId}}"
+                     v-bind:src="card.isFaceDown? 'back.png' : card.imageSrc"
+                     v-bind:class="{ 'rotate': card.isMarked, 'rotate-reset' : !card.isMarked }"
+                     v-on:dblclick="this.$parent.toggleMark(card)"
+                     v-on:contextmenu.prevent="this.$parent.toggleFaceDown(card)"
+                     v-on:mouseover="this.$parent.showPreview(card)"
+                     v-on:mouseout="this.$parent.hidePreview(card)"
+                     v-bind:style="{ top: card.top + 'px' , left: card.left + 'px' }"
+                     v-draggable="{ fromPlayerGuid: player.playerGuid, fromKind: 'play', item: card, isDraggable: card.isDraggable, top: card.top, left: card.left }" />
+            </template>
+                -->
+
+            <template v-for="card in player.play">
+                <div class="card draggable-card"
+                     id="player-play-{{card.cardId}}"
+                     v-bind:class="{ 'rotate': card.isMarked, 'rotate-reset' : !card.isMarked, 'animatecardmove' : card.animateCardMove }"
+                     v-on:dblclick="this.$parent.toggleMark(card)"
+                     v-on:contextmenu.prevent="this.$parent.toggleFaceDown(card)"
+                     v-on:mouseover="this.$parent.showPreview(card)"
+                     v-on:mouseout="this.$parent.hidePreview(card)"
+                     v-bind:style="{ top: card.top + 'px' , left: card.left + 'px' }"
+                     v-draggable="{ fromPlayerGuid: player.playerGuid, fromKind: 'play', item: card, isDraggable: card.isDraggable, top: card.top, left: card.left }" 
+                     v-animatemovecard="{ item: card, animateCardMove: card.animateCardMove }" >
+                    <img v-bind:src="card.isFaceDown? 'back.png' : card.imageSrc" />
+
+                    <div class="cardcounters">
+                        <div class="counterA" v-on:wheel="counterWheel($event, card, 'counterA')">
+                            <span class="counter">{{card.counterA}}</span>
+                        </div>
+                        <div class="counterB" v-on:wheel="counterWheel($event, card, 'counterB')">
+                            <span class="counter">{{card.counterB}}</span>
+                        </div>
+                    </div>
+
+                </div>
+            </template>
+
+
+            <!--
+                Template for a opponent's cards in play. The card can be:
+                 - dragged, by dragging
+                 - marked/unmarked, by doubleclick
+                 - put face up/down, by rightclick (contextclick)
+                 - previewed when face up, on hover
+            
+            <template v-for="card in opponent.play">
+                <img class="card draggable-card"
+                     id="opponent-play-{{card.cardId}}"
+                     v-bind:src="card.isFaceDown? 'back.png' : card.imageSrc"
+                     v-bind:class="{ 'rotate': card.isMarked, 'rotate-reset' : !card.isMarked }"
+                     v-on:dblclick="this.$parent.toggleMark(card)"
+                     v-on:contextmenu.prevent="this.$parent.toggleFaceDown(card)"
+                     v-on:mouseover="this.$parent.showPreview(card)"
+                     v-on:mouseout="this.$parent.hidePreview(card)"
+                     v-bind:style="{ top: card.top + 'px' , left: card.left + 'px' }"
+                     v-draggable="{ fromPlayerGuid: opponent.playerGuid, fromKind: 'play', item: card, isDraggable: card.isDraggable, top: card.top, left: card.left }" />
+            </template>
+                -->
+            <template v-for="card in opponent.play">
+                <div class="card draggable-card"
+                     id="opponent-play-{{card.cardId}}"
+                     v-bind:class="{ 'rotate': card.isMarked, 'rotate-reset' : !card.isMarked, 'animatecardmove' : card.animateCardMove }"
+                     v-on:dblclick="this.$parent.toggleMark(card)"
+                     v-on:contextmenu.prevent="this.$parent.toggleFaceDown(card)"
+                     v-on:mouseover="this.$parent.showPreview(card)"
+                     v-on:mouseout="this.$parent.hidePreview(card)"
+                     v-bind:style="{ top: card.top + 'px' , left: card.left + 'px' }"
+                     v-draggable="{ fromPlayerGuid: opponent.playerGuid, fromKind: 'play', item: card, isDraggable: card.isDraggable, top: card.top, left: card.left }" 
+                     v-animatemovecard="{ item: card, animateCardMove: card.animateCardMove }" >
+                    <img v-bind:src="card.isFaceDown? 'back.png' : card.imageSrc" />
+
+                    <div class="cardcounters">
+                        <div class="counterA" v-on:wheel="counterWheel($event, card, 'counterA')">
+                            <span class="counter">{{card.counterA}}</span>
+                        </div>
+                        <div class="counterB" v-on:wheel="counterWheel($event, card, 'counterB')">
+                            <span class="counter">{{card.counterB}}</span>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <!-- Region: BattleField -->
+        <!-- Region: Content Overlay -->
+        <!--
+            Everything in the content overlay is not drawn in perspective, it contains:
+            the avatar's, the vicory points, the card preview, and the card list dialog
+        -->
+        <div id="opponent">
+            <div id="opponentVicoryPoints"></div>
+        </div>
+        <div id="player">
+            <div id="playerVicoryPoints"></div>
+        </div>
+
+        <img id="preview" v-bind:src="previewImageSrc" v-show="preview" transition="preview" />
+
+        <!-- the card list dialog  -->
+        <modal :show.sync="cardlist.show">
+            <!-- Action bar of the card list dialog -->
+            <div slot="header">
+                <div class="cardlistaction up_action" @click="setCardListFaceDown(false)"></div>
+                <div class="cardlistaction down_action" @click="setCardListFaceDown(true)"></div>
+                <div class="cardlistaction shuffle_action" @click="shuffleCardList()"></div>
+                <div class="cardlistaction draw_action" @click="cardlistDrawCard()"></div>
+                <div class="cardlistaction graveyard_action" @click="cardlistDiscardCard()"></div>
+                <div class="cardlistaction deck_action" @click="cardlistDeckCard()"></div>
+                <div class="cardlistaction play_action" @click="cardlistPlayCard()"></div>
+            </div>
+            <div slot="body" id="cardlist" class="cardlist">
+                <template v-for="card in cardlist.cards">
+                    <img class="listcard"
+                         id="cardlist-{{card.cardId}}"
+                         v-bind:class="{ 'selected': card === cardlist.selectedCard }"
+                         v-bind:src="card.isFaceDown? 'back.png' : card.imageSrc"
+                         v-on:dblclick="this.$parent.toggleCardListFaceDown(card)"
+                         v-on:contextmenu.prevent="this.$parent.toggleCardListFaceDown(card)"
+                         v-on:mousedown="this.$parent.selectFromCardList(card)"
+                         v-on:mouseover="this.$parent.showPreview(card)"
+                         v-on:mouseout="this.$parent.hidePreview(card)" />
+                </template>
+            </div>
+        </modal>
+    </div>
+
+    <!-- Template for the modal dialog -->
+    <script type="x/template" id="modal-template">
+        <div class="modal-mask" v-show="show" transition="modal">
+            <div class="modal-wrapper" v-on:click.self="show = false">
+                <div class="modal-container">
+
+                    <div class="modal-header">
+                        <slot name="header"></slot>
+                    </div>
+
+                    <div class="modal-body">
+                        <slot name="body"></slot>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- Define the output console for debugging -->
+    <script type="text/javascript">window.console = window.console || function(t) {};</script>
+    <!-- jquery is used for drag and drop support -->
+    <script type="text/javascript" src="jquery/jquery-3.1.0.min.js"></script>
+    <!-- Custom changes were made to jquery ui to allow a droppable in perspective (css transform matrix3d) -->
+    <script type="text/javascript" src="jquery-ui/jquery-ui.js"></script>
+    <script type="text/javascript" src="jquery-unevent/jquery.unevent.js"></script>
+    <script type="text/javascript" src="jquery-querystring/jquery-querystring.js"></script>
+    <!-- jquery support for touch events -->
+    <!-- N.G. Remark: Currently we have no support for touch devices
+        <script type="text/javascript" src="jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+    -->
+    <script src="jquery-signalr/jquery.signalR-2.2.1.js"></script>
+    <!--Reference the autogenerated SignalR hub script. -->
+    <script src="server.js"></script>
+
+    <!-- Round slider widget used for the victory points -->
+    <script type="text/javascript" src="roundslider/roundslider.min.js"></script>
+
+    <!--
+        Numeric provides matrix operations
+
+        Ttransorm3d calculates the various css transorm matrix3d matrices.
+        The battlefield is in a fixed coordinate system (0,0 => 1920, 1200),
+        it is transormed to	(distance,0 => screenwidth-distance, height), with distance 20% of the original sceern width.
+
+     -->
+    <script type="text/javascript" src="numeric/numeric.min.js"></script>
+    <script type="text/javascript" src="transform3d/transform3d.js"></script>
+    <!-- the vue framework -->
+    <script type="text/javascript" src="vue/vue.js"></script>
+    <script type="text/javascript" src="vue-resource/vue-resource.min.js"></script>
+    <script type="text/javascript" src="vue-modal/vue-modal.js"></script>
+    
+    <!-- Game specific scripts -->
+    <!-- Perspectivelayout applies the perspective layout to the game.
+        - it applies matrix3d transform to the battlefield
+        - it positions the the victory point sliders
+        - it sets up the adapted jquery-perspective drag support
+        - it defines a vue-directive to apply a the jquery-ui draggable to dom-elements
+    -->
+    <script type="text/javascript" src="perspectivelayout.js"></script>
+    <!-- The work in progress game code -->
+    <script type="text/javascript" src="game.js"></script>
+
+</body>
+</html>

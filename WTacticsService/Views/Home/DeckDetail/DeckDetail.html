@@ -1,4 +1,27 @@
-﻿<div class="row">
+﻿
+<div class="row">
+    <div class="col-md-12">
+        <h1>{{deck.name}}</h1>
+        <slick class="customcarousel" infinite="false" slides-to-show="4" data="deck" init-onload="true" arrows="true" slides-to-scroll="1" swipe-to-slide="true">
+            <div ng-repeat="deckcard in deck.deckCards"><div class="image"><img width="275" ng-src="{{deckcard.card.png}}" ng-show="deckcard.card.png" /></div></div>
+        </slick>
+        <a href="{{deck.zip}}" class="pull-right" target="_blank" ng-show="deck.isAvailable">Download Zip</a>
+    </div>
+</div>
+
+<div class="row"  ng-show="!deck.isEditable">
+    <div class="col-md-12">
+        <h1>Cards</h1>
+        <table class="table table-striped">
+            <tbody>
+                <tr ng-repeat="deckcard in deck.deckCards" deck-card-list-item></tr>
+            </tbody>
+        </table>
+        <uib-pagination class="pull-right pagination-sm" total-items="deck.deckCards.length" ng-model="cardSearchOptions.pageNumber" ng-disabled="isLoading" boundary-link-numbers="true" items-per-page="200"></uib-pagination>
+    </div>
+</div>
+
+<div class="row" ng-show="deck.isEditable">
     <div class="col-md-6">
         <form role="search">
             <div class="input-group">
@@ -43,14 +66,10 @@
 
 </div>
 
-<div class="row">
-    <div class="col-md-12" ng-show="deck.isAvailable">
-        <a href="{{deck.zip}}" class="pull-right" target="_blank">Download Zip</a><br />
-        <a href="{{deck.txt}}" class="pull-right" target="_blank">Download Txt</a><br />
-    </div>
-</div>
 
-<div class="row">
+
+
+<div class="row" ng-show="deck.isEditable">
     <div class="col-md-6">
         <uib-pagination class="pull-right pagination-sm" total-items="totalItems" ng-model="cardSearchOptions.pageNumber" ng-disabled="isLoading" boundary-link-numbers="true" items-per-page="cardSearchOptions.pageSize" ng-change="searchClicked()"></uib-pagination>
         <table class="table table-striped">
@@ -73,19 +92,19 @@
         </table>
     </div>
     <div class="col-md-6">
-        <uib-pagination class="pull-right pagination-sm" total-items="deck.deckCards.length" ng-model="cardSearchOptions.pageNumber" ng-disabled="isLoading" boundary-link-numbers="true" items-per-page="200" ></uib-pagination>
+        <uib-pagination class="pull-right pagination-sm" total-items="deck.deckCards.length" ng-model="cardSearchOptions.pageNumber" ng-disabled="isLoading" boundary-link-numbers="true" items-per-page="200"></uib-pagination>
         <table class="table table-striped">
             <thead>
-            <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Amount</th>
-                <th></th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th></th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="deckcard in deck.deckCards" deck-card-list-item></tr>
+                <tr ng-repeat="deckcard in deck.deckCards" deck-card-list-item></tr>
             </tbody>
         </table>
     </div>

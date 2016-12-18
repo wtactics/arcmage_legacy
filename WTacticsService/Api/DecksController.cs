@@ -22,7 +22,24 @@ namespace WTacticsService.Api
 {
     public class DecksController : ApiController
     {
-       
+        [HttpGet]
+        public async Task<HttpResponseMessage> Get()
+        {
+            var token = TokenExtracton.GetTokenFromCookie(HttpContext.Current.Request);
+            using (var repository = new Repository(token))
+            {
+
+                var decks = repository.Context.Decks.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
+
+                var result = new ResultList<Deck>()
+                {
+                    TotalItems = decks.Count(),
+                    Items = decks,
+                   
+                };
+                return Request.CreateResponse(result);
+            }
+        }
 
         [HttpGet]
         public async Task<HttpResponseMessage> Get(Guid id)
@@ -41,8 +58,10 @@ namespace WTacticsService.Api
                 var deck = result.FromDal(true);
                 if (repository.ServiceUser != null)
                 {
+
+                    await repository.Context.Entry(repository.ServiceUser).Reference(x => x.Role).LoadAsync();
                     await repository.Context.Entry(result).Reference(x => x.Creator).LoadAsync();
-                    deck.IsEditable = repository.ServiceUser.Guid == result.Creator.Guid;
+                    deck.IsEditable = repository.ServiceUser.Role.Guid == PredefinedGuids.Administrator || repository.ServiceUser.Guid == result.Creator.Guid;
                 }
                 return Request.CreateResponse(deck);
             }
@@ -135,7 +154,9 @@ namespace WTacticsService.Api
                     Request.CreateResponse(HttpStatusCode.NotFound);
                 }
                 await repository.Context.Entry(deckModel).Reference(x => x.Creator).LoadAsync();
-                if (deckModel.Creator.Guid != repository.ServiceUser.Guid)
+                await repository.Context.Entry(repository.ServiceUser).Reference(x => x.Role).LoadAsync();
+
+                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator && deckModel.Creator.Guid != repository.ServiceUser.Guid)
                 {
                     return Request.CreateResponse(HttpStatusCode.Forbidden);
                 }

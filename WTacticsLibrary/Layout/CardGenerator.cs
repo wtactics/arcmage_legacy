@@ -6,8 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Xml.Linq;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
 using ImageMagick;
 using Newtonsoft.Json;
 using WTacticsLibrary.Model;
@@ -37,7 +35,7 @@ namespace WTacticsLibrary.Layout
 
             //var printSvgFile = Repository.GetPrintSvgFile(cardGuid);
             //InkscapeExporter.ExportPdf(printSvgFile, Repository.GetRGBPdfFile(cardGuid));
-           // GhostScriptConvertor.ConvertToCMYKPdf(Repository.GetRGBPdfFile(cardGuid), Repository.GetPdfFile(cardGuid));
+            //GhostScriptConvertor.ConvertToCMYKPdf(Repository.GetRGBPdfFile(cardGuid), Repository.GetPdfFile(cardGuid));
 
             using (MagickImage image = new MagickImage(Repository.GetPngFile(cardGuid)))
             {
@@ -60,6 +58,7 @@ namespace WTacticsLibrary.Layout
                 {
                     card.AddProfile(ColorProfile.SRGB);
                     card.AddProfile(ColorProfile.USWebCoatedSWOP);
+                    card.Scale(1465, 2079);
 
                     image.Composite(card, Gravity.Center, CompositeOperator.Over);
                 }
@@ -75,6 +74,19 @@ namespace WTacticsLibrary.Layout
             }
         }
 
+        public static void CreateBackPdfJob()
+        {
+            var border = Repository.GetBackBorderPngFile();
+            using (MagickImage image = new MagickImage(border))
+            {
+
+                image.AddProfile(ColorProfile.SRGB);
+                image.AddProfile(ColorProfile.USWebCoatedSWOP);
+              
+                // Save the result
+                image.Write(Repository.GetBackPdfFile());
+            }
+        }
 
         private XElement Overlay { get; set; }
 
@@ -131,14 +143,14 @@ namespace WTacticsLibrary.Layout
                     border.Root.SetAttributeValue("width", "244.48819");
                     border.Root.SetAttributeValue("y", "0");
                     border.Root.SetAttributeValue("x", "0");
+                    merge.Root.Add(border.Root);
 
-                    
                     svg.Root.SetAttributeValue("height", "325.98425");
                     svg.Root.SetAttributeValue("width", "230.31496");
                     svg.Root.SetAttributeValue("y", "7.0866184");
                     svg.Root.SetAttributeValue("x", "7.0866184");
                     merge.Root.Add(svg.Root);
-                    merge.Root.Add(border.Root);
+                 
                     
                     File.WriteAllText(Repository.GetPrintSvgFile(Card.Guid), merge.ToString());
                 }

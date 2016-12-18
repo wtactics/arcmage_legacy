@@ -1,4 +1,40 @@
-﻿
+﻿.customcarousel{
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.navbar-brand {
+    padding: 20px 33px 20px 0px;
+}
+.arcmagetitle {
+    margin: 15px 0 4px;
+    font-family: 'Open Sans';
+    font-size: 36px;
+    color: #555555;
+    font-weight: 700;
+}
+.slogan {
+    display: block;
+    clear: both;
+    font-size: 11px;
+    position: relative;
+    top: 0px;
+    font-family: Lato;
+}
+
+.nav > li > a {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.container-fluid {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 0px;
+    padding-right: 20px;
+    width: 1170px;
+}
+
 body {
     padding-top: 50px;
     padding-bottom: 20px;
@@ -6,7 +42,7 @@ body {
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-top: 30px;
+    padding-top: 86px; 
     padding-left: 15px;
     padding-right: 15px;
 }

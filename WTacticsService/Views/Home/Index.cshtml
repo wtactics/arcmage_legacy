@@ -1,26 +1,33 @@
-﻿<nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+﻿<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="http://www.wtactics.org" target="_blank">WTactics</a>
+            <a href="http://www.arcmage.org" class="navbar-brand"><span class="arcmagetitle">Arcmage</span><br/><span class="slogan">Arcmage - open source card game</span></a>
+                
+            
+            
         </div>
       
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a ui-sref="cards">Cards</a></li>
-                <li><a ui-sref="decks">Decks</a></li>
-                <li><a href="http://wtactics.org/wiki/index.php?title=Original_Rules_Concept" target="_blank">ORC Rules</a></li>
-                <li><a href="http://wtactics.org/wiki/index.php?title=Awesome_Rules_Concept" target="_blank">ARC Rules</a></li>
-                <li><a href="http://wtactics.org/wiki/index.php?title=Main_Page" target="_blank">Wiki</a></li>
-                <li><a href="http://wtactics.org/forum/" target="_blank">Forum</a></li>
+                
             </ul>
            
             <ul class="nav navbar-nav navbar-right">
-                <li ng-show="isLogedIn"><p class="navbar-text" ><span class="glyphicon glyphicon-user"></span> <b ng-bind="user.name"></b></p></li>
-                <li ng-show="isLogedIn"><a ng-click="logout()" href=""><span class="glyphicon glyphicon-log-out"></span><b> Logout</b></a></li>
+                
+                <li><a ui-sref="cards">Cards</a></li>
+                <li><a ui-sref="decks">Decks</a></li>
+                <li><a ui-sref="games">Play Online</a></li>
+                <li><a href="http://www.arcmage.org/rules">Rules</a></li>
+                <li><a href="http://www.arcmage.org/tutorials">Tutorials</a></li>
+                <li><a href="http://wtactics.org/wiki/index.php?title=Main_Page" target="_blank">WT Wiki</a></li>
+                <li><a href="http://wtactics.org/forum/" target="_blank">WT Forum</a></li>
+
+                <li><a ng-show="isLogedIn" href=""><b ng-bind="user.name"></b></a></li>
+                <li ng-show="isLogedIn"><a ng-click="logout()" href=""><span class="glyphicon glyphicon-log-out"></span></a></li>
                 <li class="dropdown" ng-hide="isLogedIn">
-                    <a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-log-in"></span><b> Login</b> <span class="caret"></span></a>
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-log-in"></span></a>
                     <ul id="login-dp" class="dropdown-menu">
                         <li>
                             <div class="row">
@@ -46,6 +53,8 @@
                         </li>
                     </ul>
                 </li>
+
+                
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

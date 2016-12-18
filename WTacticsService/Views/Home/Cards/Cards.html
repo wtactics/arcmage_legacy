@@ -31,7 +31,9 @@
 </div>
 
 <div class="row">
-    <uib-pagination class="pull-right pagination-sm" total-items="totalItems" ng-model="cardSearchOptions.pageNumber" ng-disabled="isLoading" boundary-link-numbers="true" items-per-page="cardSearchOptions.pageSize" ng-change="searchClicked()"></uib-pagination>
+    <slick class="customcarousel" infinite="false" slides-to-show="4" data="cards" init-onload="true" arrows="true" slides-to-scroll="1" swipe-to-slide="true">
+        <div ng-repeat="card in cards"><div class="image"><img width="275" ng-src="{{card.png}}" ng-show="card.png" /></div></div>
+    </slick>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -54,5 +56,6 @@
         <tr ng-repeat="card in cards" card-list-item></tr>
         </tbody>
     </table>
-    
+    <uib-pagination class="pull-right pagination-sm" total-items="totalItems" ng-model="cardSearchOptions.pageNumber" ng-disabled="isLoading" boundary-link-numbers="true" items-per-page="cardSearchOptions.pageSize" ng-change="searchClicked()"></uib-pagination>
+
 </div>

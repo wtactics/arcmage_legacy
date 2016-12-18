@@ -64,11 +64,43 @@
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Diagnostics, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Diagnostics.2.1.0\lib\net40\Microsoft.Owin.Diagnostics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.HttpListener, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.2.1.0\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Hosting, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Hosting.2.1.0\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -166,11 +198,31 @@
     <Compile Include="Api\DeckSearchController.cs" />
     <Compile Include="Api\FactionsController.cs" />
     <Compile Include="Api\FileUploadController.cs" />
+    <Compile Include="Api\GameRuntime\ChangeCardParam.cs" />
+    <Compile Include="Api\GameRuntime\ChangePlayerStatsParam.cs" />
+    <Compile Include="Api\GameRuntime\GamesHub.cs" />
+    <Compile Include="Api\GameRuntime\MoveCardParam.cs" />
+    <Compile Include="Api\GameRuntime\GameList.cs" />
+    <Compile Include="Api\GameRuntime\ListType.cs" />
+    <Compile Include="Api\GameRuntime\LoadDeckParam.cs" />
+    <Compile Include="Api\GameRuntime\ShuffleListParam.cs" />
+    <Compile Include="Api\GameRuntime\UpdateListParam.cs" />
+    <Compile Include="Api\GamesController.cs" />
+    <Compile Include="Api\GameSearchController.cs" />
+    <Compile Include="Api\GameRuntime\Game.cs" />
+    <Compile Include="Api\GameRuntime\GameAction.cs" />
+    <Compile Include="Api\GameRuntime\GameActionType.cs" />
+    <Compile Include="Api\GameRuntime\GameCard.cs" />
+    <Compile Include="Api\GameRuntime\GameController.cs" />
+    <Compile Include="Api\GameRuntime\GameExtensions.cs" />
+    <Compile Include="Api\GameRuntime\GamePlayer.cs" />
+    <Compile Include="Api\GameRuntime\GameRepository.cs" />
+    <Compile Include="Api\GameRuntime\GameResource.cs" />
+    <Compile Include="Api\GameRuntime\GameResources.cs" />
     <Compile Include="Api\LogController.cs" />
     <Compile Include="Api\LoginController.cs" />
     <Compile Include="Api\LogoutController.cs" />
     <Compile Include="Api\PredefinedDataController.cs" />
-    <Compile Include="Api\QueryHelper.cs" />
     <Compile Include="Api\SeriesController.cs" />
     <Compile Include="Api\StatusesController.cs" />
     <Compile Include="Api\UsersController.cs" />
@@ -178,6 +230,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\GeneralConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\SignalRContractResolver.cs" />
+    <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogController.cs" />
@@ -196,6 +250,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\theme.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="Content\xeditable.css" />
     <Content Include="favicon.ico" />
@@ -213,6 +268,8 @@
     <Content Include="Scripts\angular-resource.min.js" />
     <Content Include="Scripts\angular-sanitize.js" />
     <Content Include="Scripts\angular-sanitize.min.js" />
+    <Content Include="Scripts\angular-slick.js" />
+    <Content Include="Scripts\angular-slick.min.js" />
     <Content Include="Scripts\angular-strap.js" />
     <Content Include="Scripts\angular-strap.min.js" />
     <Content Include="Scripts\angular-strap.tpl.js" />
@@ -296,6 +353,17 @@
     <Content Include="fonts\WTacticsSymbols.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\jquery.signalR-2.2.1.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
+    <Content Include="Scripts\slick\ajax-loader.gif" />
+    <Content Include="Scripts\slick\fonts\slick.svg" />
+    <Content Include="Scripts\slick\slick-theme.css" />
+    <Content Include="Scripts\slick\slick.css" />
+    <Content Include="Scripts\slick\slick.js" />
+    <Content Include="Scripts\slick\slick.min.js" />
+    <Content Include="Views\Home\Games\GameListItem.html" />
+    <Content Include="Views\Home\Games\Games.html" />
+    <Content Include="Views\Home\Games\Games.js" />
     <Content Include="Views\Log\Index.js" />
     <Content Include="Views\Log\LogEventListItem.html" />
     <Content Include="WTactics\CardTemplates\back.jpeg" />
@@ -507,6 +575,63 @@
     <Content Include="WTactics\CardTemplates\the_empire\player.svg" />
     <Content Include="WTactics\CardTemplates\the_empire\player_overlay.svg" />
     <Content Include="WTactics\CardTemplates\the_empire\player_overlay_plain.svg" />
+    <Content Include="WTactics\Game\action_deck.svg" />
+    <Content Include="WTactics\Game\action_down.svg" />
+    <Content Include="WTactics\Game\action_draw.svg" />
+    <Content Include="WTactics\Game\action_graveyard.svg" />
+    <Content Include="WTactics\Game\action_play.svg" />
+    <Content Include="WTactics\Game\action_shuffle.svg" />
+    <Content Include="WTactics\Game\action_up.svg" />
+    <Content Include="WTactics\Game\action_view.svg" />
+    <Content Include="WTactics\Game\back.png" />
+    <Content Include="WTactics\Game\background.svg" />
+    <Content Include="WTactics\Game\game.js" />
+    <Content Include="WTactics\Game\index.html" />
+    <Content Include="WTactics\Game\jquery-querystring\jquery-querystring.js" />
+    <Content Include="WTactics\Game\jquery-signalr\jquery.signalR-2.2.1.js" />
+    <Content Include="WTactics\Game\jquery-signalr\jquery.signalR-2.2.1.min.js" />
+    <Content Include="WTactics\Game\jquery-ui-touch-punch\jquery.ui.touch-punch.min.js" />
+    <Content Include="WTactics\Game\jquery-ui\jquery-ui.js" />
+    <Content Include="WTactics\Game\jquery-ui\jquery-ui.min.js" />
+    <Content Include="WTactics\Game\jquery-unevent\jquery.unevent.js" />
+    <Content Include="WTactics\Game\jquery\jquery-3.1.0.js" />
+    <Content Include="WTactics\Game\jquery\jquery-3.1.0.min.js" />
+    <Content Include="WTactics\Game\numeric\numeric.min.js" />
+    <Content Include="WTactics\Game\opponent.jpg" />
+    <Content Include="WTactics\Game\opponent.png" />
+    <Content Include="WTactics\Game\opponentField.jpg" />
+    <Content Include="WTactics\Game\opponentField2.jpg" />
+    <Content Include="WTactics\Game\opponentField2.png" />
+    <Content Include="WTactics\Game\perspectivelayout.js" />
+    <Content Include="WTactics\Game\placeholder.jpg" />
+    <Content Include="WTactics\Game\player.jpg" />
+    <Content Include="WTactics\Game\player.png" />
+    <Content Include="WTactics\Game\playerField.jpg" />
+    <Content Include="WTactics\Game\playerField2.jpg" />
+    <Content Include="WTactics\Game\playerField2.png" />
+    <Content Include="WTactics\Game\roundslider\roundslider.min.css" />
+    <Content Include="WTactics\Game\roundslider\roundslider.min.js" />
+    <Content Include="WTactics\Game\server.js" />
+    <Content Include="WTactics\Game\style.css" />
+    <Content Include="WTactics\Game\transform3d\transform3d.js" />
+    <Content Include="WTactics\Game\turn_attack.svg" />
+    <Content Include="WTactics\Game\turn_draw.svg" />
+    <Content Include="WTactics\Game\turn_end.svg" />
+    <Content Include="WTactics\Game\turn_play.svg" />
+    <Content Include="WTactics\Game\turn_start.svg" />
+    <Content Include="WTactics\Game\turn_unmark.svg" />
+    <Content Include="WTactics\Game\vue-modal\modal.css" />
+    <Content Include="WTactics\Game\vue-modal\vue-modal.js" />
+    <Content Include="WTactics\Game\vue-resource\vue-resource.common.js" />
+    <Content Include="WTactics\Game\vue-resource\vue-resource.es2015.js" />
+    <Content Include="WTactics\Game\vue-resource\vue-resource.js" />
+    <Content Include="WTactics\Game\vue-resource\vue-resource.min.js" />
+    <Content Include="WTactics\Game\vue\vue.js" />
+    <Content Include="WTactics\Game\vue\vue.min.js" />
+    <Content Include="Content\variables.less" />
+    <Content Include="WTactics\Lic\README.txt" />
+    <Content Include="WTactics\Lic\README_BFW_ARTWORK_LIC.txt" />
+    <Content Include="WTactics\Lic\README_WTACTICS_ARTWORK_LIC.txt" />
     <None Include="Properties\PublishProfiles\WTacticsVM.pubxml" />
     <None Include="Properties\PublishProfiles\PlayGround.pubxml" />
     <Content Include="Scripts\angular-strap.min.js.map" />
@@ -553,6 +678,15 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Log\Index.cshtml" />
     <Content Include="WTactics\CardTemplates\back.pdf" />
+    <Content Include="WTactics\Lic\cardlist.csv" />
+    <Content Include="Scripts\slick\config.rb" />
+    <Content Include="Scripts\slick\fonts\slick.eot" />
+    <Content Include="Scripts\slick\fonts\slick.ttf" />
+    <Content Include="Scripts\slick\fonts\slick.woff" />
+    <Content Include="Scripts\slick\slick-theme.less" />
+    <Content Include="Scripts\slick\slick-theme.scss" />
+    <Content Include="Scripts\slick\slick.less" />
+    <Content Include="Scripts\slick\slick.scss" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WTacticsDAL\WTacticsDAL.csproj">

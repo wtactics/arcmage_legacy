@@ -1,0 +1,43 @@
+﻿<div class="header">
+    <div class="row">
+        <form role="search">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search Games" ng-model="gameSearchOptions.search">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit" ng-click="searchClicked()"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+            </div>
+        </form>
+
+        <button ng-click="addClicked()" class="btn btn-default btn-lg  pull-right">New Game!</button>
+
+    </div>
+    <div class="row" ng-show="isAddOpen">
+        <form class="form-inline pull-right" role="form">
+            <div class="form-group">
+                <input type="text" ng-disabled="isCreating" placeholder="Game Name" class="form-control first" id="gameName" ng-model="game.name">
+            </div>
+            <button type="submit" ng-disabled="isCreating" ng-click="createClicked()" class="btn btn-default">Create</button>
+            <button type="reset" ng-disabled="isCreating" ng-click="addCancelClicked()" class="btn btn-default">Cancel</button>
+            <span ng-class="{'loader' : isCreating }" ng-show="isAddOpen"></span>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <uib-pagination class="pull-right pagination-sm" total-items="totalItems" ng-model="gameSearchOptions.pageNumber" ng-disabled="isLoading" boundary-link-numbers="true" items-per-page="gameSearchOptions.pageSize" ng-change="searchClicked()"></uib-pagination>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th><a href="" ng-click="sortOrderClicked('Name')">Name<span ng-show="gameSearchOptions.orderBy === 'Name'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : gameSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !gameSearchOptions.reverseOrder}"></span></span></a></th>
+                <th><a href="" ng-click="sortOrderClicked('CreateTime')">Created on<span ng-show="gameSearchOptions.orderBy === 'CreateTime'"> <span ng-class="{'glyphicon glyphicon-chevron-up' : gameSearchOptions.reverseOrder, 'glyphicon glyphicon-chevron-down' : !gameSearchOptions.reverseOrder}"></span></span></a></th>
+                <th>Deck</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="game in games" game-list-item></tr>
+        </tbody>
+    </table>
+    
+</div>

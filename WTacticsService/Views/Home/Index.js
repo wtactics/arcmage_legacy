@@ -33,6 +33,11 @@
                 templateUrl: "/Views/Home/DeckDetail/DeckDetail.html",
                 controller: "DeckDetailController"
             })
+            .state("games", {
+                url: "/games",
+                templateUrl: "/Views/Home/Games/Games.html",
+                controller: "GamesController"
+            })
             .state("signup", {
                 url: "/signup",
                 templateUrl: "/Views/Home/SignUp/SignUp.html",

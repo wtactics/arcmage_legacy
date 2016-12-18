@@ -8,7 +8,6 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   enable-background="new"
    id="svg2"
    version="1.0"
    style="display:inline;enable-background:new"
@@ -16,7 +15,9 @@
    sodipodi:docname="border.svg"
    inkscape:export-filename="C:\git\WTactics\WTacticsService\WTactics\CardTemplates\the_empire\border.png"
    inkscape:export-xdpi="599"
-   inkscape:export-ydpi="599">
+   inkscape:export-ydpi="599"
+   width="68mm"
+   height="94mm">
   <metadata
      id="metadata14">
     <rdf:RDF>
@@ -38,18 +39,19 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1536"
-     inkscape:window-height="801"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
      id="namedview12"
      showgrid="false"
-     inkscape:zoom="9.44"
-     inkscape:cx="70.37535"
-     inkscape:cy="9.1300781"
-     inkscape:window-x="-8"
+     inkscape:zoom="4.72"
+     inkscape:cx="50.522195"
+     inkscape:cy="-11.472468"
+     inkscape:window-x="1912"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2"
-     inkscape:document-units="mm" />
+     inkscape:document-units="mm"
+     units="mm" />
   <defs
      d="defs4"
      id="defs3">
@@ -103,12 +105,12 @@
        inkscape:collect="always"
        xlink:href="#linearGradient6191-8"
        id="linearGradient4178"
-       x1="-25.774521"
-       y1="88.22773"
-       x2="-25.755575"
-       y2="97.262489"
+       x1="-25.764833"
+       y1="88.405304"
+       x2="-25.765263"
+       y2="95.426147"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(22.192006,0,0,1.9463427,648.8,-84.248765)" />
+       gradientTransform="matrix(21.870383,0,0,2.2719953,646.381,109.72219)" />
     <linearGradient
        id="Edge-SideAndTop">
       <stop
@@ -157,7 +159,7 @@
   <g
      style="display:inline"
      id="layer3"
-     transform="translate(0,-225.98424)">
+     transform="matrix(0.98550724,0,0,0.97916669,6.9839079,6.9389766)">
     <rect
        y="-7.0866184"
        x="-7.0866141"
@@ -167,10 +169,10 @@
        style="display:inline;overflow:visible;visibility:visible;fill:url(#linearGradient);fill-opacity:1;fill-rule:nonzero;stroke:none" />
   </g>
   <rect
-     style="opacity:1;fill:url(#linearGradient4178);fill-opacity:1.0;stroke:none;stroke-width:1.02047241;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     style="opacity:1;fill:url(#linearGradient4178);fill-opacity:1;stroke:none;stroke-width:1.02047241;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="rect4170"
-     width="244.48819"
-     height="21.855118"
-     x="-7.0866141"
-     y="85.231499" />
+     width="240.94489"
+     height="25.51181"
+     x="-1.6820712e-006"
+     y="307.55908" />
 </svg>

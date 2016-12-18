@@ -27,8 +27,11 @@ namespace WTacticsLibrary
 
         public static Guid Draft = GuidUtility.Create(Status, "Draft");
 
+        public static Guid ReleaseCandidate = GuidUtility.Create(Status, "ReleaseCandidate");
+
         public static Guid Final = GuidUtility.Create(Status, "Final");
 
+      
         // card types
         public static Guid CardType = GuidUtility.Create("CardType");
 
@@ -45,9 +48,7 @@ namespace WTacticsLibrary
         public static Guid Enchantment = GuidUtility.Create(CardType, "Enchantment");
 
         public static Guid City = GuidUtility.Create(CardType, "City");
-
-        public static Guid Player = GuidUtility.Create(CardType, "Player");
-
+        
 
         // factions
         public static Guid Faction = GuidUtility.Create("Faction");
@@ -79,8 +80,6 @@ namespace WTacticsLibrary
         public static Guid OriginalRulesConcept = GuidUtility.Create(RuleSet, "OriginalRulesConcept");
 
         public static Guid AwesomeRulesConcept = GuidUtility.Create(RuleSet, "AwesomeRulesConcept");
-
-
 
     }
 }
