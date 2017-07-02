@@ -18,5 +18,5 @@ Resources
 
 If you want to know more about the project please visit the following links or 
 read the suggested documents:
-- http://wtactics.org/wiki/index.php?title=Sandscape[WTactics wiki with project idea]
-- http://wtactics.org/wiki/index.php?title=Sandscape_Development[Sandscape development description]
+- http://aminduna.arcmage.org/#/cards[Arcmage cards]
+- http://aminduna.arcmage.org/#/games[Arcmage online game]
