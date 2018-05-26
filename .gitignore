@@ -239,3 +239,4 @@ _Pvt_Extensions
 /WtacticsWindowsService/App.config.local
 /WTacticsService/Web.config.local
 /WTacticsGameConsole/App.config.local
+/WTacticsLibrary/Layout/ImpersonateUserProcess.cs.local
