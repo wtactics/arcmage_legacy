@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WTacticsDAL", "WTacticsDAL\WTacticsDAL.csproj", "{393E2C32-40F2-4716-A1D7-567C015D3BB8}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WtacticsWindowsService", "WtacticsWindowsService\WtacticsWindowsService.csproj", "{177AF27E-77FD-46F6-9C76-8C5567381A72}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WTacticsGameConsole", "WTacticsGameConsole\WTacticsGameConsole.csproj", "{167C63B6-06F9-4496-AFDE-97D5F9F933FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtworkIndexer", "ArtworkIndexer\ArtworkIndexer.csproj", "{5EB4A7C1-8AB9-46A3-8681-40CB28F611F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{167C63B6-06F9-4496-AFDE-97D5F9F933FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{167C63B6-06F9-4496-AFDE-97D5F9F933FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{167C63B6-06F9-4496-AFDE-97D5F9F933FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EB4A7C1-8AB9-46A3-8681-40CB28F611F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EB4A7C1-8AB9-46A3-8681-40CB28F611F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EB4A7C1-8AB9-46A3-8681-40CB28F611F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EB4A7C1-8AB9-46A3-8681-40CB28F611F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
