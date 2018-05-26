@@ -97,6 +97,10 @@ var vue = new Vue({
 
     },
     ready: function () {
+        // google analytics
+        window.ga('create', 'UA-2430635-2', 'auto');
+        window.ga('send', 'pageview', '/game');
+
         // create rest services
         this.createServices();
         // Add watcher for when the modal dialog closes,
@@ -545,7 +549,7 @@ function init() {
         $.connection.hub.stop();
     };
 
-    $.connection.hub.url = "http://" + window.location.hostname + ":9091/signalr";
+    $.connection.hub.url = "https://" + window.location.hostname + ":9091/signalr";
 
     /* set up the web push api, and send the join game action on completion */
     /* when the join is successful, the processGameAction callback is called every time an action happens in the game */
@@ -581,7 +585,7 @@ function joinGame() {
 
 /* Action game start */
 function loadDeck(source, target) {
-    var imageUrlBase = "http://wtactics.westeurope.cloudapp.azure.com";
+    var imageUrlBase = "https://aminduna.arcmage.org";
     $.each(source.cards, function (index, card) {
         var c = {
             cardId: card.id,
