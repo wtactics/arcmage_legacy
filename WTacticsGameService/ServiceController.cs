@@ -13,7 +13,7 @@ namespace WTacticsGameService
             // use http://*:8080 to bind to all addresses. 
             // See http://msdn.microsoft.com/en-us/library/system.net.httplistener.aspx 
             // for more information.
-            string url = "http://*:9091";
+            string url = "https://*:9091";
             GameServiceWebApp = WebApp.Start<GameServiceStartup>(url);
         }
 
