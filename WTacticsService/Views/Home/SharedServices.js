@@ -16,9 +16,9 @@
             DeckSearch: $resource("/api/DeckSearch", {}, { query: { isArray: false } }),
             DeckCards: $resource("/api/DeckCards", {}, { query: { isArray: false } }),
             CardOptions: $resource("/api/CardOptions/:guid", {}, { query: { isArray: false } }),
-            GameSearch: $resource("http://" + window.location.hostname + ":9091/api/GameSearch", {}, { query: { isArray: false } }),
-            Games: $resource("http://" + window.location.hostname + ":9091/api/Games", {}, { query: { isArray: false } }),
-            Game: $resource("http://" + window.location.hostname + ":9091/api/Game/:gameGuid/:playerGuid", {}, { query: { isArray: false } }),
+            GameSearch: $resource("https://" + window.location.hostname + ":9091/api/GameSearch", {}, { query: { isArray: false } }),
+            Games: $resource("https://" + window.location.hostname + ":9091/api/Games", {}, { query: { isArray: false } }),
+            Game: $resource("https://" + window.location.hostname + ":9091/api/Game/:gameGuid/:playerGuid", {}, { query: { isArray: false } }),
 
             ErrorHandler: function (error) {
                 // First log all technical details

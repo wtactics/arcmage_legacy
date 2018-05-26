@@ -35,7 +35,7 @@ namespace WTacticsService.Api
                     {
                         if (card.Creator.Guid == repository.ServiceUser.Guid) cardOptions.IsEditable = true;
                     }
-                    if (repository.ServiceUser.Role.Guid == PredefinedGuids.Developer || 
+                    if (repository.ServiceUser.Role.Guid == PredefinedGuids.Developer ||
                         repository.ServiceUser.Role.Guid == PredefinedGuids.Administrator ||
                         repository.ServiceUser.Role.Guid == PredefinedGuids.ServiceUser)
                     {
@@ -49,7 +49,25 @@ namespace WTacticsService.Api
                 cardOptions.RuleSets = repository.Context.RuleSets.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
                 cardOptions.Statuses = repository.Context.Statuses.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
                 cardOptions.CardTypes = repository.Context.CardTypes.Include(x => x.TemplateInfo).AsNoTracking().ToList().Select(x => x.FromDal(true)).ToList();
-              
+
+                return Request.CreateResponse(cardOptions);
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage Get()
+        {
+            var token = TokenExtracton.GetTokenFromCookie(HttpContext.Current.Request);
+            using (var repository = new Repository(token))
+            {
+           
+                var cardOptions = new CardOptions();
+                cardOptions.Factions = repository.Context.Factions.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
+                cardOptions.Series = repository.Context.Series.AsNoTracking().ToList().Select(x => x.FromDal(false)).ToList();
+                cardOptions.RuleSets = repository.Context.RuleSets.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
+                cardOptions.Statuses = repository.Context.Statuses.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
+                cardOptions.CardTypes = repository.Context.CardTypes.Include(x => x.TemplateInfo).AsNoTracking().ToList().Select(x => x.FromDal(true)).ToList();
+
                 return Request.CreateResponse(cardOptions);
             }
         }

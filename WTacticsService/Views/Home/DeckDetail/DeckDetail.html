@@ -2,8 +2,8 @@
 <div class="row">
     <div class="col-md-12">
         <h1>{{deck.name}}</h1>
-        <slick class="customcarousel" infinite="false" slides-to-show="4" data="deck" init-onload="true" arrows="true" slides-to-scroll="1" swipe-to-slide="true">
-            <div ng-repeat="deckcard in deck.deckCards"><div class="image"><img width="275" ng-src="{{deckcard.card.png}}" ng-show="deckcard.card.png" /></div></div>
+        <slick class="customcarousel" infinite="false" slides-to-show="4" touch-threshold="15" data="deck" init-onload="true" arrows="true" slides-to-scroll="1" swipe-to-slide="true">
+            <div ng-repeat="deckcard in deck.deckCards"><div class="image"><img style="max-width: 95%" ng-src="{{deckcard.card.jpeg}}" ng-show="deckcard.card.jpeg" /></div></div>
         </slick>
         <a href="{{deck.zip}}" class="pull-right" target="_blank" ng-show="deck.isAvailable">Download Zip</a>
     </div>

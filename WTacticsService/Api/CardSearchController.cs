@@ -27,14 +27,50 @@ namespace WTacticsService.Api
              
                 IQueryable<CardModel> dbResult = repository.Context.Cards.Include(x => x.RuleSet).Include(x => x.Serie).Include(x => x.Faction).Include(x => x.Status).Include(x => x.Type).Include(x => x.Creator).Include(x => x.LastModifiedBy).AsNoTracking();
 
-                if (!searchOptionsBase.ShowDraftVersions)
+                if (searchOptionsBase.Cost != null)
                 {
-                    dbResult = dbResult.Where(x => x.Status.Guid == PredefinedGuids.Final);
+                    dbResult = dbResult.Where(x => x.Cost.ToLower() == searchOptionsBase.Cost.ToLower());
                 }
+
+                if (searchOptionsBase.CardType != null)
+                {
+                    dbResult = dbResult.Where(x => x.Type.Guid == searchOptionsBase.CardType.Guid);
+                }
+
+                if (searchOptionsBase.Faction != null)
+                {
+                    dbResult = dbResult.Where(x => x.Faction.Guid == searchOptionsBase.Faction.Guid);
+                }
+
+                if (searchOptionsBase.Serie != null)
+                {
+                    dbResult = dbResult.Where(x => x.Serie.Guid == searchOptionsBase.Serie.Guid);
+                }
+
+                if (searchOptionsBase.RuleSet != null)
+                {
+                    dbResult = dbResult.Where(x => x.RuleSet.Guid == searchOptionsBase.RuleSet.Guid);
+                }
+
+                if (searchOptionsBase.Status != null)
+                {
+                    dbResult = dbResult.Where(x => x.Status.Guid == searchOptionsBase.Status.Guid);
+                }
+
+                if (searchOptionsBase.Loyalty != null)
+                {
+                    dbResult = dbResult.Where(x => x.Loyalty == searchOptionsBase.Loyalty.Value);
+                }
+                
 
                 if (!string.IsNullOrWhiteSpace(searchOptionsBase.Search))
                 {
-                    dbResult = dbResult.Where(it => it.Name.Contains(searchOptionsBase.Search) || it.Creator.Name.Contains(searchOptionsBase.Search));
+                    dbResult = dbResult.Where(
+                        it => it.Name.Contains(searchOptionsBase.Search) || 
+                        it.Creator.Name.Contains(searchOptionsBase.Search) || 
+                        it.SubType.Contains(searchOptionsBase.Search) ||
+                        it.RuleText.Contains(searchOptionsBase.Search)
+                    );
                 }
                 var totalCount = dbResult.Count();
 

@@ -8,16 +8,169 @@
                 </div>
             </div>
         </form>
-        <!--<div>
-            <input type="checkbox" id="card_showdraftversions" ng-change="searchClicked()" ng-model="cardSearchOptions.showDraftVersions"/>
-            <label for="card_showdraftversions">Show Draft Versions</label>
-        </div>-->
-
-        <button ng-click="addClicked()" ng-show="isLogedIn" class="btn btn-default btn-lg  pull-right">Create Your Own Card!</button>
-
-
-
     </div>
+
+    <div class="row">
+        <div bs-collapse start-collapsed="true">
+            <a class="btn-link pull-right" bs-collapse-toggle>advanced</a>
+            <a class="btn-link pull-right clearsearch" ng-click="clearSearch()">clear</a>
+            <div class="clearfix"></div>
+            <div bs-collapse-target>
+                <div class="col-md-4">
+                    <form class="form-horizontal" role="form">
+
+                        <div class="form-group">
+                            <label for="card_type_dropdown" class="col-md-2 control-label">Type</label>
+                            <div class="col-md-9">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle carddropdown"
+                                            id="card_type_dropdown"
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="true"
+                                            ng-disabled="isLoading">
+                                        {{cardSearchOptions.cardType.name}} <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu carddropdown" aria-labelledby="card_type_dropdown">
+                                        <li><a ng-click="cardSearchOptions.cardType=null">&nbsp;</a></li>
+                                        <li ng-repeat="cardType in cardOptions.cardTypes"><a ng-click="cardSearchOptions.cardType=cardType">{{cardType.name}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="card_dropdown" class="col-md-2 control-label">Faction</label>
+                            <div class="col-md-9">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle carddropdown"
+                                            id="card_dropdown"
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="true"
+                                            ng-disabled="isLoading">
+                                        {{cardSearchOptions.faction.name}} <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu carddropdown" aria-labelledby="card_dropdown">
+                                        <li><a ng-click="cardSearchOptions.faction=null">&nbsp;</a></li>
+                                        <li ng-repeat="faction in cardOptions.factions"><a ng-click="cardSearchOptions.faction=faction">{{faction.name}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="cost" class="col-md-2 control-label">Cost</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="cost" placeholder="Cost" ng-model="cardSearchOptions.cost" ng-disabled="isLoading">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="card_loyalty" class="col-md-2 control-label">Loyalty</label>
+                            <div class="col-md-9">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle carddropdown"
+                                            id="card_loyalty"
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="true"
+                                            ng-disabled="isLoading">
+                                        {{cardSearchOptions.loyalty}} <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu carddropdown" aria-labelledby="card_loyalty">
+                                        <li><a ng-click="cardSearchOptions.loyalty=null">&nbsp;</a></li>
+                                        <li ng-repeat="loyalty in cardOptions.loyalties"><a ng-click="cardSearchOptions.loyalty=loyalty">{{loyalty}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="card_serie" class="col-md-2 control-label">Serie</label>
+                            <div class="col-md-9">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle carddropdown"
+                                            id="card_serie"
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="true"
+                                            ng-disabled="isLoading">
+                                        {{cardSearchOptions.serie.name}} <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu carddropdown" aria-labelledby="card_serie">
+                                        <li><a ng-click="cardSearchOptions.serie=null">&nbsp;</a></li>
+                                        <li ng-repeat="serie in cardOptions.series"><a ng-click="cardSearchOptions.serie=serie">{{serie.name}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label for="card_status" class="col-md-2 control-label">Status</label>
+                            <div class="col-md-9">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle carddropdown"
+                                            id="card_status"
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="true"
+                                            ng-disabled="isLoading">
+                                        {{cardSearchOptions.status.name}} <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu carddropdown" aria-labelledby="card_status">
+                                        <li><a ng-click="cardSearchOptions.status=null">&nbsp;</a></li>
+                                        <li ng-repeat="status in cardOptions.statuses"><a ng-click="cardSearchOptions.status=status">{{status.name}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--<div class="form-group">
+                            <label for="card_ruleset" class="col-md-2 control-label">Ruleset</label>
+                            <div class="col-md-9">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle carddropdown"
+                                            id="card_ruleset"
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="true"
+                                            ng-disabled="isLoading">
+                                        {{cardSearchOptions.ruleSet.name}} <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu carddropdown" aria-labelledby="card_ruleset">
+                                        <li ng-repeat="ruleSet in cardOptions.ruleSets"><a ng-click="cardSearchOptions.ruleSet=ruleSet">{{ruleSet.name}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>-->
+
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-show="isLogedIn">
+        <button ng-click="addClicked()"  class="btn btn-default btn-lg  pull-right">Create Your Own Card!</button>
+    </div>
+
     <div class="row" ng-show="isAddOpen">
         <form class="form-inline pull-right" role="form">
             <div class="form-group">
@@ -28,12 +181,13 @@
             <span ng-class="{'loader' : isCreating }" ng-show="isAddOpen"></span>
         </form>
     </div>
-</div>
+
 
 <div class="row">
-    <slick class="customcarousel" infinite="false" slides-to-show="4" data="cards" init-onload="true" arrows="true" slides-to-scroll="1" swipe-to-slide="true">
-        <div ng-repeat="card in cards"><div class="image"><img width="275" ng-src="{{card.png}}" ng-show="card.png" /></div></div>
+    <slick class="customcarousel" infinite="false" slides-to-show="4" touch-threshold="15" data="cards" init-onload="true" arrows="true" slides-to-scroll="1" swipe-to-slide="true">
+        <div ng-repeat="card in cards"><div class="image"><img style="max-width: 95%" ng-src="{{card.jpeg}}" ng-show="card.jpeg" /></div></div>
     </slick>
+    <uib-pagination class="pull-right pagination-sm" total-items="totalItems" ng-model="cardSearchOptions.pageNumber" ng-disabled="isLoading" boundary-link-numbers="true" items-per-page="cardSearchOptions.pageSize" ng-change="searchClicked()"></uib-pagination>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -56,6 +210,6 @@
         <tr ng-repeat="card in cards" card-list-item></tr>
         </tbody>
     </table>
-    <uib-pagination class="pull-right pagination-sm" total-items="totalItems" ng-model="cardSearchOptions.pageNumber" ng-disabled="isLoading" boundary-link-numbers="true" items-per-page="cardSearchOptions.pageSize" ng-change="searchClicked()"></uib-pagination>
+  
 
 </div>

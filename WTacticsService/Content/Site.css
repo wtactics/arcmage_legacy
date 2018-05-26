@@ -1,25 +1,101 @@
-﻿.customcarousel{
+﻿.clearsearch{
+    margin-right: 10px;
+}
+
+.customcarousel{
     margin-top: 30px;
     margin-bottom: 20px;
 }
 
 .navbar-brand {
-    padding: 20px 33px 20px 0px;
+   padding: 0px;
+   height: 76px;
 }
+
+.slick-prev:before, .slick-next:before {
+    color: #cd8822;
+}
+
+.container-fluid {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 0px;
+    width: 1170px;
+    padding: 0px;
+}
+
+@media screen and (max-width: 1170px) {
+    .container-fluid  {
+        width: 94%!important;
+        margin: 0 auto;
+    }
+    .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+        margin-left: 10px;
+    }
+}
+
+
+@media (min-width: 768px) {
+    .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+        margin-left: 0px;
+    }
+}
+
+@media (max-width: 960px) {
+    .navbar-header {
+        float: none;
+    }
+    .navbar-left,.navbar-right {
+        float: none !important;
+    }
+    .navbar-toggle {
+        display: block;
+    }
+    .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .navbar-fixed-top {
+        top: 0;
+        border-width: 0 0 1px;
+    }
+    .navbar-collapse.collapse {
+        display: none!important;
+    }
+    .navbar-nav {
+        float: none!important;
+        margin-top: 7.5px;
+    }
+    .navbar-nav>li {
+        float: none;
+    }
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .collapse.in{
+        display:block !important;
+    }
+}
+
+
 .arcmagetitle {
-    margin: 15px 0 4px;
     font-family: 'Open Sans';
     font-size: 36px;
     color: #555555;
-    font-weight: 700;
+    margin: 10px 0px 4px 0px;
+    letter-spacing: 1px;
+    font-weight: bold;
+    line-height: 46px;
 }
 .slogan {
     display: block;
     clear: both;
     font-size: 11px;
     position: relative;
-    top: 0px;
-    font-family: Lato;
+    top: -7px;
+   /* font-family: Lato; */
+    color: #555555;
 }
 
 .nav > li > a {
@@ -27,13 +103,6 @@
     padding-right: 20px;
 }
 
-.container-fluid {
-    margin-right: auto;
-    margin-left: auto;
-    padding-left: 0px;
-    padding-right: 20px;
-    width: 1170px;
-}
 
 body {
     padding-top: 50px;

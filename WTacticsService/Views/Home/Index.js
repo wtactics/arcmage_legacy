@@ -45,8 +45,12 @@
             });
 
 
-    }]).run(["editableOptions",function(editableOptions) {
+    }]).run(["editableOptions","$rootScope", "$location", "$window",function(editableOptions, $rootScope, $location, $window) {
         editableOptions.theme = 'bs3';
+        $window.ga('create', 'UA-2430635-2', 'auto');
+        $rootScope.$on('$stateChangeSuccess', function (event) {
+            $window.ga('send', 'pageview', $location.path());
+        });
     }]);
 
     wtacticsApp.controller("ApplicationController",

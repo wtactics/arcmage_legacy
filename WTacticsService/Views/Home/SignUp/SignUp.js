@@ -31,11 +31,33 @@
                 services.Users.save(data, function (response) {
                     
                     $scope.isSingingUp = false;
-                    $scope.$parent.isLogedIn = true;
-                    services.Users.get({ id: "me" }, function (user) {
-                        $scope.$parent.user = user;
-                        $state.go("cards");
-                    }, services.ErrorHandler);
+
+                    var login = {
+                        email: $scope.user.email,
+                        password: $scope.user.password
+                    }
+
+                    services.Login.save(login, function (response) {
+                        $scope.$parent.isLogedIn = true;
+                        $scope.$parent.login.email = "";
+                        $scope.$parent.login.password = "";
+
+                        services.Users.get({ id: "me" }, function (user) {
+                            $scope.$parent.user = user;
+                            $state.go("cards");
+                        }, services.ErrorHandler);
+
+                    }, function (error) {
+                        $scope.user = {
+                            name: null,
+                            email: null,
+                            password: null,
+                            password2: null,
+                        }
+                        $scope.isSingingUp = false;
+                        services.ErrorHandler(error);
+                    });
+
 
                 }, function (error) {
                     $scope.user = {

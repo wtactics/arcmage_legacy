@@ -55,8 +55,6 @@
                 search : "",
                 pageSize : 30,
                 pageNumber: 1,
-                //showDraftVersions: $scope.isLogedIn,
-                showDraftVersions: true,
                 reverseOrder: false,
                 orderBy: "Name"
             };
@@ -95,7 +93,36 @@
                 $scope.isAddOpen = false;
             };
 
-            $scope.searchClicked();
+            $scope.clearSearch = function () {
+                $scope.cardSearchOptions.cardType = null;
+                $scope.cardSearchOptions.faction = null;
+                $scope.cardSearchOptions.cost = null;
+                $scope.cardSearchOptions.loyalty = null;
+                $scope.cardSearchOptions.serie = null;
+                if (!$scope.isLogedIn) {
+                    $scope.cardSearchOptions.status = services
+                        .Find($scope.cardOptions.statuses,
+                            function (e) { return e.guid === "7dedc883-5dd2-5f17-b2a4-eaf04f7ad464" });
+                } else {
+                    $scope.cardSearchOptions.status = null;
+                }
+                
+            }
+
+            $scope.isLoading = true;
+
+            services.CardOptions.get(function (result) {
+                $scope.cardOptions = result;
+
+                $scope.clearSearch();
+
+                $scope.searchClicked();
+
+            }, function (error) {
+                services.ErrorHandler(error);
+                $scope.isLoading = false;
+            });
+          
 
         }]);
 })();
