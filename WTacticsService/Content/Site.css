@@ -78,6 +78,12 @@
     }
 }
 
+.arcmage_logo {
+    height: 70px;
+    width: 208px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
 
 .arcmagetitle {
     font-family: 'Open Sans';
@@ -99,8 +105,8 @@
 }
 
 .nav > li > a {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 
